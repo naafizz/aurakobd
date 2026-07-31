@@ -1,0 +1,92 @@
+[
+  {
+    "id": "b1",
+    "name": "Haenyeo Botanicals",
+    "origin": "Jeju Island",
+    "tagline": "Deep sea, deeper hydration"
+  },
+  {
+    "id": "b2",
+    "name": "Suhwa",
+    "origin": "Seoul",
+    "tagline": "Traditional hanbang beauty rituals"
+  },
+  {
+    "id": "b3",
+    "name": "Cloud Nine Lab",
+    "origin": "Seoul",
+    "tagline": "Cloud-soft skin, science backed"
+  },
+  {
+    "id": "b4",
+    "name": "Mochi & Mineral",
+    "origin": "Busan",
+    "tagline": "Bouncy skin, mineral rich"
+  },
+  {
+    "id": "b5",
+    "name": "Ginseng House 1954",
+    "origin": "Geumsan",
+    "tagline": "Six generations of root wisdom"
+  },
+  {
+    "id": "b6",
+    "name": "Petal Theory",
+    "origin": "Seoul",
+    "tagline": "Flower-fermented actives"
+  },
+  {
+    "id": "b7",
+    "name": "Glasswork Skin",
+    "origin": "Seoul",
+    "tagline": "The original glass-skin formula"
+  },
+  {
+    "id": "b8",
+    "name": "Barley & Bloom",
+    "origin": "Icheon",
+    "tagline": "Grain fermented skincare"
+  },
+  {
+    "id": "b9",
+    "name": "Cell Renew Atelier",
+    "origin": "Seoul",
+    "tagline": "Biotech skincare, luxury feel"
+  },
+  {
+    "id": "b10",
+    "name": "Snow Mushroom Co.",
+    "origin": "Gangwon",
+    "tagline": "Tremella-powered moisture"
+  },
+  {
+    "id": "b11",
+    "name": "Hanok House",
+    "origin": "Jeonju",
+    "tagline": "Heritage recipes, modern lab"
+  },
+  {
+    "id": "b12",
+    "name": "Quartz & Silk",
+    "origin": "Seoul",
+    "tagline": "Mineral clays, silk proteins"
+  },
+  {
+    "id": "b13",
+    "name": "Dawn Ritual",
+    "origin": "Seoul",
+    "tagline": "Morning skin rituals"
+  },
+  {
+    "id": "b14",
+    "name": "Green Tide",
+    "origin": "Wando",
+    "tagline": "Marine algae skincare"
+  },
+  {
+    "id": "b15",
+    "name": "Blanc Atelier",
+    "origin": "Seoul",
+    "tagline": "Minimalist brightening science"
+  }
+]

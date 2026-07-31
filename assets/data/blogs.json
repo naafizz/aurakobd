@@ -1,0 +1,252 @@
+[
+  {
+    "id": "post-1",
+    "title": "The 10-Step Korean Skincare Routine, Explained",
+    "slug": "the-10-step-korean-skincare-routine-explained",
+    "excerpt": "Explore the 10-step korean skincare routine, explained and learn how AURAKO's curated formulas fit into a considered, effective skincare routine.",
+    "image": "https://picsum.photos/seed/blog1/700/500",
+    "date": "2026-01-28",
+    "author": "The AURAKO Editors",
+    "readTime": 5
+  },
+  {
+    "id": "post-2",
+    "title": "Understanding Glass Skin: Myth vs Method",
+    "slug": "understanding-glass-skin-myth-vs-method",
+    "excerpt": "Explore understanding glass skin: myth vs method and learn how AURAKO's curated formulas fit into a considered, effective skincare routine.",
+    "image": "https://picsum.photos/seed/blog2/700/500",
+    "date": "2026-02-28",
+    "author": "Dr. Hana Cho",
+    "readTime": 6
+  },
+  {
+    "id": "post-3",
+    "title": "Centella Asiatica: Why K-Beauty Loves This Herb",
+    "slug": "centella-asiatica-why-k-beauty-loves-this-herb",
+    "excerpt": "Explore centella asiatica: why k-beauty loves this herb and learn how AURAKO's curated formulas fit into a considered, effective skincare routine.",
+    "image": "https://picsum.photos/seed/blog3/700/500",
+    "date": "2026-03-25",
+    "author": "Soo-ah Lee",
+    "readTime": 7
+  },
+  {
+    "id": "post-4",
+    "title": "Double Cleansing 101: Oil First, Foam Second",
+    "slug": "double-cleansing-101-oil-first-foam-second",
+    "excerpt": "Explore double cleansing 101: oil first, foam second and learn how AURAKO's curated formulas fit into a considered, effective skincare routine.",
+    "image": "https://picsum.photos/seed/blog4/700/500",
+    "date": "2026-04-06",
+    "author": "The AURAKO Editors",
+    "readTime": 5
+  },
+  {
+    "id": "post-5",
+    "title": "Snail Mucin Explained: The Science of the Slime",
+    "slug": "snail-mucin-explained-the-science-of-the-slime",
+    "excerpt": "Explore snail mucin explained: the science of the slime and learn how AURAKO's curated formulas fit into a considered, effective skincare routine.",
+    "image": "https://picsum.photos/seed/blog5/700/500",
+    "date": "2026-05-06",
+    "author": "The AURAKO Editors",
+    "readTime": 3
+  },
+  {
+    "id": "post-6",
+    "title": "How to Layer Serums Without Overloading Skin",
+    "slug": "how-to-layer-serums-without-overloading-skin",
+    "excerpt": "Explore how to layer serums without overloading skin and learn how AURAKO's curated formulas fit into a considered, effective skincare routine.",
+    "image": "https://picsum.photos/seed/blog6/700/500",
+    "date": "2026-06-03",
+    "author": "Soo-ah Lee",
+    "readTime": 5
+  },
+  {
+    "id": "post-7",
+    "title": "Ginseng in Skincare: An Ancient Root, Reimagined",
+    "slug": "ginseng-in-skincare-an-ancient-root-reimagined",
+    "excerpt": "Explore ginseng in skincare: an ancient root, reimagined and learn how AURAKO's curated formulas fit into a considered, effective skincare routine.",
+    "image": "https://picsum.photos/seed/blog7/700/500",
+    "date": "2026-07-06",
+    "author": "Dr. Mina Park",
+    "readTime": 6
+  },
+  {
+    "id": "post-8",
+    "title": "Fermented Skincare: What It Is and Why It Works",
+    "slug": "fermented-skincare-what-it-is-and-why-it-works",
+    "excerpt": "Explore fermented skincare: what it is and why it works and learn how AURAKO's curated formulas fit into a considered, effective skincare routine.",
+    "image": "https://picsum.photos/seed/blog8/700/500",
+    "date": "2026-08-09",
+    "author": "The AURAKO Editors",
+    "readTime": 3
+  },
+  {
+    "id": "post-9",
+    "title": "Building a Minimalist K-Beauty Routine",
+    "slug": "building-a-minimalist-k-beauty-routine",
+    "excerpt": "Explore building a minimalist k-beauty routine and learn how AURAKO's curated formulas fit into a considered, effective skincare routine.",
+    "image": "https://picsum.photos/seed/blog9/700/500",
+    "date": "2026-09-05",
+    "author": "Dr. Mina Park",
+    "readTime": 3
+  },
+  {
+    "id": "post-10",
+    "title": "SPF Every Day: Why Korean Sun Care Feels Different",
+    "slug": "spf-every-day-why-korean-sun-care-feels-different",
+    "excerpt": "Explore spf every day: why korean sun care feels different and learn how AURAKO's curated formulas fit into a considered, effective skincare routine.",
+    "image": "https://picsum.photos/seed/blog10/700/500",
+    "date": "2026-10-12",
+    "author": "The AURAKO Editors",
+    "readTime": 8
+  },
+  {
+    "id": "post-11",
+    "title": "Sheet Masks: How Often Is Too Often?",
+    "slug": "sheet-masks-how-often-is-too-often-",
+    "excerpt": "Explore sheet masks: how often is too often? and learn how AURAKO's curated formulas fit into a considered, effective skincare routine.",
+    "image": "https://picsum.photos/seed/blog11/700/500",
+    "date": "2026-11-26",
+    "author": "Dr. Hana Cho",
+    "readTime": 5
+  },
+  {
+    "id": "post-12",
+    "title": "Barrier Repair: Signs Your Skin Needs a Reset",
+    "slug": "barrier-repair-signs-your-skin-needs-a-reset",
+    "excerpt": "Explore barrier repair: signs your skin needs a reset and learn how AURAKO's curated formulas fit into a considered, effective skincare routine.",
+    "image": "https://picsum.photos/seed/blog12/700/500",
+    "date": "2026-12-08",
+    "author": "Dr. Mina Park",
+    "readTime": 7
+  },
+  {
+    "id": "post-13",
+    "title": "Niacinamide vs Vitamin C: Which One First?",
+    "slug": "niacinamide-vs-vitamin-c-which-one-first-",
+    "excerpt": "Explore niacinamide vs vitamin c: which one first? and learn how AURAKO's curated formulas fit into a considered, effective skincare routine.",
+    "image": "https://picsum.photos/seed/blog13/700/500",
+    "date": "2026-01-21",
+    "author": "Dr. Mina Park",
+    "readTime": 8
+  },
+  {
+    "id": "post-14",
+    "title": "The Rise of Slow Beauty in Korean Skincare",
+    "slug": "the-rise-of-slow-beauty-in-korean-skincare",
+    "excerpt": "Explore the rise of slow beauty in korean skincare and learn how AURAKO's curated formulas fit into a considered, effective skincare routine.",
+    "image": "https://picsum.photos/seed/blog14/700/500",
+    "date": "2026-02-14",
+    "author": "The AURAKO Editors",
+    "readTime": 4
+  },
+  {
+    "id": "post-15",
+    "title": "Seasonal Skincare: Adjusting Your Routine for Winter",
+    "slug": "seasonal-skincare-adjusting-your-routine-for-winter",
+    "excerpt": "Explore seasonal skincare: adjusting your routine for winter and learn how AURAKO's curated formulas fit into a considered, effective skincare routine.",
+    "image": "https://picsum.photos/seed/blog15/700/500",
+    "date": "2026-03-11",
+    "author": "Dr. Hana Cho",
+    "readTime": 5
+  },
+  {
+    "id": "post-16",
+    "title": "What Is a Skin Cycle and Do You Need One?",
+    "slug": "what-is-a-skin-cycle-and-do-you-need-one-",
+    "excerpt": "Explore what is a skin cycle and do you need one? and learn how AURAKO's curated formulas fit into a considered, effective skincare routine.",
+    "image": "https://picsum.photos/seed/blog16/700/500",
+    "date": "2026-04-28",
+    "author": "Dr. Mina Park",
+    "readTime": 8
+  },
+  {
+    "id": "post-17",
+    "title": "Rice Water Beauty: Ancient Ritual, Modern Formula",
+    "slug": "rice-water-beauty-ancient-ritual-modern-formula",
+    "excerpt": "Explore rice water beauty: ancient ritual, modern formula and learn how AURAKO's curated formulas fit into a considered, effective skincare routine.",
+    "image": "https://picsum.photos/seed/blog17/700/500",
+    "date": "2026-05-20",
+    "author": "Soo-ah Lee",
+    "readTime": 9
+  },
+  {
+    "id": "post-18",
+    "title": "Understanding Your Skin Barrier in 5 Minutes",
+    "slug": "understanding-your-skin-barrier-in-5-minutes",
+    "excerpt": "Explore understanding your skin barrier in 5 minutes and learn how AURAKO's curated formulas fit into a considered, effective skincare routine.",
+    "image": "https://picsum.photos/seed/blog18/700/500",
+    "date": "2026-06-25",
+    "author": "Dr. Hana Cho",
+    "readTime": 6
+  },
+  {
+    "id": "post-19",
+    "title": "Why K-Beauty Prioritizes Hydration Over Everything",
+    "slug": "why-k-beauty-prioritizes-hydration-over-everything",
+    "excerpt": "Explore why k-beauty prioritizes hydration over everything and learn how AURAKO's curated formulas fit into a considered, effective skincare routine.",
+    "image": "https://picsum.photos/seed/blog19/700/500",
+    "date": "2026-07-23",
+    "author": "Soo-ah Lee",
+    "readTime": 5
+  },
+  {
+    "id": "post-20",
+    "title": "Peptides Explained: The Building Blocks of Firmness",
+    "slug": "peptides-explained-the-building-blocks-of-firmness",
+    "excerpt": "Explore peptides explained: the building blocks of firmness and learn how AURAKO's curated formulas fit into a considered, effective skincare routine.",
+    "image": "https://picsum.photos/seed/blog20/700/500",
+    "date": "2026-08-27",
+    "author": "Dr. Mina Park",
+    "readTime": 3
+  },
+  {
+    "id": "post-21",
+    "title": "How to Choose a Moisturizer for Your Skin Type",
+    "slug": "how-to-choose-a-moisturizer-for-your-skin-type",
+    "excerpt": "Explore how to choose a moisturizer for your skin type and learn how AURAKO's curated formulas fit into a considered, effective skincare routine.",
+    "image": "https://picsum.photos/seed/blog21/700/500",
+    "date": "2026-09-03",
+    "author": "Soo-ah Lee",
+    "readTime": 8
+  },
+  {
+    "id": "post-22",
+    "title": "Mugwort: The Calming Herb Behind Redness Relief",
+    "slug": "mugwort-the-calming-herb-behind-redness-relief",
+    "excerpt": "Explore mugwort: the calming herb behind redness relief and learn how AURAKO's curated formulas fit into a considered, effective skincare routine.",
+    "image": "https://picsum.photos/seed/blog22/700/500",
+    "date": "2026-10-13",
+    "author": "Soo-ah Lee",
+    "readTime": 4
+  },
+  {
+    "id": "post-23",
+    "title": "Exfoliation Without Irritation: A Gentle Guide",
+    "slug": "exfoliation-without-irritation-a-gentle-guide",
+    "excerpt": "Explore exfoliation without irritation: a gentle guide and learn how AURAKO's curated formulas fit into a considered, effective skincare routine.",
+    "image": "https://picsum.photos/seed/blog23/700/500",
+    "date": "2026-11-05",
+    "author": "Dr. Hana Cho",
+    "readTime": 7
+  },
+  {
+    "id": "post-24",
+    "title": "Travel-Size K-Beauty: Building the Perfect Kit",
+    "slug": "travel-size-k-beauty-building-the-perfect-kit",
+    "excerpt": "Explore travel-size k-beauty: building the perfect kit and learn how AURAKO's curated formulas fit into a considered, effective skincare routine.",
+    "image": "https://picsum.photos/seed/blog24/700/500",
+    "date": "2026-12-15",
+    "author": "Dr. Mina Park",
+    "readTime": 6
+  },
+  {
+    "id": "post-25",
+    "title": "Ask an Esthetician: Your Skincare Questions Answered",
+    "slug": "ask-an-esthetician-your-skincare-questions-answered",
+    "excerpt": "Explore ask an esthetician: your skincare questions answered and learn how AURAKO's curated formulas fit into a considered, effective skincare routine.",
+    "image": "https://picsum.photos/seed/blog25/700/500",
+    "date": "2026-01-13",
+    "author": "Soo-ah Lee",
+    "readTime": 8
+  }
+]

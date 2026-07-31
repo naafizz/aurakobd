@@ -1,0 +1,52 @@
+[
+  {
+    "id": "cleansers",
+    "name": "Cleansers",
+    "desc": "Oil, foam & powder cleansers for a clean first step"
+  },
+  {
+    "id": "toners",
+    "name": "Toners & Essences",
+    "desc": "Hydrating first-treatment layers"
+  },
+  {
+    "id": "serums",
+    "name": "Serums & Ampoules",
+    "desc": "Concentrated actives for targeted results"
+  },
+  {
+    "id": "moisturizers",
+    "name": "Moisturizers",
+    "desc": "Creams, gels & emulsions to lock in hydration"
+  },
+  {
+    "id": "masks",
+    "name": "Sheet & Wash-off Masks",
+    "desc": "Intensive weekly treatments"
+  },
+  {
+    "id": "suncare",
+    "name": "Suncare",
+    "desc": "Lightweight, glow-friendly SPF"
+  },
+  {
+    "id": "eyecare",
+    "name": "Eye Care",
+    "desc": "Targeted care for the delicate eye area"
+  },
+  {
+    "id": "exfoliants",
+    "name": "Exfoliants",
+    "desc": "Gentle resurfacing & renewal"
+  },
+  {
+    "id": "lip",
+    "name": "Lip Care",
+    "desc": "Balms & treatments for soft lips"
+  },
+  {
+    "id": "sets",
+    "name": "Gift Sets",
+    "desc": "Curated routines, beautifully packaged"
+  }
+]

@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product Details | AURAKO</title>
+<meta name="description" content="Detailed product information, ingredients, reviews and related products.">
+<meta name="theme-color" content="#A9784F">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌿</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="assets/css/core.css">
+<link rel="stylesheet" href="assets/css/components.css">
+<link rel="stylesheet" href="assets/css/animations.css">
+<link rel="stylesheet" href="assets/css/responsive.css">
+
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to content</a>
+<div id="page-loader"><div class="loader-mark">AURAKO</div><div class="loader-bar"><span></span></div></div>
+
+<header class="site-header glass" id="siteHeader">
+  <div class="container header-inner">
+    <button class="hamburger" id="hamburgerBtn" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+
+    <a href="index.html" class="logo font-display">AURAKO</a>
+
+    <nav class="main-nav" id="mainNav" aria-label="Primary">
+      <a href="index.html" data-nav="home">Home</a>
+      <a href="shop.html" data-nav="shop">Shop</a>
+      <a href="shop.html?cat=serums" data-nav="category">Categories</a>
+      <a href="about.html" data-nav="about">About</a>
+      <a href="contact.html" data-nav="contact">Contact</a>
+      <a href="faq.html" data-nav="faq">FAQ</a>
+    </nav>
+
+    <div class="header-actions">
+      <button class="icon-btn" id="searchToggle" aria-label="Search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></button>
+      <a href="wishlist.html" class="icon-btn" id="wishlistBtn" aria-label="Wishlist">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 1 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+        <span class="count-pill" id="wishlistCount">0</span>
+      </a>
+      <a href="cart.html" class="icon-btn" id="cartBtn" aria-label="Cart">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg>
+        <span class="count-pill" id="cartCount">0</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="search-overlay" id="searchOverlay">
+    <div class="container search-overlay-inner">
+      <input type="text" id="searchInput" class="search-input" placeholder="Search for serums, cleansers, brands..." autocomplete="off">
+      <button class="icon-btn" id="searchClose" aria-label="Close search">✕</button>
+    </div>
+    <div class="container"><div id="searchResults" class="search-results"></div></div>
+  </div>
+</header>
+
+<div class="mobile-nav-scrim" id="mobileScrim"></div>
+<nav class="mobile-nav" id="mobileNav" aria-label="Mobile">
+  <a href="index.html">Home</a>
+  <a href="shop.html">Shop</a>
+  <a href="shop.html?cat=serums">Categories</a>
+  <a href="about.html">About</a>
+  <a href="contact.html">Contact</a>
+  <a href="faq.html">FAQ</a>
+  <a href="track-order.html">Track Order</a>
+  <hr class="divider">
+  <a href="privacy.html">Privacy Policy</a>
+  <a href="shipping.html">Shipping Policy</a>
+  <a href="refund.html">Refund Policy</a>
+  <a href="terms.html">Terms</a>
+</nav>
+
+<main id="main">
+<div class="container" style="padding-top:var(--space-6);">
+  <div class="breadcrumb" id="pdpCrumb"><a href="index.html">Home</a><span class="sep">/</span><a href="shop.html">Shop</a></div>
+</div>
+
+<div class="container section-sm" id="pdpContent">
+  <div class="pdp-layout">
+    <div class="pdp-gallery">
+      <div class="pdp-gallery-main zoom-lens" id="pdpGalleryMain">
+        <img id="pdpMainImg" src="" alt="">
+      </div>
+      <div class="pdp-thumbs" id="pdpThumbs"></div>
+    </div>
+    <div class="pdp-info" id="pdpInfo"></div>
+  </div>
+
+  <div class="pdp-tabs" id="pdpTabs">
+    <button class="pdp-tab-btn active" data-tab="benefits">Benefits</button>
+    <button class="pdp-tab-btn" data-tab="ingredients">Ingredients</button>
+    <button class="pdp-tab-btn" data-tab="howto">How To Use</button>
+    <button class="pdp-tab-btn" data-tab="faq">FAQ</button>
+    <button class="pdp-tab-btn" data-tab="reviews">Reviews</button>
+  </div>
+  <div class="pdp-tab-panel active" id="panel-benefits"></div>
+  <div class="pdp-tab-panel" id="panel-ingredients"></div>
+  <div class="pdp-tab-panel" id="panel-howto"></div>
+  <div class="pdp-tab-panel" id="panel-faq"></div>
+  <div class="pdp-tab-panel" id="panel-reviews"></div>
+
+  <section class="section-sm">
+    <div class="section-head" data-reveal>
+      <div class="heading-block"><span class="eyebrow">Complete the Ritual</span><h2>Frequently Bought Together</h2></div>
+    </div>
+    <div class="grid product-grid" id="fbtGrid" style="grid-template-columns:repeat(3,1fr);"></div>
+  </section>
+
+  <section class="section-sm">
+    <div class="section-head" data-reveal>
+      <div class="heading-block"><span class="eyebrow">You May Also Like</span><h2>Related Products</h2></div>
+    </div>
+    <div class="grid product-grid" id="relatedGrid"></div>
+  </section>
+</div>
+
+<div class="sticky-buy-bar" id="stickyBuyBar">
+  <div class="container sticky-buy-inner">
+    <div class="sticky-buy-info">
+      <img id="stickyImg" src="" alt="">
+      <div><strong id="stickyName"></strong><br><span id="stickyPrice"></span></div>
+    </div>
+    <div class="flex gap-3">
+      <div class="qty-stepper"><button id="stickyMinus">−</button><input type="text" id="stickyQty" value="1" readonly><button id="stickyPlus">+</button></div>
+      <button class="btn btn-primary ripple-surface" id="stickyAddCart">Add to Cart</button>
+    </div>
+  </div>
+</div>
+
+</main>
+<section class="newsletter-band">
+  <div class="container newsletter-inner" data-reveal>
+    <div class="newsletter-copy">
+      <span class="eyebrow">Stay in the glow</span>
+      <h2>Join the AURAKO ritual</h2>
+      <p>Skincare edits, K-beauty rituals, and early access to new arrivals — straight to your inbox.</p>
+    </div>
+    <form class="newsletter-form" id="newsletterForm">
+      <input type="email" required placeholder="Enter your email" class="input" id="newsletterEmail">
+      <button type="submit" class="btn btn-primary ripple-surface">Subscribe</button>
+    </form>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <a href="index.html" class="logo font-display">AURAKO</a>
+      <p>Premium Korean skincare, formulated with heritage botanicals and modern dermatological science. Slow beauty, considered rituals.</p>
+      <div class="social-row">
+        <a href="#" aria-label="Instagram" class="icon-btn btn-sm">IG</a>
+        <a href="#" aria-label="TikTok" class="icon-btn btn-sm">TT</a>
+        <a href="#" aria-label="YouTube" class="icon-btn btn-sm">YT</a>
+        <a href="#" aria-label="Pinterest" class="icon-btn btn-sm">PN</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Shop</h4>
+      <a href="shop.html">All Products</a>
+      <a href="shop.html?filter=bestseller">Best Sellers</a>
+      <a href="shop.html?filter=new">New Arrivals</a>
+      <a href="shop.html?filter=sale">Flash Sale</a>
+      <a href="shop.html?cat=sets">Gift Sets</a>
+    </div>
+    <div class="footer-col">
+      <h4>Support</h4>
+      <a href="contact.html">Contact Us</a>
+      <a href="faq.html">FAQ</a>
+      <a href="track-order.html">Track Order</a>
+      <a href="shipping.html">Shipping Policy</a>
+      <a href="refund.html">Refund Policy</a>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <a href="about.html">About AURAKO</a>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="terms.html">Terms of Service</a>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <p>&copy; <span id="year"></span> AURAKO. All rights reserved.</p>
+    <p class="text-muted">Crafted with care, in Seoul &amp; beyond.</p>
+  </div>
+</footer>
+
+<div class="modal-scrim" id="qvScrim"></div>
+<div class="modal-box" id="qvModal">
+  <button class="modal-close" id="qvClose" aria-label="Close">✕</button>
+  <div class="qv-grid" id="qvContent"><!-- populated by JS --></div>
+</div>
+
+<div id="toast-root"></div>
+
+<script>
+/* ============================================================
+   AURAKO — Core App Script (embedded on every page)
+   ============================================================ */
+(function(){
+  "use strict";
+
+  /* ---------- Page loader ---------- */
+  window.addEventListener('load', function(){
+    var loader = document.getElementById('page-loader');
+    if(loader){ setTimeout(function(){ loader.classList.add('hide'); }, 350); }
+  });
+
+  /* ---------- Footer year ---------- */
+  var yearEl = document.getElementById('year');
+  if(yearEl) yearEl.textContent = new Date().getFullYear();
+
+  /* ---------- Header scroll shadow ---------- */
+  var header = document.getElementById('siteHeader');
+  window.addEventListener('scroll', function(){
+    if(!header) return;
+    header.style.boxShadow = window.scrollY > 8 ? 'var(--shadow-md)' : 'none';
+  });
+
+  /* ---------- Mobile nav ---------- */
+  var hamburger = document.getElementById('hamburgerBtn');
+  var mobileNav = document.getElementById('mobileNav');
+  var mobileScrim = document.getElementById('mobileScrim');
+  function closeMobileNav(){ mobileNav && mobileNav.classList.remove('open'); mobileScrim && mobileScrim.classList.remove('open'); hamburger && hamburger.setAttribute('aria-expanded','false'); }
+  function openMobileNav(){ mobileNav && mobileNav.classList.add('open'); mobileScrim && mobileScrim.classList.add('open'); hamburger && hamburger.setAttribute('aria-expanded','true'); }
+  if(hamburger){ hamburger.addEventListener('click', function(){ mobileNav.classList.contains('open') ? closeMobileNav() : openMobileNav(); }); }
+  if(mobileScrim){ mobileScrim.addEventListener('click', closeMobileNav); }
+  if(mobileNav){ mobileNav.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', closeMobileNav); }); }
+
+  /* ---------- Active nav link ---------- */
+  var currentPage = (location.pathname.split('/').pop() || 'index.html').replace('.html','') || 'index';
+  document.querySelectorAll('.main-nav a').forEach(function(a){
+    var href = a.getAttribute('href').split('?')[0].replace('.html','');
+    if(href === currentPage) a.classList.add('active');
+  });
+
+  /* ---------- Toast ---------- */
+  window.showToast = function(msg, type){
+    var root = document.getElementById('toast-root');
+    if(!root) return;
+    var t = document.createElement('div');
+    t.className = 'toast ' + (type || 'success');
+    t.textContent = msg;
+    root.appendChild(t);
+    setTimeout(function(){ t.style.opacity = '0'; t.style.transform = 'translateY(8px)'; setTimeout(function(){ t.remove(); }, 300); }, 2600);
+  };
+
+  /* ---------- Ripple ---------- */
+  document.addEventListener('click', function(e){
+    var el = e.target.closest('.ripple-surface');
+    if(!el) return;
+    var rect = el.getBoundingClientRect();
+    var ripple = document.createElement('span');
+    var size = Math.max(rect.width, rect.height);
+    ripple.className = 'ripple';
+    ripple.style.width = ripple.style.height = size + 'px';
+    ripple.style.left = (e.clientX - rect.left - size/2) + 'px';
+    ripple.style.top = (e.clientY - rect.top - size/2) + 'px';
+    el.appendChild(ripple);
+    setTimeout(function(){ ripple.remove(); }, 650);
+  });
+
+  /* ---------- Reveal on scroll ---------- */
+  var revealEls = document.querySelectorAll('[data-reveal], [data-reveal-group]');
+  if('IntersectionObserver' in window && revealEls.length){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){ entry.target.classList.add('in-view'); io.unobserve(entry.target); }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+    revealEls.forEach(function(el){ io.observe(el); });
+  } else {
+    revealEls.forEach(function(el){ el.classList.add('in-view'); });
+  }
+
+  /* ---------- Newsletter (demo) ---------- */
+  var nlForm = document.getElementById('newsletterForm');
+  if(nlForm){
+    nlForm.addEventListener('submit', function(e){
+      e.preventDefault();
+      showToast('Thanks for subscribing! Check your inbox for 15% off.', 'success');
+      nlForm.reset();
+    });
+  }
+
+  /* ============================================================
+     Cart & Wishlist — localStorage powered, shared across pages
+     ============================================================ */
+  var CART_KEY = 'aurako_cart';
+  var WISH_KEY = 'aurako_wishlist';
+
+  function readStore(key){ try { return JSON.parse(localStorage.getItem(key)) || []; } catch(e){ return []; } }
+  function writeStore(key, val){ localStorage.setItem(key, JSON.stringify(val)); }
+
+  window.Aurako = window.Aurako || {};
+
+  window.Aurako.getCart = function(){ return readStore(CART_KEY); };
+  window.Aurako.setCart = function(cart){ writeStore(CART_KEY, cart); updateCounts(); };
+
+  window.Aurako.getWishlist = function(){ return readStore(WISH_KEY); };
+  window.Aurako.setWishlist = function(w){ writeStore(WISH_KEY, w); updateCounts(); };
+
+  window.Aurako.addToCart = function(productId, qty){
+    qty = qty || 1;
+    var cart = readStore(CART_KEY);
+    var existing = cart.find(function(i){ return i.id === productId; });
+    if(existing){ existing.qty += qty; } else { cart.push({ id: productId, qty: qty }); }
+    writeStore(CART_KEY, cart);
+    updateCounts();
+    showToast('Added to cart', 'success');
+    var cartBtn = document.getElementById('cartBtn');
+    if(cartBtn){ cartBtn.classList.remove('bump'); void cartBtn.offsetWidth; cartBtn.classList.add('bump'); }
+  };
+
+  window.Aurako.removeFromCart = function(productId){
+    var cart = readStore(CART_KEY).filter(function(i){ return i.id !== productId; });
+    writeStore(CART_KEY, cart);
+    updateCounts();
+  };
+
+  window.Aurako.updateCartQty = function(productId, qty){
+    var cart = readStore(CART_KEY);
+    var item = cart.find(function(i){ return i.id === productId; });
+    if(item){ item.qty = Math.max(1, qty); }
+    writeStore(CART_KEY, cart);
+    updateCounts();
+  };
+
+  window.Aurako.clearCart = function(){ writeStore(CART_KEY, []); updateCounts(); };
+
+  window.Aurako.toggleWishlist = function(productId, btnEl){
+    var w = readStore(WISH_KEY);
+    var idx = w.indexOf(productId);
+    if(idx > -1){ w.splice(idx,1); if(btnEl) btnEl.classList.remove('active'); showToast('Removed from wishlist'); }
+    else { w.push(productId); if(btnEl) btnEl.classList.add('active'); showToast('Added to wishlist'); }
+    writeStore(WISH_KEY, w);
+    updateCounts();
+    return idx === -1;
+  };
+
+  window.Aurako.isWishlisted = function(productId){ return readStore(WISH_KEY).indexOf(productId) > -1; };
+
+  function updateCounts(){
+    var cart = readStore(CART_KEY);
+    var wish = readStore(WISH_KEY);
+    var cartTotal = cart.reduce(function(s,i){ return s + i.qty; }, 0);
+    var cartCountEl = document.getElementById('cartCount');
+    var wishCountEl = document.getElementById('wishlistCount');
+    if(cartCountEl) cartCountEl.textContent = cartTotal;
+    if(wishCountEl) wishCountEl.textContent = wish.length;
+  }
+  updateCounts();
+
+  /* ---------- Currency ---------- */
+  window.Aurako.fmt = function(n){ return '$' + Number(n).toFixed(2); };
+
+  /* ============================================================
+     Search overlay — live search against products.json
+     ============================================================ */
+  var searchToggle = document.getElementById('searchToggle');
+  var searchOverlay = document.getElementById('searchOverlay');
+  var searchClose = document.getElementById('searchClose');
+  var searchInput = document.getElementById('searchInput');
+  var searchResults = document.getElementById('searchResults');
+  var productsCache = null;
+
+  function loadProducts(cb){
+    if(productsCache){ cb(productsCache); return; }
+    fetch('assets/data/products.json').then(function(r){ return r.json(); }).then(function(data){ productsCache = data; cb(data); }).catch(function(){ cb([]); });
+  }
+  window.Aurako.loadProducts = loadProducts;
+
+  if(searchToggle && searchOverlay){
+    searchToggle.addEventListener('click', function(){
+      searchOverlay.classList.add('open');
+      setTimeout(function(){ searchInput && searchInput.focus(); }, 150);
+    });
+  }
+  if(searchClose){ searchClose.addEventListener('click', function(){ searchOverlay.classList.remove('open'); }); }
+
+  if(searchInput){
+    var debounceT;
+    searchInput.addEventListener('input', function(){
+      clearTimeout(debounceT);
+      var q = searchInput.value.trim().toLowerCase();
+      debounceT = setTimeout(function(){
+        if(q.length < 2){ searchResults.innerHTML = ''; return; }
+        loadProducts(function(products){
+          var matches = products.filter(function(p){
+            return p.name.toLowerCase().includes(q) || p.brand.toLowerCase().includes(q) || p.category.toLowerCase().includes(q);
+          }).slice(0, 12);
+          searchResults.innerHTML = matches.length ? matches.map(function(p){
+            return '<a class="search-result-item" href="product.html?id='+p.id+'">' +
+              '<img src="'+p.thumb+'" loading="lazy" alt="'+p.name+'">' +
+              '<span style="font-size:12px;font-weight:700;color:var(--color-ink-faint);text-transform:uppercase;">'+p.brand+'</span>' +
+              '<span style="font-size:14px;font-weight:600;">'+p.name+'</span>' +
+              '<span style="font-size:14px;">'+window.Aurako.fmt(p.price)+'</span>' +
+            '</a>';
+          }).join('') : '<p class="text-muted">No products found for "'+q+'".</p>';
+        });
+      }, 220);
+    });
+  }
+
+  /* ---------- Shared product card renderer ---------- */
+  window.Aurako.productCard = function(p){
+    var wished = window.Aurako.isWishlisted(p.id) ? ' active' : '';
+    var badges = '';
+    if(p.onSale) badges += '<span class="badge badge-sale">-'+p.discountPct+'%</span>';
+    if(p.isNew) badges += '<span class="badge badge-new">New</span>';
+    if(p.isBestSeller) badges += '<span class="badge badge-best">Best Seller</span>';
+    var priceHtml = p.onSale
+      ? '<span class="price-now">'+window.Aurako.fmt(p.price)+'</span><span class="price-old">'+window.Aurako.fmt(p.originalPrice)+'</span>'
+      : '<span class="price-now">'+window.Aurako.fmt(p.price)+'</span>';
+    return '' +
+    '<div class="product-card" data-id="'+p.id+'">' +
+      '<div class="product-card-media">' +
+        '<div class="product-badges">'+badges+'</div>' +
+        '<button class="wishlist-toggle'+wished+'" data-wishlist="'+p.id+'" aria-label="Toggle wishlist">' +
+          '<svg viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 1 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>' +
+        '</button>' +
+        '<a href="product.html?id='+p.id+'"><img class="img-1" src="'+p.thumb+'" loading="lazy" alt="'+p.name+'"><img class="img-2" src="'+p.hoverThumb+'" loading="lazy" alt=""></a>' +
+        '<div class="product-card-actions">' +
+          '<button class="btn btn-dark ripple-surface" data-quickview="'+p.id+'">Quick View</button>' +
+          '<button class="btn btn-primary ripple-surface" data-addcart="'+p.id+'">Add to Cart</button>' +
+        '</div>' +
+      '</div>' +
+      '<div class="product-card-body">' +
+        '<div class="product-card-brand">'+p.brand+'</div>' +
+        '<h3 class="product-card-name"><a href="product.html?id='+p.id+'">'+p.name+'</a></h3>' +
+        '<div class="rating-row"><span class="stars">'+starString(p.rating)+'</span> ('+p.reviewCount+')</div>' +
+        '<div class="price-row" style="margin-top:6px;">'+priceHtml+'</div>' +
+      '</div>' +
+    '</div>';
+  };
+
+  function starString(rating){
+    var full = Math.round(rating);
+    var s = '';
+    for(var i=0;i<5;i++){ s += i < full ? '★' : '☆'; }
+    return s;
+  }
+  window.Aurako.starString = starString;
+
+  /* Delegated handlers for add-to-cart / wishlist buttons rendered dynamically */
+  document.addEventListener('click', function(e){
+    var addBtn = e.target.closest('[data-addcart]');
+    if(addBtn){ window.Aurako.addToCart(addBtn.getAttribute('data-addcart'), 1); }
+    var wBtn = e.target.closest('[data-wishlist]');
+    if(wBtn){ window.Aurako.toggleWishlist(wBtn.getAttribute('data-wishlist'), wBtn); }
+  });
+
+  /* ---------- Quick View Modal ---------- */
+  var qvScrim = document.getElementById('qvScrim');
+  var qvModal = document.getElementById('qvModal');
+  var qvClose = document.getElementById('qvClose');
+  var qvContent = document.getElementById('qvContent');
+
+  function closeQV(){ qvScrim && qvScrim.classList.remove('open'); qvModal && qvModal.classList.remove('open'); document.body.style.overflow = ''; }
+  function openQV(p){
+    if(!qvContent) return;
+    var wished = window.Aurako.isWishlisted(p.id) ? ' active' : '';
+    qvContent.innerHTML =
+      '<img src="'+p.images[0]+'" alt="'+p.name+'">' +
+      '<div>' +
+        '<div class="product-card-brand">'+p.brand+'</div>' +
+        '<h3 style="margin:8px 0;">'+p.name+'</h3>' +
+        '<div class="rating-row"><span class="stars">'+window.Aurako.starString(p.rating)+'</span> ('+p.reviewCount+' reviews)</div>' +
+        '<div class="price-row" style="margin:var(--space-4) 0;font-size:var(--fs-lg);">' +
+          (p.onSale ? '<span class="price-now">'+window.Aurako.fmt(p.price)+'</span><span class="price-old">'+window.Aurako.fmt(p.originalPrice)+'</span>' : '<span class="price-now">'+window.Aurako.fmt(p.price)+'</span>') +
+        '</div>' +
+        '<p>'+p.shortDescription+'</p>' +
+        '<div class="flex gap-3" style="margin:var(--space-5) 0;">' +
+          '<div class="qty-stepper"><button data-qvminus>−</button><input type="text" value="1" id="qvQty" readonly><button data-qvplus>+</button></div>' +
+          '<button class="wishlist-toggle'+wished+'" data-wishlist="'+p.id+'" style="position:static;background:var(--color-bg-alt);"><svg viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 1 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>' +
+        '</div>' +
+        '<div class="flex gap-3">' +
+          '<button class="btn btn-primary ripple-surface btn-block" id="qvAddCart">Add to Cart</button>' +
+          '<a href="product.html?id='+p.id+'" class="btn btn-outline">View Full Details</a>' +
+        '</div>' +
+      '</div>';
+    qvScrim.classList.add('open'); qvModal.classList.add('open'); document.body.style.overflow = 'hidden';
+    var qtyInput = document.getElementById('qvQty');
+    qvContent.querySelector('[data-qvminus]').addEventListener('click', function(){ qtyInput.value = Math.max(1, +qtyInput.value - 1); });
+    qvContent.querySelector('[data-qvplus]').addEventListener('click', function(){ qtyInput.value = +qtyInput.value + 1; });
+    document.getElementById('qvAddCart').addEventListener('click', function(){ window.Aurako.addToCart(p.id, +qtyInput.value); closeQV(); });
+  }
+  if(qvClose) qvClose.addEventListener('click', closeQV);
+  if(qvScrim) qvScrim.addEventListener('click', closeQV);
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeQV(); });
+
+  document.addEventListener('click', function(e){
+    var qvBtn = e.target.closest('[data-quickview]');
+    if(qvBtn){
+      var id = qvBtn.getAttribute('data-quickview');
+      loadProducts(function(products){
+        var p = products.find(function(x){ return x.id === id; });
+        if(p) openQV(p);
+      });
+    }
+  });
+
+  /* ---------- FAQ accordion (works on any page with .faq-item) ---------- */
+  document.querySelectorAll('.faq-q').forEach(function(q){
+    q.addEventListener('click', function(){
+      var item = q.closest('.faq-item');
+      var wasOpen = item.classList.contains('open');
+      item.parentElement.querySelectorAll('.faq-item').forEach(function(i){ i.classList.remove('open'); });
+      if(!wasOpen) item.classList.add('open');
+    });
+  });
+
+})();
+</script>
+
+<script>
+(function(){
+  "use strict";
+  var id = new URLSearchParams(location.search).get('id');
+  var currentQty = 1;
+
+  window.Aurako.loadProducts(function(products){
+    var p = products.find(function(x){ return x.id === id; }) || products[0];
+    if(!p){ document.getElementById('pdpContent').innerHTML = '<p>Product not found.</p>'; return; }
+
+    document.title = p.name + ' | AURAKO';
+    document.getElementById('pdpCrumb').innerHTML = '<a href="index.html">Home</a><span class="sep">/</span><a href="shop.html">Shop</a><span class="sep">/</span><a href="shop.html?cat='+p.category+'">'+p.category+'</a><span class="sep">/</span><span>'+p.name+'</span>';
+
+    // Gallery
+    document.getElementById('pdpMainImg').src = p.images[0];
+    document.getElementById('pdpMainImg').alt = p.name;
+    document.getElementById('pdpThumbs').innerHTML = p.images.map(function(img,i){
+      return '<img src="'+img+'" class="'+(i===0?'active':'')+'" data-full="'+img+'" alt="'+p.name+' view '+(i+1)+'">';
+    }).join('');
+    document.querySelectorAll('#pdpThumbs img').forEach(function(t){
+      t.addEventListener('click', function(){
+        document.querySelectorAll('#pdpThumbs img').forEach(function(x){x.classList.remove('active');});
+        t.classList.add('active');
+        document.getElementById('pdpMainImg').src = t.getAttribute('data-full');
+      });
+    });
+    // simple zoom on hover (desktop)
+    var mainWrap = document.getElementById('pdpGalleryMain');
+    var mainImg = document.getElementById('pdpMainImg');
+    mainWrap.addEventListener('mousemove', function(e){
+      if(window.innerWidth < 900) return;
+      var rect = mainWrap.getBoundingClientRect();
+      var x = ((e.clientX - rect.left) / rect.width) * 100;
+      var y = ((e.clientY - rect.top) / rect.height) * 100;
+      mainImg.style.transformOrigin = x + '% ' + y + '%';
+      mainImg.style.transform = 'scale(1.9)';
+    });
+    mainWrap.addEventListener('mouseleave', function(){ mainImg.style.transform = 'scale(1)'; });
+    mainImg.style.transition = 'transform .25s ease-out';
+
+    // Info
+    var wished = window.Aurako.isWishlisted(p.id) ? ' active' : '';
+    document.getElementById('pdpInfo').innerHTML =
+      '<a href="shop.html?brand='+encodeURIComponent(p.brand)+'" class="brand-link">'+p.brand+'</a>' +
+      '<h1>'+p.name+'</h1>' +
+      '<div class="rating-row"><span class="stars">'+window.Aurako.starString(p.rating)+'</span> '+p.rating+' ('+p.reviewCount+' reviews)</div>' +
+      '<div class="pdp-price-row">' +
+        (p.onSale ? '<span class="price-now">'+window.Aurako.fmt(p.price)+'</span><span class="price-old">'+window.Aurako.fmt(p.originalPrice)+'</span><span class="badge badge-sale">Save '+p.discountPct+'%</span>' : '<span class="price-now">'+window.Aurako.fmt(p.price)+'</span>') +
+      '</div>' +
+      '<p>'+p.shortDescription+'</p>' +
+      '<div class="pdp-meta-list">' +
+        '<div><b>Size</b><span>'+p.size+'</span></div>' +
+        '<div><b>Hero Ingredient</b><span>'+p.heroIngredient+'</span></div>' +
+        '<div><b>Availability</b><span>'+(p.stock > 0 ? p.stock+' in stock' : 'Out of stock')+'</span></div>' +
+      '</div>' +
+      '<div>' + p.skinConcerns.map(function(c){return '<span class="tag-pill">'+c+'</span>';}).join('') + p.skinTypes.map(function(c){return '<span class="tag-pill">'+c+'</span>';}).join('') + '</div>' +
+      '<div class="pdp-buy-row">' +
+        '<div class="qty-stepper"><button id="pdpMinus">−</button><input type="text" id="pdpQty" value="1" readonly><button id="pdpPlus">+</button></div>' +
+        '<button class="btn btn-primary btn-lg ripple-surface" id="pdpAddCart" '+(p.stock===0?'disabled':'')+'>'+(p.stock===0?'Out of Stock':'Add to Cart')+'</button>' +
+        '<button class="wishlist-toggle'+wished+'" data-wishlist="'+p.id+'" style="position:static;background:var(--color-bg-alt);width:52px;height:52px;"><svg viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 1 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>' +
+      '</div>';
+
+    document.getElementById('pdpMinus').addEventListener('click', function(){ currentQty = Math.max(1,currentQty-1); syncQty(); });
+    document.getElementById('pdpPlus').addEventListener('click', function(){ currentQty++; syncQty(); });
+    document.getElementById('pdpAddCart').addEventListener('click', function(){ window.Aurako.addToCart(p.id, currentQty); });
+    function syncQty(){ document.getElementById('pdpQty').value = currentQty; document.getElementById('stickyQty').value = currentQty; }
+
+    // Tabs content
+    document.getElementById('panel-benefits').innerHTML = '<ul class="prose">' + p.benefits.map(function(b){return '<li>'+b+'</li>';}).join('') + '</ul>';
+    document.getElementById('panel-ingredients').innerHTML = '<p class="prose">'+p.ingredients+'</p>';
+    document.getElementById('panel-howto').innerHTML = '<ol class="prose">' + p.howToUse.map(function(s){return '<li>'+s+'</li>';}).join('') + '</ol>';
+    document.getElementById('panel-faq').innerHTML = p.faqs.map(function(f){
+      return '<div class="faq-item"><div class="faq-q"><span>'+f.q+'</span><span class="plus">+</span></div><div class="faq-a"><p>'+f.a+'</p></div></div>';
+    }).join('');
+    document.querySelectorAll('#panel-faq .faq-q').forEach(function(q){
+      q.addEventListener('click', function(){
+        var item = q.closest('.faq-item'); var was = item.classList.contains('open');
+        item.parentElement.querySelectorAll('.faq-item').forEach(function(i){i.classList.remove('open');});
+        if(!was) item.classList.add('open');
+      });
+    });
+    renderReviews(p);
+
+    // Tab switching
+    document.querySelectorAll('.pdp-tab-btn').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        document.querySelectorAll('.pdp-tab-btn').forEach(function(b){b.classList.remove('active');});
+        document.querySelectorAll('.pdp-tab-panel').forEach(function(pn){pn.classList.remove('active');});
+        btn.classList.add('active');
+        document.getElementById('panel-'+btn.getAttribute('data-tab')).classList.add('active');
+      });
+    });
+
+    // FBT + Related
+    var fbt = products.filter(function(x){ return p.fbtIds.indexOf(x.id) > -1; });
+    document.getElementById('fbtGrid').innerHTML = fbt.map(window.Aurako.productCard).join('');
+    var related = products.filter(function(x){ return p.relatedIds.indexOf(x.id) > -1; });
+    document.getElementById('relatedGrid').innerHTML = related.map(window.Aurako.productCard).join('');
+
+    // Sticky buy bar
+    document.getElementById('stickyImg').src = p.thumb;
+    document.getElementById('stickyName').textContent = p.name;
+    document.getElementById('stickyPrice').textContent = window.Aurako.fmt(p.price);
+    document.getElementById('stickyMinus').addEventListener('click', function(){ currentQty = Math.max(1,currentQty-1); syncQty(); });
+    document.getElementById('stickyPlus').addEventListener('click', function(){ currentQty++; syncQty(); });
+    document.getElementById('stickyAddCart').addEventListener('click', function(){ window.Aurako.addToCart(p.id, currentQty); });
+
+    var buyRow = document.querySelector('.pdp-buy-row');
+    var stickyBar = document.getElementById('stickyBuyBar');
+    window.addEventListener('scroll', function(){
+      var rect = buyRow.getBoundingClientRect();
+      if(rect.bottom < 0){ stickyBar.classList.add('show'); } else { stickyBar.classList.remove('show'); }
+    });
+  });
+
+  function renderReviews(p){
+    var mockReviews = [
+      { name:"Hana K.", rating:5, text:"This has become a holy grail step in my routine. Skin feels visibly plumper within days." },
+      { name:"Daniel M.", rating:4, text:"Great texture, absorbs fast. Wish the bottle was a bit bigger for the price." },
+      { name:"Priya S.", rating:5, text:"My redness has calmed down noticeably. Will repurchase for sure." }
+    ];
+    var dist = [70,18,7,3,2];
+    document.getElementById('panel-reviews').innerHTML =
+      '<div class="review-summary">' +
+        '<div class="review-score"><div class="num">'+p.rating+'</div><span class="stars">'+window.Aurako.starString(p.rating)+'</span><div class="text-muted" style="font-size:12px;">'+p.reviewCount+' reviews</div></div>' +
+        '<div style="flex:1;min-width:220px;">' + dist.map(function(pct,i){
+          return '<div class="flex gap-2" style="align-items:center;margin-bottom:4px;"><span style="width:38px;font-size:12px;">'+(5-i)+' star</span><div style="flex:1;height:6px;background:var(--color-bg-alt);border-radius:4px;overflow:hidden;"><div style="width:'+pct+'%;height:100%;background:var(--color-star);"></div></div></div>';
+        }).join('') + '</div>' +
+      '</div>' +
+      mockReviews.map(function(r){
+        return '<div class="review-item"><div class="review-head"><strong>'+r.name+'</strong><span class="stars">'+window.Aurako.starString(r.rating)+'</span></div><p>'+r.text+'</p></div>';
+      }).join('');
+  }
+})();
+</script>
+
+</body>
+</html>
