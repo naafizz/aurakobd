@@ -669,7 +669,7 @@
     var grid = document.getElementById('categoryGrid');
     grid.innerHTML = cats.slice(0,10).map(function(c,i){
       return '<a class="cat-tile" href="shop.html?cat='+c.id+'">' +
-        '<img src="https://picsum.photos/seed/cat'+c.id+'/500/620" loading="lazy" alt="'+c.name+'">' +
+        '<img src="'+c.image+'" loading="lazy" alt="'+c.name+'">'  +
         '<div class="cat-tile-label"><small>Shop</small><br><span>'+c.name+'</span></div>' +
       '</a>';
     }).join('');
