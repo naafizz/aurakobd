@@ -3,60 +3,60 @@
     "id": "cleansers",
     "name": "Cleansers",
     "desc": "Oil, foam & powder cleansers for a clean first step",
-    "image": "assets/images/cleanser.png" 
+    "image": "images/cleanser.png" 
   },
   {
     "id": "toners",
     "name": "Toners & Essences",
     "desc": "Hydrating first-treatment layers",
-    "image": "assets/images/toner.png" 
+    "image": "images/toner.png" 
   },
   {
     "id": "serums",
     "name": "Serums & Ampoules",
     "desc": "Concentrated actives for targeted results",
-    "image": "assets/images/serum.png" 
+    "image": "images/serum.png" 
   },
   {
     "id": "moisturizers",
     "name": "Moisturizers",
     "desc": "Creams, gels & emulsions to lock in hydration",
-    "image": "assets/images/moisture.png" 
+    "image": "images/moisture.png" 
   },
   {
     "id": "masks",
     "name": "Sheet & Wash-off Masks",
     "desc": "Intensive weekly treatments",
-    "image": "assets/images/mask.png" 
+    "image": "images/mask.png" 
   },
   {
     "id": "suncare",
     "name": "Suncare",
     "desc": "Lightweight, glow-friendly SPF",
-    "image": "assets/images/sun.png" 
+    "image": "images/sun.png" 
   },
   {
     "id": "eyecare",
     "name": "Eye Care",
     "desc": "Targeted care for the delicate eye area",
-    "image": "assets/images/eye.png" 
+    "image": "images/eye.png" 
   },
   {
     "id": "exfoliants",
     "name": "Exfoliants",
     "desc": "Gentle resurfacing & renewal",
-    "image": "assets/images/exfoliate.png" 
+    "image": "images/exfoliate.png" 
   },
   {
     "id": "lip",
     "name": "Lip Care",
     "desc": "Balms & treatments for soft lips",
-    "image": "assets/images/balm.png" 
+    "image": "images/balm.png" 
   },
   {
     "id": "sets",
     "name": "Gift Sets",
     "desc": "Curated routines, beautifully packaged",
-    "image": "assets/images/gift.png" 
+    "image": "images/gift.png" 
   }
 ]
