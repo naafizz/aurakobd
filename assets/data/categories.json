@@ -2,51 +2,61 @@
   {
     "id": "cleansers",
     "name": "Cleansers",
-    "desc": "Oil, foam & powder cleansers for a clean first step"
+    "desc": "Oil, foam & powder cleansers for a clean first step",
+    "image": "assets/images/cleanser.png" 
   },
   {
     "id": "toners",
     "name": "Toners & Essences",
-    "desc": "Hydrating first-treatment layers"
+    "desc": "Hydrating first-treatment layers",
+    "image": "assets/images/toner.png" 
   },
   {
     "id": "serums",
     "name": "Serums & Ampoules",
-    "desc": "Concentrated actives for targeted results"
+    "desc": "Concentrated actives for targeted results",
+    "image": "assets/images/serum.png" 
   },
   {
     "id": "moisturizers",
     "name": "Moisturizers",
-    "desc": "Creams, gels & emulsions to lock in hydration"
+    "desc": "Creams, gels & emulsions to lock in hydration",
+    "image": "assets/images/moisture.png" 
   },
   {
     "id": "masks",
     "name": "Sheet & Wash-off Masks",
-    "desc": "Intensive weekly treatments"
+    "desc": "Intensive weekly treatments",
+    "image": "assets/images/mask.png" 
   },
   {
     "id": "suncare",
     "name": "Suncare",
-    "desc": "Lightweight, glow-friendly SPF"
+    "desc": "Lightweight, glow-friendly SPF",
+    "image": "assets/images/sun.png" 
   },
   {
     "id": "eyecare",
     "name": "Eye Care",
-    "desc": "Targeted care for the delicate eye area"
+    "desc": "Targeted care for the delicate eye area",
+    "image": "assets/images/eye.png" 
   },
   {
     "id": "exfoliants",
     "name": "Exfoliants",
-    "desc": "Gentle resurfacing & renewal"
+    "desc": "Gentle resurfacing & renewal",
+    "image": "assets/images/exfoliate.png" 
   },
   {
     "id": "lip",
     "name": "Lip Care",
-    "desc": "Balms & treatments for soft lips"
+    "desc": "Balms & treatments for soft lips",
+    "image": "assets/images/balm.png" 
   },
   {
     "id": "sets",
     "name": "Gift Sets",
-    "desc": "Curated routines, beautifully packaged"
+    "desc": "Curated routines, beautifully packaged",
+    "image": "assets/images/gift.png" 
   }
 ]
