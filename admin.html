@@ -133,11 +133,12 @@
     </div>
 
     <div style="overflow-x:auto;">
-      <table style="width:100%;border-collapse:collapse;min-width:900px;">
+      <table style="width:100%;border-collapse:collapse;min-width:1080px;">
         <thead>
           <tr style="text-align:left;border-bottom:2px solid var(--color-border);font-size:12px;text-transform:uppercase;letter-spacing:0.04em;color:var(--color-ink-faint);">
             <th style="padding:12px 10px;">Order ID</th>
             <th style="padding:12px 10px;">Customer</th>
+            <th style="padding:12px 10px;">Location</th>
             <th style="padding:12px 10px;">Items</th>
             <th style="padding:12px 10px;">Total</th>
             <th style="padding:12px 10px;">Placed</th>
@@ -226,6 +227,8 @@
         <div class="field"><label>Original Price ($)</label><input class="input" type="number" step="0.01" id="pf_originalPrice"></div>
         <div class="field"><label>Stock Quantity</label><input class="input" type="number" id="pf_stock" value="100"></div>
         <div class="field"><label>Size</label><input class="input" id="pf_size" placeholder="50ml"></div>
+        <div class="field"><label>Rating (0–5)</label><input class="input" type="number" step="0.1" min="0" max="5" id="pf_rating" value="4.5"></div>
+        <div class="field"><label>Review Count</label><input class="input" type="number" id="pf_reviewCount" value="0"></div>
         <div class="field full">
           <label class="checkbox-row"><input type="checkbox" id="pf_onSale"> On Sale</label>
         </div>
@@ -235,11 +238,26 @@
         <div class="field full">
           <label class="checkbox-row"><input type="checkbox" id="pf_isBestSeller"> Mark as Best Seller</label>
         </div>
+        <div class="field full">
+          <label class="checkbox-row"><input type="checkbox" id="pf_isTrending"> Mark as Trending</label>
+        </div>
+        <div class="field"><label>Hero Ingredient</label><input class="input" id="pf_heroIngredient" placeholder="Centella Asiatica"></div>
+        <div class="field"><label>Skin Concerns <span class="text-muted">(comma separated)</span></label><input class="input" id="pf_skinConcerns" placeholder="Hydration, Brightening"></div>
+        <div class="field full"><label>Skin Types <span class="text-muted">(comma separated)</span></label><input class="input" id="pf_skinTypes" placeholder="Dry, Sensitive"></div>
         <div class="field full"><label>Main Image URL</label><input class="input" id="pf_thumb" placeholder="assets/images/product1.jpg" required></div>
         <div class="field full"><label>Hover / Second Image URL</label><input class="input" id="pf_hoverThumb" placeholder="assets/images/product1-hover.jpg"></div>
+        <div class="field full"><label>Extra Gallery Images <span class="text-muted">(one URL per line, shown on product page)</span></label><textarea class="input" id="pf_extraImages" style="min-height:60px;" placeholder="assets/images/product1-c.jpg
+assets/images/product1-d.jpg"></textarea></div>
         <div class="field full"><label>Short Description</label><textarea class="input" id="pf_shortDescription" style="min-height:60px;"></textarea></div>
         <div class="field full"><label>Full Description</label><textarea class="input" id="pf_description" style="min-height:100px;"></textarea></div>
         <div class="field full"><label>Ingredients</label><textarea class="input" id="pf_ingredients" style="min-height:60px;"></textarea></div>
+        <div class="field full"><label>Benefits <span class="text-muted">(one per line)</span></label><textarea class="input" id="pf_benefits" style="min-height:80px;" placeholder="Deeply hydrates and plumps skin
+Visibly brightens dull skin tone"></textarea></div>
+        <div class="field full"><label>How To Use <span class="text-muted">(one step per line)</span></label><textarea class="input" id="pf_howToUse" style="min-height:80px;" placeholder="Apply to cleansed skin
+Pat gently until absorbed"></textarea></div>
+        <div class="field full"><label>FAQs <span class="text-muted">(one per line, format: Question | Answer)</span></label><textarea class="input" id="pf_faqs" style="min-height:80px;" placeholder="Is this suitable for sensitive skin? | Yes, it's fragrance-balanced and dermatologist tested."></textarea></div>
+        <div class="field"><label>Related Product IDs <span class="text-muted">(comma separated)</span></label><input class="input" id="pf_relatedIds" placeholder="AK-0002, AK-0015"></div>
+        <div class="field"><label>Frequently Bought With IDs <span class="text-muted">(comma separated)</span></label><input class="input" id="pf_fbtIds" placeholder="AK-0003, AK-0022"></div>
       </div>
       <div class="flex gap-3" style="margin-top:var(--space-4);">
         <button type="submit" class="btn btn-primary ripple-surface btn-block" id="productSaveBtn">Save Product</button>
@@ -647,14 +665,14 @@
      a valid admin account you create yourself in the Firebase
      Console — see "Create the admin account" in FIREBASE-SETUP.md.
      ============================================================ */
- var firebaseConfig = {
-  apiKey: "AIzaSyCH-tmzEEaI0uM8q59vZ1T-3XiwzJzvrco",
-  authDomain: "aurako-shop.firebaseapp.com",
-  projectId: "aurako-shop",
-  storageBucket: "aurako-shop.firebasestorage.app",
-  messagingSenderId: "545369940036",
-  appId: "1:545369940036:web:578f784a768b6bba935c11"
-};
+  var firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_PROJECT_ID.appspot.com",
+    messagingSenderId: "YOUR_SENDER_ID",
+    appId: "YOUR_APP_ID"
+  };
 
   var configured = firebaseConfig.apiKey !== "YOUR_API_KEY";
   var loginWrap = document.getElementById('adminLoginWrap');
@@ -710,14 +728,14 @@
 
   /* ---- Load orders (requires authenticated user, per Firestore rules) ---- */
   function loadOrders(){
-    document.getElementById('adminOrdersBody').innerHTML = '<tr><td colspan="6" style="padding:24px 10px;" class="text-muted">Loading orders…</td></tr>';
+    document.getElementById('adminOrdersBody').innerHTML = '<tr><td colspan="7" style="padding:24px 10px;" class="text-muted">Loading orders…</td></tr>';
     db.collection('orders').orderBy('createdAt', 'desc').get().then(function(snap){
       allOrders = [];
       snap.forEach(function(doc){ allOrders.push(doc.data()); });
       renderStats();
       renderTable();
     }).catch(function(err){
-      document.getElementById('adminOrdersBody').innerHTML = '<tr><td colspan="6" style="padding:24px 10px;">Could not load orders: '+err.message+'</td></tr>';
+      document.getElementById('adminOrdersBody').innerHTML = '<tr><td colspan="7" style="padding:24px 10px;">Could not load orders: '+err.message+'</td></tr>';
     });
   }
   document.getElementById('adminRefresh').addEventListener('click', loadOrders);
@@ -744,7 +762,7 @@
     var filtered = allOrders.filter(function(o){
       if(statusFilter && o.status !== statusFilter) return false;
       if(q){
-        var hay = (o.orderId+' '+o.customer.name+' '+o.customer.phone+' '+o.customer.email).toLowerCase();
+        var hay = (o.orderId+' '+o.customer.name+' '+o.customer.phone+' '+o.customer.email+' '+o.customer.district+' '+o.customer.area+' '+o.customer.address).toLowerCase();
         if(hay.indexOf(q) === -1) return false;
       }
       return true;
@@ -761,6 +779,7 @@
       return '<tr style="border-bottom:1px solid var(--color-border);font-size:13px;vertical-align:top;">' +
         '<td style="padding:12px 10px;font-weight:700;">'+o.orderId+'</td>' +
         '<td style="padding:12px 10px;">'+o.customer.name+'<br><span class="text-muted">'+o.customer.phone+'</span></td>' +
+        '<td style="padding:12px 10px;max-width:200px;">'+(o.customer.address||'')+'<br><span class="text-muted">'+(o.customer.district||'')+(o.customer.area?(', '+o.customer.area):'')+'</span></td>' +
         '<td style="padding:12px 10px;max-width:260px;">'+itemsSummary+'</td>' +
         '<td style="padding:12px 10px;font-weight:700;">'+window.Aurako.fmt(o.total)+'</td>' +
         '<td style="padding:12px 10px;" class="text-muted">'+date+'</td>' +
@@ -880,19 +899,41 @@
     document.getElementById('pf_originalPrice').value = p ? (p.originalPrice||'') : '';
     document.getElementById('pf_stock').value = p ? (p.stock!=null?p.stock:100) : 100;
     document.getElementById('pf_size').value = p ? (p.size||'') : '';
+    document.getElementById('pf_rating').value = p ? (p.rating!=null?p.rating:4.5) : 4.5;
+    document.getElementById('pf_reviewCount').value = p ? (p.reviewCount||0) : 0;
     document.getElementById('pf_onSale').checked = p ? !!p.onSale : false;
     document.getElementById('pf_isNew').checked = p ? !!p.isNew : false;
     document.getElementById('pf_isBestSeller').checked = p ? !!p.isBestSeller : false;
+    document.getElementById('pf_isTrending').checked = p ? !!p.isTrending : false;
+    document.getElementById('pf_heroIngredient').value = p ? (p.heroIngredient||'') : '';
+    document.getElementById('pf_skinConcerns').value = p && p.skinConcerns ? p.skinConcerns.join(', ') : '';
+    document.getElementById('pf_skinTypes').value = p && p.skinTypes ? p.skinTypes.join(', ') : '';
     document.getElementById('pf_thumb').value = p ? (p.thumb||'') : '';
     document.getElementById('pf_hoverThumb').value = p ? (p.hoverThumb||'') : '';
+    document.getElementById('pf_extraImages').value = p && p.images ? p.images.filter(function(img){ return img && img !== p.thumb && img !== p.hoverThumb; }).join('\n') : '';
     document.getElementById('pf_shortDescription').value = p ? (p.shortDescription||'') : '';
     document.getElementById('pf_description').value = p ? (p.description||'') : '';
     document.getElementById('pf_ingredients').value = p ? (p.ingredients||'') : '';
+    document.getElementById('pf_benefits').value = p && p.benefits ? p.benefits.join('\n') : '';
+    document.getElementById('pf_howToUse').value = p && p.howToUse ? p.howToUse.join('\n') : '';
+    document.getElementById('pf_faqs').value = p && p.faqs ? p.faqs.map(function(f){ return f.q + ' | ' + f.a; }).join('\n') : '';
+    document.getElementById('pf_relatedIds').value = p && p.relatedIds ? p.relatedIds.join(', ') : '';
+    document.getElementById('pf_fbtIds').value = p && p.fbtIds ? p.fbtIds.join(', ') : '';
     productScrim.classList.add('open'); productModal.classList.add('open'); document.body.style.overflow = 'hidden';
   }
   document.getElementById('addProductBtn').addEventListener('click', function(){ openProductModal(null); });
   document.getElementById('productModalClose').addEventListener('click', closeProductModal);
   productScrim.addEventListener('click', closeProductModal);
+
+  /* ---- helpers to parse the textarea/comma-list fields into arrays ---- */
+  function linesToArray(text){ return text.split('\n').map(function(s){ return s.trim(); }).filter(Boolean); }
+  function csvToArray(text){ return text.split(',').map(function(s){ return s.trim(); }).filter(Boolean); }
+  function linesToFaqs(text){
+    return linesToArray(text).map(function(line){
+      var parts = line.split('|');
+      return { q: (parts[0]||'').trim(), a: (parts.slice(1).join('|')||'').trim() };
+    });
+  }
 
   document.getElementById('productForm').addEventListener('submit', function(e){
     e.preventDefault();
@@ -901,6 +942,7 @@
     var id = document.getElementById('pf_id').value.trim();
     var thumb = document.getElementById('pf_thumb').value.trim();
     var hover = document.getElementById('pf_hoverThumb').value.trim() || thumb;
+    var extraImages = linesToArray(document.getElementById('pf_extraImages').value);
     var price = parseFloat(document.getElementById('pf_price').value) || 0;
     var originalPrice = parseFloat(document.getElementById('pf_originalPrice').value) || price;
     var onSale = document.getElementById('pf_onSale').checked;
@@ -916,25 +958,25 @@
       discountPct: onSale && originalPrice > price ? Math.round((1 - price/originalPrice) * 100) : 0,
       isNew: document.getElementById('pf_isNew').checked,
       isBestSeller: document.getElementById('pf_isBestSeller').checked,
-      isTrending: isEdit ? (allProductsAdmin.find(function(p){return p._docId===docId;})||{}).isTrending||false : false,
-      rating: isEdit ? (allProductsAdmin.find(function(p){return p._docId===docId;})||{}).rating||4.5 : 4.5,
-      reviewCount: isEdit ? (allProductsAdmin.find(function(p){return p._docId===docId;})||{}).reviewCount||0 : 0,
+      isTrending: document.getElementById('pf_isTrending').checked,
+      rating: parseFloat(document.getElementById('pf_rating').value) || 4.5,
+      reviewCount: parseInt(document.getElementById('pf_reviewCount').value) || 0,
       stock: parseInt(document.getElementById('pf_stock').value) || 0,
       size: document.getElementById('pf_size').value.trim(),
-      skinConcerns: isEdit ? (allProductsAdmin.find(function(p){return p._docId===docId;})||{}).skinConcerns||[] : [],
-      skinTypes: isEdit ? (allProductsAdmin.find(function(p){return p._docId===docId;})||{}).skinTypes||[] : [],
-      heroIngredient: isEdit ? (allProductsAdmin.find(function(p){return p._docId===docId;})||{}).heroIngredient||'' : '',
-      images: [thumb, hover, thumb, hover],
+      skinConcerns: csvToArray(document.getElementById('pf_skinConcerns').value),
+      skinTypes: csvToArray(document.getElementById('pf_skinTypes').value),
+      heroIngredient: document.getElementById('pf_heroIngredient').value.trim(),
+      images: [thumb, hover].concat(extraImages).filter(Boolean),
       thumb: thumb,
       hoverThumb: hover,
       shortDescription: document.getElementById('pf_shortDescription').value.trim(),
       description: document.getElementById('pf_description').value.trim(),
-      benefits: isEdit ? (allProductsAdmin.find(function(p){return p._docId===docId;})||{}).benefits||[] : [],
-      howToUse: isEdit ? (allProductsAdmin.find(function(p){return p._docId===docId;})||{}).howToUse||[] : [],
+      benefits: linesToArray(document.getElementById('pf_benefits').value),
+      howToUse: linesToArray(document.getElementById('pf_howToUse').value),
       ingredients: document.getElementById('pf_ingredients').value.trim(),
-      faqs: isEdit ? (allProductsAdmin.find(function(p){return p._docId===docId;})||{}).faqs||[] : [],
-      relatedIds: isEdit ? (allProductsAdmin.find(function(p){return p._docId===docId;})||{}).relatedIds||[] : [],
-      fbtIds: isEdit ? (allProductsAdmin.find(function(p){return p._docId===docId;})||{}).fbtIds||[] : []
+      faqs: linesToFaqs(document.getElementById('pf_faqs').value),
+      relatedIds: csvToArray(document.getElementById('pf_relatedIds').value),
+      fbtIds: csvToArray(document.getElementById('pf_fbtIds').value)
     };
 
     var btn = document.getElementById('productSaveBtn');
