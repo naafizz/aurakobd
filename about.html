@@ -33,6 +33,7 @@
       <a href="about.html" data-nav="about">About</a>
       <a href="contact.html" data-nav="contact">Contact</a>
       <a href="faq.html" data-nav="faq">FAQ</a>
+      <a href="track-order.html" data-nav="track">Track Order</a>
     </nav>
 
     <div class="header-actions">
@@ -359,7 +360,7 @@
   updateCounts();
 
   /* ---------- Currency ---------- */
-  window.Aurako.fmt = function(n){ return '$' + Number(n).toFixed(2); };
+  window.Aurako.fmt = function(n){ return '৳' + Number(n).toFixed(0); };
 
   /* ============================================================
      Search overlay — live search against products.json
