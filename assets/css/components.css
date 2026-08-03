@@ -17,7 +17,8 @@
 .icon-btn svg { width: 20px; height: 20px; }
 .count-pill { position: absolute; top: 0; right: 0; min-width: 17px; height: 17px; border-radius: 50%; background: var(--color-primary); color: #fff; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; padding: 0 3px; }
 .hamburger { display: none; flex-direction: column; gap: 5px; width: 26px; }
-.hamburger span { display: block; height: 2px; background: var(--color-ink); border-radius: 2px; transition: all var(--dur-base) var(--ease-out); }
+.hamburger span { display: block; width: 100%; height: 2px; background: var(--color-ink); border-radius: 2px; transition: all var(--dur-base) var(--ease-out); }
+
 
 .search-overlay { position: fixed; top: var(--header-h); left: 0; right: 0; background: var(--color-surface); border-bottom: 1px solid var(--color-border); box-shadow: var(--shadow-lg); max-height: 0; overflow: hidden; transition: max-height .4s var(--ease-out); z-index: 400; }
 .search-overlay.open { max-height: 70vh; overflow-y: auto; }
