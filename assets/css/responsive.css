@@ -34,6 +34,7 @@
 
 /* Mobile */
 @media (max-width: 640px) {
+   #myOrdersBtn { display: none; }
   :root { --container-pad: 18px; }
   .cat-grid { grid-template-columns: repeat(2, 1fr); }
   .product-grid { grid-template-columns: repeat(2, 1fr); gap: var(--space-3); }
