@@ -331,7 +331,7 @@
 
   function loadProducts(cb){
     if(productsCache){ cb(productsCache); return; }
-    fetch('assets/data/products.json').then(function(r){ return r.json(); }).then(function(data){ productsCache = data; cb(data); }).catch(function(){ cb([]); });
+    fetch('assets/data/products.json?v=' + Date.now()).then(function(r){ return r.json(); }).then(function(data){ productsCache = data; cb(data); }).catch(function(){ cb([]); });
   }
   window.Aurako.loadProducts = loadProducts;
 

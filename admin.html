@@ -504,7 +504,7 @@ Pat gently until absorbed"></textarea></div>
 
   function loadProducts(cb){
     if(productsCache){ cb(productsCache); return; }
-    fetch('assets/data/products.json').then(function(r){ return r.json(); }).then(function(data){ productsCache = data; cb(data); }).catch(function(){ cb([]); });
+    fetch('assets/data/products.json?v=' + Date.now()).then(function(r){ return r.json(); }).then(function(data){ productsCache = data; cb(data); }).catch(function(){ cb([]); });
   }
   window.Aurako.loadProducts = loadProducts;
 
@@ -1004,7 +1004,7 @@ var firebaseConfig = {
     if(!confirm('Import all products from assets/data/products.json into Firebase?')) return;
     var btn = this;
     btn.disabled = true; btn.textContent = 'Importing...';
-    fetch('assets/data/products.json').then(function(r){ return r.json(); }).then(function(products){
+    fetch('assets/data/products.json?v=' + Date.now()).then(function(r){ return r.json(); }).then(function(products){
       var batchSize = 400; // Firestore batch limit is 500
       var chunks = [];
       for(var i=0;i<products.length;i+=batchSize){ chunks.push(products.slice(i,i+batchSize)); }
