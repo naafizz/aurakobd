@@ -167,18 +167,13 @@
       <div class="shop-search">
         <input type="text" class="input" id="productSearch" placeholder="Search products by name or brand...">
       </div>
-      <div class="flex gap-3" style="margin-left:auto;flex-wrap:wrap;">
+      <div class="flex gap-3" style="margin-left:auto;">
         <button class="btn btn-ghost btn-sm" id="productRefresh">↻ Refresh</button>
-        <button class="btn btn-outline btn-sm" id="exportCsvBtn">⬇ Export CSV (Bulk Edit)</button>
-        <button class="btn btn-outline btn-sm" id="importCsvBtn">⬆ Import CSV</button>
-        <input type="file" id="csvFileInput" accept=".csv" style="display:none;">
         <button class="btn btn-outline btn-sm" id="exportJsonBtn">⬇ Export products.json</button>
         <button class="btn btn-primary ripple-surface" id="addProductBtn">+ Add Product</button>
       </div>
     </div>
-    <p class="text-muted" style="font-size:12px;margin:-6px 0 var(--space-5);">
-      <strong>Fast bulk editing:</strong> click <strong>Export CSV</strong>, open it in Excel/Google Sheets, edit as many rows as you like, save/download as CSV, then click <strong>Import CSV</strong> to push all changes to Firebase at once. When you're done, click <strong>Export products.json</strong> and upload that file to <code>assets/data/</code> on GitHub to publish.
-    </p>
+    <p class="text-muted" style="font-size:12px;margin:-6px 0 var(--space-5);">After adding/editing products, click <strong>Export products.json</strong> and upload the downloaded file to <code>assets/data/</code> on GitHub to publish changes on the live site.</p>
 
     <div style="overflow-x:auto;">
       <table style="width:100%;border-collapse:collapse;min-width:760px;">
@@ -290,8 +285,10 @@ Pat gently until absorbed"></textarea></div>
       <a href="index.html" class="logo font-display">AURAKO</a>
       <p>Premium Korean skincare, formulated with heritage botanicals and modern dermatological science. Slow beauty, considered rituals.</p>
       <div class="social-row">
-        <a href="https://www.facebook.com/Aurakobd/" target="_blank" rel="noopener" aria-label="Facebook" class="icon-btn btn-sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 3h-2a4 4 0 0 0-4 4v3H7v4h2v7h4v-7h3l1-4h-4V7a1 1 0 0 1 1-1h3V3z"/></svg></a>
-        <a href="https://www.instagram.com/aurakobd/" target="_blank" rel="noopener" aria-label="Instagram" class="icon-btn btn-sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/></svg></a>
+        <a href="#" aria-label="Instagram" class="icon-btn btn-sm">IG</a>
+        <a href="#" aria-label="TikTok" class="icon-btn btn-sm">TT</a>
+        <a href="#" aria-label="YouTube" class="icon-btn btn-sm">YT</a>
+        <a href="#" aria-label="Pinterest" class="icon-btn btn-sm">PN</a>
       </div>
     </div>
     <div class="footer-col">
@@ -319,7 +316,7 @@ Pat gently until absorbed"></textarea></div>
   </div>
   <div class="container footer-bottom">
     <p>&copy; <span id="year"></span> AURAKO. All rights reserved.</p>
-    <p class="text-muted">Developer — <a href="https://www.facebook.com/marufhossain.marufhossain.7982/" target="_blank" rel="noopener" style="text-decoration:underline;">NAFIZ HASAN</a></p>
+    <p class="text-muted">Crafted with care, in Seoul &amp; beyond.</p>
   </div>
 </footer>
 
@@ -331,19 +328,6 @@ Pat gently until absorbed"></textarea></div>
 
 <div id="toast-root"></div>
 
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-<script>
-var newsletterFirebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT_ID.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
-};
-if(!firebase.apps.length){ firebase.initializeApp(newsletterFirebaseConfig); }
-</script>
 <script>
 /* ============================================================
    AURAKO — Core App Script (embedded on every page)
@@ -424,27 +408,13 @@ if(!firebase.apps.length){ firebase.initializeApp(newsletterFirebaseConfig); }
     revealEls.forEach(function(el){ el.classList.add('in-view'); });
   }
 
-  /* ---------- Newsletter ---------- */
+  /* ---------- Newsletter (demo) ---------- */
   var nlForm = document.getElementById('newsletterForm');
   if(nlForm){
     nlForm.addEventListener('submit', function(e){
       e.preventDefault();
-      var emailInput = document.getElementById('newsletterEmail');
-      var email = emailInput.value.trim();
-      if(!email) return;
-      var btn = nlForm.querySelector('button[type="submit"]');
-      if(btn) btn.disabled = true;
-      firebase.firestore().collection('subscribers').doc(email.toLowerCase()).set({
-        email: email,
-        subscribedAt: new Date().toISOString()
-      }).then(function(){
-        showToast('Thanks for subscribing! Check your inbox for 15% off.', 'success');
-        nlForm.reset();
-      }).catch(function(){
-        showToast('Could not subscribe right now, please try again.', 'error');
-      }).finally(function(){
-        if(btn) btn.disabled = false;
-      });
+      showToast('Thanks for subscribing! Check your inbox for 15% off.', 'success');
+      nlForm.reset();
     });
   }
 
@@ -682,7 +652,6 @@ if(!firebase.apps.length){ firebase.initializeApp(newsletterFirebaseConfig); }
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 <script>
 (function(){
   "use strict";
@@ -718,7 +687,7 @@ if(!firebase.apps.length){ firebase.initializeApp(newsletterFirebaseConfig); }
     return;
   }
 
-  if(!firebase.apps.length){ firebase.initializeApp(firebaseConfig); }
+  firebase.initializeApp(firebaseConfig);
   var auth = firebase.auth();
   var db = firebase.firestore();
   var allOrders = [];
@@ -1052,124 +1021,6 @@ if(!firebase.apps.length){ firebase.initializeApp(newsletterFirebaseConfig); }
       showToast('Import failed: ' + err.message, 'error');
     }).finally(function(){
       btn.disabled = false; btn.textContent = 'Import Products from JSON';
-    });
-  });
-
-  /* ---- CSV export/import for fast bulk editing in Excel/Google Sheets ---- */
-  var CSV_COLUMNS = ['id','name','brand','category','price','originalPrice','onSale','discountPct','isNew','isBestSeller','isTrending','rating','reviewCount','stock','size','skinConcerns','skinTypes','heroIngredient','thumb','hoverThumb','extraImages','shortDescription','description','ingredients','benefits','howToUse','faqs','relatedIds','fbtIds'];
-
-  document.getElementById('exportCsvBtn').addEventListener('click', function(){
-    if(allProductsAdmin.length === 0){ showToast('No products to export yet', 'error'); return; }
-    var rows = allProductsAdmin.map(function(p){
-      var row = {};
-      CSV_COLUMNS.forEach(function(c){
-        if(c === 'extraImages'){
-          row[c] = (p.images||[]).filter(function(img){ return img && img !== p.thumb && img !== p.hoverThumb; }).join('|');
-        } else if(c === 'faqs'){
-          row[c] = (p.faqs||[]).map(function(f){ return f.q + '::' + f.a; }).join('|');
-        } else if(Array.isArray(p[c])){
-          row[c] = p[c].join('|');
-        } else {
-          row[c] = p[c] == null ? '' : p[c];
-        }
-      });
-      return row;
-    });
-    var csv = Papa.unparse({ fields: CSV_COLUMNS, data: rows });
-    var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    var url = URL.createObjectURL(blob);
-    var a = document.createElement('a');
-    a.href = url; a.download = 'aurako-products.csv';
-    document.body.appendChild(a); a.click(); document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-    showToast('CSV downloaded — edit it in Excel/Sheets, then use Import CSV');
-  });
-
-  document.getElementById('importCsvBtn').addEventListener('click', function(){
-    document.getElementById('csvFileInput').click();
-  });
-
-  document.getElementById('csvFileInput').addEventListener('change', function(e){
-    var file = e.target.files[0];
-    if(!file) return;
-    Papa.parse(file, {
-      header: true,
-      skipEmptyLines: true,
-      complete: function(results){
-        var rows = results.data.filter(function(r){ return r.id && r.id.trim(); });
-        if(rows.length === 0){ showToast('No valid rows found in CSV', 'error'); return; }
-        if(!confirm('Import ' + rows.length + ' products from this CSV into Firebase? This will overwrite matching products.')) return;
-
-        var products = rows.map(function(r){
-          var thumb = (r.thumb||'').trim();
-          var hover = (r.hoverThumb||'').trim() || thumb;
-          var extra = (r.extraImages||'').split('|').map(function(s){return s.trim();}).filter(Boolean);
-          var price = parseFloat(r.price) || 0;
-          var originalPrice = parseFloat(r.originalPrice) || price;
-          var onSale = String(r.onSale).toLowerCase() === 'true';
-          return {
-            id: r.id.trim(),
-            slug: r.id.trim().toLowerCase(),
-            name: r.name || '',
-            brand: r.brand || '',
-            category: r.category || 'cleansers',
-            price: price,
-            originalPrice: originalPrice,
-            onSale: onSale,
-            discountPct: onSale && originalPrice > price ? Math.round((1 - price/originalPrice) * 100) : (parseInt(r.discountPct) || 0),
-            isNew: String(r.isNew).toLowerCase() === 'true',
-            isBestSeller: String(r.isBestSeller).toLowerCase() === 'true',
-            isTrending: String(r.isTrending).toLowerCase() === 'true',
-            rating: parseFloat(r.rating) || 4.5,
-            reviewCount: parseInt(r.reviewCount) || 0,
-            stock: parseInt(r.stock) || 0,
-            size: r.size || '',
-            skinConcerns: (r.skinConcerns||'').split('|').map(function(s){return s.trim();}).filter(Boolean),
-            skinTypes: (r.skinTypes||'').split('|').map(function(s){return s.trim();}).filter(Boolean),
-            heroIngredient: r.heroIngredient || '',
-            images: [thumb, hover].concat(extra).filter(Boolean),
-            thumb: thumb,
-            hoverThumb: hover,
-            shortDescription: r.shortDescription || '',
-            description: r.description || '',
-            ingredients: r.ingredients || '',
-            benefits: (r.benefits||'').split('|').map(function(s){return s.trim();}).filter(Boolean),
-            howToUse: (r.howToUse||'').split('|').map(function(s){return s.trim();}).filter(Boolean),
-            faqs: (r.faqs||'').split('|').map(function(s){return s.trim();}).filter(Boolean).map(function(pair){
-              var parts = pair.split('::');
-              return { q: (parts[0]||'').trim(), a: (parts.slice(1).join('::')||'').trim() };
-            }),
-            relatedIds: (r.relatedIds||'').split('|').map(function(s){return s.trim();}).filter(Boolean),
-            fbtIds: (r.fbtIds||'').split('|').map(function(s){return s.trim();}).filter(Boolean)
-          };
-        });
-
-        var btn = document.getElementById('importCsvBtn');
-        btn.disabled = true; btn.textContent = 'Importing...';
-        var batchSize = 400;
-        var chunks = [];
-        for(var i=0;i<products.length;i+=batchSize){ chunks.push(products.slice(i,i+batchSize)); }
-        var chain = Promise.resolve();
-        chunks.forEach(function(chunk){
-          chain = chain.then(function(){
-            var batch = db.batch();
-            chunk.forEach(function(p){ batch.set(db.collection('products').doc(p.id), p); });
-            return batch.commit();
-          });
-        });
-        chain.then(function(){
-          showToast(products.length + ' products updated from CSV!');
-          loadProductsAdmin();
-        }).catch(function(err){
-          showToast('Import failed: ' + err.message, 'error');
-        }).finally(function(){
-          btn.disabled = false; btn.textContent = '⬆ Import CSV';
-          document.getElementById('csvFileInput').value = '';
-        });
-      },
-      error: function(err){
-        showToast('Could not read CSV: ' + err.message, 'error');
-      }
     });
   });
 
