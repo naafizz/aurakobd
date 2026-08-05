@@ -396,7 +396,7 @@
 
   function loadProducts(cb){
     if(productsCache){ cb(productsCache); return; }
-    fetch('assets/data/products.json').then(function(r){ return r.json(); }).then(function(data){ productsCache = data; cb(data); }).catch(function(){ cb([]); });
+    fetch('assets/data/products.json?v=' + Date.now()).then(function(r){ return r.json(); }).then(function(data){ productsCache = data; cb(data); }).catch(function(){ cb([]); });
   }
   window.Aurako.loadProducts = loadProducts;
 
@@ -556,7 +556,7 @@
   if(params.get('filter')) state.quickFilter = params.get('filter');
 
   Promise.all([
-    fetch('assets/data/products.json').then(r=>r.json()),
+    fetch('assets/data/products.json?v=' + Date.now()).then(r=>r.json()),
     fetch('assets/data/categories.json').then(r=>r.json()),
     fetch('assets/data/brands.json').then(r=>r.json())
   ]).then(function(res){
