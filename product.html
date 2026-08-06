@@ -378,7 +378,7 @@ if(!firebase.apps.length){ firebase.initializeApp(newsletterFirebaseConfig); }
   updateCounts();
 
   /* ---------- Currency ---------- */
-  window.Aurako.fmt = function(n){ return '$' + Number(n).toFixed(2); };
+window.Aurako.fmt = function(n){ return '৳' + Number(n).toFixed(0); };
 
   /* ============================================================
      Search overlay — live search against products.json
