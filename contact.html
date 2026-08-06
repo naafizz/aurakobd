@@ -506,8 +506,18 @@
 <script>
 document.getElementById('contactForm').addEventListener('submit', function(e){
   e.preventDefault();
-  showToast('Message sent! We will reply within 24 hours.', 'success');
-  e.target.reset();
+  var name = document.getElementById('cName').value.trim();
+  var email = document.getElementById('cEmail').value.trim();
+  var subject = document.getElementById('cSubject').value.trim();
+  var message = document.getElementById('cMessage').value.trim();
+  var text = 'New message from AURAKO website\n\n' +
+    'Name: ' + name + '\n' +
+    'Email: ' + email + '\n' +
+    'Subject: ' + subject + '\n' +
+    'Message: ' + message;
+  var waLink = 'https://wa.me/8801616609274?text=' + encodeURIComponent(text);
+  window.open(waLink, '_blank');
+  showToast('Opening WhatsApp...', 'success');
 });
 </script>
 
