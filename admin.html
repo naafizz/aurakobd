@@ -211,8 +211,8 @@
     <form id="productForm">
       <input type="hidden" id="pf_docId">
       <div class="checkout-form-grid">
-        <div class="field"><label>Product ID</label><input class="input" id="pf_id" placeholder="AK-0251" required></div>
-        <div class="field"><label>Name</label><input class="input" id="pf_name" required></div>
+        <div class="field"><label>Name</label><input class="input" id="pf_name" required placeholder="e.g. Radiant Centella Serum"></div>
+        <div class="field"><label>Product URL / ID <span class="text-muted">(auto-generated — SEO friendly, edit if needed)</span></label><input class="input" id="pf_id" placeholder="radiant-centella-serum" required></div>
         <div class="field"><label>Brand</label><input class="input" id="pf_brand" required></div>
         <div class="field"><label>Category</label>
           <select class="input" id="pf_category" required>
@@ -555,7 +555,7 @@ if(!firebase.apps.length){ firebase.initializeApp(newsletterFirebaseConfig); }
             return p.name.toLowerCase().includes(q) || p.brand.toLowerCase().includes(q) || p.category.toLowerCase().includes(q);
           }).slice(0, 12);
           searchResults.innerHTML = matches.length ? matches.map(function(p){
-            return '<a class="search-result-item" href="product.html?id='+p.id+'">' +
+            return '<a class="search-result-item" href="product.html?slug='+p.slug+'">' +
               '<img src="'+p.thumb+'" loading="lazy" alt="'+p.name+'">' +
               '<span style="font-size:12px;font-weight:700;color:var(--color-ink-faint);text-transform:uppercase;">'+p.brand+'</span>' +
               '<span style="font-size:14px;font-weight:600;">'+p.name+'</span>' +
@@ -584,7 +584,7 @@ if(!firebase.apps.length){ firebase.initializeApp(newsletterFirebaseConfig); }
         '<button class="wishlist-toggle'+wished+'" data-wishlist="'+p.id+'" aria-label="Toggle wishlist">' +
           '<svg viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 1 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>' +
         '</button>' +
-        '<a href="product.html?id='+p.id+'"><img class="img-1" src="'+p.thumb+'" loading="lazy" alt="'+p.name+'"><img class="img-2" src="'+p.hoverThumb+'" loading="lazy" alt=""></a>' +
+        '<a href="product.html?slug='+p.slug+'"><img class="img-1" src="'+p.thumb+'" loading="lazy" alt="'+p.name+'"><img class="img-2" src="'+p.hoverThumb+'" loading="lazy" alt=""></a>' +
         '<div class="product-card-actions">' +
           '<button class="btn btn-dark ripple-surface" data-quickview="'+p.id+'">Quick View</button>' +
           '<button class="btn btn-primary ripple-surface" data-addcart="'+p.id+'">Add to Cart</button>' +
@@ -592,7 +592,7 @@ if(!firebase.apps.length){ firebase.initializeApp(newsletterFirebaseConfig); }
       '</div>' +
       '<div class="product-card-body">' +
         '<div class="product-card-brand">'+p.brand+'</div>' +
-        '<h3 class="product-card-name"><a href="product.html?id='+p.id+'">'+p.name+'</a></h3>' +
+        '<h3 class="product-card-name"><a href="product.html?slug='+p.slug+'">'+p.name+'</a></h3>' +
         '<div class="rating-row"><span class="stars">'+starString(p.rating)+'</span> ('+p.reviewCount+')</div>' +
         '<div class="price-row" style="margin-top:6px;">'+priceHtml+'</div>' +
       '</div>' +
@@ -641,7 +641,7 @@ if(!firebase.apps.length){ firebase.initializeApp(newsletterFirebaseConfig); }
         '</div>' +
         '<div class="flex gap-3">' +
           '<button class="btn btn-primary ripple-surface btn-block" id="qvAddCart">Add to Cart</button>' +
-          '<a href="product.html?id='+p.id+'" class="btn btn-outline">View Full Details</a>' +
+          '<a href="product.html?slug='+p.slug+'" class="btn btn-outline">View Full Details</a>' +
         '</div>' +
       '</div>';
     qvScrim.classList.add('open'); qvModal.classList.add('open'); document.body.style.overflow = 'hidden';
@@ -696,14 +696,14 @@ if(!firebase.apps.length){ firebase.initializeApp(newsletterFirebaseConfig); }
      a valid admin account you create yourself in the Firebase
      Console — see "Create the admin account" in FIREBASE-SETUP.md.
      ============================================================ */
-var firebaseConfig = {
-  apiKey: "AIzaSyCH-tmzEEaI0uM8q59vZ1T-3XiwzJzvrco",
-  authDomain: "aurako-shop.firebaseapp.com",
-  projectId: "aurako-shop",
-  storageBucket: "aurako-shop.firebasestorage.app",
-  messagingSenderId: "545369940036",
-  appId: "1:545369940036:web:578f784a768b6bba935c11"
-};
+  var firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_PROJECT_ID.appspot.com",
+    messagingSenderId: "YOUR_SENDER_ID",
+    appId: "YOUR_APP_ID"
+  };
 
   var configured = firebaseConfig.apiKey !== "YOUR_API_KEY";
   var loginWrap = document.getElementById('adminLoginWrap');
@@ -917,8 +917,25 @@ var firebaseConfig = {
   var productScrim = document.getElementById('productScrim');
   var productModal = document.getElementById('productModal');
   function closeProductModal(){ productScrim.classList.remove('open'); productModal.classList.remove('open'); document.body.style.overflow = ''; }
+
+  function slugify(text){
+    return (text || '').toString().toLowerCase().trim()
+      .replace(/[^a-z0-9\s-]/g, '')
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-')
+      .replace(/^-|-$/g, '');
+  }
+
+  var isEditingExisting = false;
+  document.getElementById('pf_name').addEventListener('input', function(){
+    if(!isEditingExisting){
+      document.getElementById('pf_id').value = slugify(this.value);
+    }
+  });
+
   function openProductModal(p){
     document.getElementById('productForm').reset();
+    isEditingExisting = !!p;
     document.getElementById('productModalTitle').textContent = p ? 'Edit Product' : 'Add Product';
     document.getElementById('pf_docId').value = p ? p._docId : '';
     document.getElementById('pf_id').value = p ? (p.id||'') : '';
@@ -970,7 +987,7 @@ var firebaseConfig = {
     e.preventDefault();
     var docId = document.getElementById('pf_docId').value;
     var isEdit = !!docId;
-    var id = document.getElementById('pf_id').value.trim();
+    var id = slugify(document.getElementById('pf_id').value.trim()) || slugify(document.getElementById('pf_name').value.trim());
     var thumb = document.getElementById('pf_thumb').value.trim();
     var hover = document.getElementById('pf_hoverThumb').value.trim() || thumb;
     var extraImages = linesToArray(document.getElementById('pf_extraImages').value);
@@ -979,7 +996,7 @@ var firebaseConfig = {
     var onSale = document.getElementById('pf_onSale').checked;
     var data = {
       id: id,
-      slug: id.toLowerCase(),
+      slug: id,
       name: document.getElementById('pf_name').value.trim(),
       brand: document.getElementById('pf_brand').value.trim(),
       category: document.getElementById('pf_category').value,
@@ -1012,9 +1029,11 @@ var firebaseConfig = {
 
     var btn = document.getElementById('productSaveBtn');
     btn.disabled = true; btn.textContent = 'Saving...';
-    var savePromise = isEdit
-      ? db.collection('products').doc(docId).set(data, { merge: true })
-      : db.collection('products').doc(id).set(data);
+
+    var proceed = function(){
+      var savePromise = isEdit
+        ? db.collection('products').doc(docId).set(data, { merge: true })
+        : db.collection('products').doc(id).set(data);
 
     savePromise.then(function(){
       showToast('Product saved');
@@ -1025,6 +1044,23 @@ var firebaseConfig = {
     }).finally(function(){
       btn.disabled = false; btn.textContent = 'Save Product';
     });
+    };
+
+    if(isEdit){
+      proceed();
+    } else {
+      db.collection('products').doc(id).get().then(function(doc){
+        if(doc.exists){
+          btn.disabled = false; btn.textContent = 'Save Product';
+          if(confirm('A product with the URL/ID "' + id + '" already exists ("' + doc.data().name + '"). Saving will overwrite it. Continue?')){
+            btn.disabled = true; btn.textContent = 'Saving...';
+            proceed();
+          }
+        } else {
+          proceed();
+        }
+      }).catch(function(){ proceed(); });
+    }
   });
 
   /* ---- One-time migration from static JSON ---- */
