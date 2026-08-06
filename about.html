@@ -402,7 +402,7 @@
             return p.name.toLowerCase().includes(q) || p.brand.toLowerCase().includes(q) || p.category.toLowerCase().includes(q);
           }).slice(0, 12);
           searchResults.innerHTML = matches.length ? matches.map(function(p){
-            return '<a class="search-result-item" href="product.html?id='+p.id+'">' +
+            return '<a class="search-result-item" href="product.html?slug='+p.slug+'">' +
               '<img src="'+p.thumb+'" loading="lazy" alt="'+p.name+'">' +
               '<span style="font-size:12px;font-weight:700;color:var(--color-ink-faint);text-transform:uppercase;">'+p.brand+'</span>' +
               '<span style="font-size:14px;font-weight:600;">'+p.name+'</span>' +
@@ -431,7 +431,7 @@
         '<button class="wishlist-toggle'+wished+'" data-wishlist="'+p.id+'" aria-label="Toggle wishlist">' +
           '<svg viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 1 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>' +
         '</button>' +
-        '<a href="product.html?id='+p.id+'"><img class="img-1" src="'+p.thumb+'" loading="lazy" alt="'+p.name+'"><img class="img-2" src="'+p.hoverThumb+'" loading="lazy" alt=""></a>' +
+        '<a href="product.html?slug='+p.slug+'"><img class="img-1" src="'+p.thumb+'" loading="lazy" alt="'+p.name+'"><img class="img-2" src="'+p.hoverThumb+'" loading="lazy" alt=""></a>' +
         '<div class="product-card-actions">' +
           '<button class="btn btn-dark ripple-surface" data-quickview="'+p.id+'">Quick View</button>' +
           '<button class="btn btn-primary ripple-surface" data-addcart="'+p.id+'">Add to Cart</button>' +
@@ -439,7 +439,7 @@
       '</div>' +
       '<div class="product-card-body">' +
         '<div class="product-card-brand">'+p.brand+'</div>' +
-        '<h3 class="product-card-name"><a href="product.html?id='+p.id+'">'+p.name+'</a></h3>' +
+        '<h3 class="product-card-name"><a href="product.html?slug='+p.slug+'">'+p.name+'</a></h3>' +
         '<div class="rating-row"><span class="stars">'+starString(p.rating)+'</span> ('+p.reviewCount+')</div>' +
         '<div class="price-row" style="margin-top:6px;">'+priceHtml+'</div>' +
       '</div>' +
@@ -488,7 +488,7 @@
         '</div>' +
         '<div class="flex gap-3">' +
           '<button class="btn btn-primary ripple-surface btn-block" id="qvAddCart">Add to Cart</button>' +
-          '<a href="product.html?id='+p.id+'" class="btn btn-outline">View Full Details</a>' +
+          '<a href="product.html?slug='+p.slug+'" class="btn btn-outline">View Full Details</a>' +
         '</div>' +
       '</div>';
     qvScrim.classList.add('open'); qvModal.classList.add('open'); document.body.style.overflow = 'hidden';
