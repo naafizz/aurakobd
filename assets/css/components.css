@@ -142,6 +142,9 @@
 .footer-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: var(--space-6); padding-bottom: var(--space-8); }
 .footer-brand p { margin: var(--space-4) 0; max-width: 320px; }
 .social-row { display: flex; gap: 10px; }
+.social-icon-link { width: 38px; height: 38px; min-width: 38px; min-height: 38px; border-radius: 50%; background: var(--color-bg-alt); display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; flex-grow: 0; transition: background var(--dur-fast); }
+.social-icon-link:hover { background: var(--color-border); }
+.social-icon-link svg { width: 16px; height: 16px; flex-shrink: 0; display: block; }
 .social-row .icon-btn { background: var(--color-bg-alt); font-size: 11px; font-weight: 700; }
 .footer-col { display: flex; flex-direction: column; gap: var(--space-3); }
 .footer-col h4 { margin-bottom: var(--space-2); }
