@@ -547,6 +547,7 @@
      always works out of the box. -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>
 (function(){
   "use strict";
@@ -644,6 +645,20 @@ var firebaseConfig = {
       };
 
       function finishOrder(){
+      try {
+      emailjs.init({ publicKey: "m5CxLo8ciZ2SadJ78" });
+      emailjs.send("service_1bw6ee8", "template_1vpj1vk", {
+        order_id: orderId,
+        customer_name: order.customer.name,
+        customer_phone: order.customer.phone,
+        customer_email: order.customer.email,
+        customer_address: order.customer.address,
+        customer_district: order.customer.district,
+        customer_area: order.customer.area,
+        items_list: order.items.map(function(i){ return i.name + ' x' + i.qty; }).join(', '),
+        total: window.Aurako.fmt(order.total)
+      });
+    } catch(e){ console.warn('Email notification failed', e); }
         // Save locally too, so Track Order works even without Firebase
         var localOrders = JSON.parse(localStorage.getItem('aurako_orders') || '{}');
         localOrders[orderId] = order;
