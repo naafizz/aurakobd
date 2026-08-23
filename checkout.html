@@ -614,7 +614,25 @@ var firebaseConfig = {
 
     var savedSummary = JSON.parse(localStorage.getItem('aurako_checkout_summary') || 'null');
     var discount = savedSummary && savedSummary.subtotal === subtotal ? savedSummary.discount : 0;
+        function hasComboInCart(){
+      return cart.some(function(item){
+        var p = lookup[item.id];
+        return p && p.category === 'sets';
+      });
+    }
+    function getSelectedZoneCharge(){
+      var radios = document.getElementsByName('deliveryZone');
+      for(var i=0;i<radios.length;i++){ if(radios[i].checked) return parseInt(radios[i].value); }
+      return 60;
+    }
+    function computeShipping(){
+      var combo = hasComboInCart();
+      document.getElementById('comboFreeNote').style.display = combo ? 'block' : 'none';
+      document.getElementById('deliveryZoneWrap').style.opacity = combo ? '0.6' : '1';
+      return combo ? 0 : getSelectedZoneCharge();
+    }
     var afterDiscount = subtotal - discount;
+    var shipping = computeShipping();
     var shipping = afterDiscount >= 60 ? 0 : 4.99;
     var total = afterDiscount + shipping;
 
