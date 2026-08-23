@@ -635,16 +635,22 @@ var firebaseConfig = {
       return combo ? 0 : getSelectedZoneCharge();
     }
     var afterDiscount = subtotal - discount;
-    var shipping = computeShipping();
-    var shipping = afterDiscount >= 60 ? 0 : 4.99;
-    var total = afterDiscount + shipping;
+var orderPayload = { cart: cart, subtotal: subtotal, discount: discount, shipping: 0, total: 0 };
 
-    document.getElementById('coSubtotal').textContent = window.Aurako.fmt(subtotal);
-    document.getElementById('coDiscount').textContent = '-' + window.Aurako.fmt(discount);
-    document.getElementById('coShipping').textContent = shipping === 0 ? 'Free' : window.Aurako.fmt(shipping);
-    document.getElementById('coTotal').textContent = window.Aurako.fmt(total);
-
-    var orderPayload = { cart: cart, subtotal: subtotal, discount: discount, shipping: shipping, total: total };
+function refreshTotals(){
+  var shipping = computeShipping();
+  var total = afterDiscount + shipping;
+  document.getElementById('coSubtotal').textContent = window.Aurako.fmt(subtotal);
+  document.getElementById('coDiscount').textContent = '-' + window.Aurako.fmt(discount);
+  document.getElementById('coShipping').textContent = shipping === 0 ? 'Free' : window.Aurako.fmt(shipping);
+  document.getElementById('coTotal').textContent = window.Aurako.fmt(total);
+  orderPayload.shipping = shipping;
+  orderPayload.total = total;
+}
+refreshTotals();
+document.querySelectorAll('input[name="deliveryZone"]').forEach(function(r){
+  r.addEventListener('change', refreshTotals);
+});
 
     document.getElementById('checkoutForm').addEventListener('submit', function(e){
       e.preventDefault();
