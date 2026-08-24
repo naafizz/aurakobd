@@ -358,8 +358,18 @@
     });
   }
 
-  /* ---------- Shared product card renderer ---------- */
-  window.Aurako.productCard = function(p){
+  /* ---------- Deterministic "sold" counter per product ---------- */
+  function soldCount(id){
+    var hash = 0, str = String(id);
+    for(var i=0;i<str.length;i++){ hash = ((hash<<5)-hash) + str.charCodeAt(i); hash |= 0; }
+    return 47 + (Math.abs(hash) % (500-47+1));
+  }
+
+
+
+
+  /* ---------- Shared product card renderer ---------- */
+  window.Aurako.productCard = function(p){
     var wished = window.Aurako.isWishlisted(p.id) ? ' active' : '';
     var badges = '';
     if(p.onSale) badges += '<span class="badge badge-sale">-'+p.discountPct+'%</span>';
@@ -384,8 +394,9 @@
       '<div class="product-card-body">' +
         '<div class="product-card-brand">'+p.brand+'</div>' +
         '<h3 class="product-card-name"><a href="product.html?slug='+p.slug+'">'+p.name+'</a></h3>' +
-        '<div class="rating-row"><span class="stars">'+starString(p.rating)+'</span> ('+p.reviewCount+')</div>' +
-        '<div class="price-row" style="margin-top:6px;">'+priceHtml+'</div>' +
+        '<div class="rating-row"><span class="stars">'+starString(p.rating)+'</span> ('+p.reviewCount+')</div>' +
+        '<div class="text-muted" style="font-size:11px;margin-top:2px;">'+soldCount(p.id)+' sold</div>' +
+        '<div class="price-row" style="margin-top:6px;">'+priceHtml+'</div>' +
       '</div>' +
     '</div>';
   };
@@ -399,12 +410,18 @@
   window.Aurako.starString = starString;
 
   /* Delegated handlers for add-to-cart / wishlist buttons rendered dynamically */
-  document.addEventListener('click', function(e){
-    var addBtn = e.target.closest('[data-addcart]');
-    if(addBtn){ window.Aurako.addToCart(addBtn.getAttribute('data-addcart'), 1); }
-    var wBtn = e.target.closest('[data-wishlist]');
-    if(wBtn){ window.Aurako.toggleWishlist(wBtn.getAttribute('data-wishlist'), wBtn); }
-  });
+  document.addEventListener('click', function(e){
+    var addBtn = e.target.closest('[data-addcart]');
+    if(addBtn){
+      window.Aurako.addToCart(addBtn.getAttribute('data-addcart'), 1);
+      var oldText = addBtn.textContent;
+      addBtn.classList.add('added-flash');
+      addBtn.textContent = '✓ Added';
+      setTimeout(function(){ addBtn.classList.remove('added-flash'); addBtn.textContent = oldText; }, 1100);
+    }
+    var wBtn = e.target.closest('[data-wishlist]');
+    if(wBtn){ window.Aurako.toggleWishlist(wBtn.getAttribute('data-wishlist'), wBtn); }
+  });
 
   /* ---------- Quick View Modal ---------- */
   var qvScrim = document.getElementById('qvScrim');
