@@ -55,3 +55,4 @@
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
 }
+.added-flash { background: var(--color-success) !important; transform: scale(0.96); transition: transform 0.15s ease, background 0.15s ease; }
