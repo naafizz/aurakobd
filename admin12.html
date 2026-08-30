@@ -911,7 +911,9 @@ Pat gently until absorbed"></textarea></div>
     document.getElementById('pf_id').disabled = !!p;
     document.getElementById('pf_name').value = p ? (p.name||'') : '';
     document.getElementById('pf_brand').value = p ? (p.brand||'') : '';
-    document.getElementById('pf_category').value = p ? (p.category||'cleansers') : 'cleansers';
+    var selectedCats = p && p.categories && p.categories.length ? p.categories : (p ? [p.category||'cleansers'] : []);
+    document.querySelectorAll('input[name="pf_cat"]').forEach(function(cb){ cb.checked = selectedCats.indexOf(cb.value) > -1; });
+    updateComboHint();
     document.getElementById('pf_price').value = p ? (p.price||'') : '';
     document.getElementById('pf_originalPrice').value = p ? (p.originalPrice||'') : '';
     document.getElementById('pf_stock').value = p ? (p.stock!=null?p.stock:100) : 100;
