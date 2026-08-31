@@ -438,6 +438,11 @@
       addBtn.textContent = '✓ Added';
       setTimeout(function(){ addBtn.classList.remove('added-flash'); addBtn.textContent = oldText; }, 1100);
     }
+    var buyBtn = e.target.closest('[data-buynow]');
+    if(buyBtn){
+      window.Aurako.addToCart(buyBtn.getAttribute('data-buynow'), 1);
+      location.href = 'checkout.html';
+    }
     var wBtn = e.target.closest('[data-wishlist]');
     if(wBtn){ window.Aurako.toggleWishlist(wBtn.getAttribute('data-wishlist'), wBtn); }
   });
