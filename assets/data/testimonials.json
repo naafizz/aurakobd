@@ -30,5 +30,85 @@
     "quote": "আমার সেনসিটিভ স্কিন হওয়া সত্ত্বেও কোনো র‍্যাশ হয়নি, বরং স্কিন আগের চেয়ে অনেক নরম হয়ে গেছে। কাস্টমার সাপোর্টও ছিল অনেক হেল্পফুল ও রেসপন্সিভ।",
     "location": "Rajshahi",
     "avatar": "https://ui-avatars.com/api/?name=Tania+Sultana&background=C97B63&color=FFFFFF&size=120"
-  }
+  },
+
+    {
+    "id": "t-5",
+    "name": "Sadia Islam",
+    "rating": 5,
+    "quote": "টোনারটা ব্যবহার করার পর মুখে যে ব্রেকআউট হচ্ছিল সেটা অনেকটাই কমে গেছে। প্রথমে ভাবছিলাম অরিজিনাল কিনা, কিন্তু প্যাকেজিং দেখে আর ব্যবহার করে বুঝলাম একদম আসল প্রোডাক্ট।",
+    "location": "Dhaka",
+    "avatar": "https://ui-avatars.com/api/?name=Sadia+Islam&background=D7B49E&color=1C1A17&size=120"
+  },
+  {
+    "id": "t-6",
+    "name": "Mehedi Hasan",
+    "rating": 5,
+    "quote": "প্রথমবার অনলাইনে স্কিনকেয়ার প্রোডাক্ট কিনলাম, একটু দ্বিধায় ছিলাম। কিন্তু ডেলিভারি ম্যান বাসায় এসে দিয়ে গেলেন, প্রোডাক্টও ঠিকঠাক সিলড ছিল। এখন নিয়মিত এখান থেকেই কিনি।",
+    "location": "Khulna",
+    "avatar": "https://ui-avatars.com/api/?name=Mehedi+Hasan&background=8B9A7A&color=FFFFFF&size=120"
+  },
+  {
+    "id": "t-7",
+    "name": "Nabila Chowdhury",
+    "rating": 4,
+    "quote": "ময়েশ্চারাইজারটা হালকা কিন্তু অনেকক্ষণ স্কিন হাইড্রেটেড রাখে। শুধু একটু বেশি দামের মনে হয়েছে, তবে কোয়ালিটি বিবেচনায় ঠিকই আছে।",
+    "location": "Barishal",
+    "avatar": "https://ui-avatars.com/api/?name=Nabila+Chowdhury&background=C9A9A6&color=1C1A17&size=120"
+  },
+  {
+    "id": "t-8",
+    "name": "Imran Kabir",
+    "rating": 5,
+    "quote": "বোনের জন্মদিনে গিফট সেট অর্ডার করেছিলাম। প্যাকেজিং এত সুন্দর ছিল যে বোন ভেবেছিল বিদেশ থেকে আনা। ডেলিভারিও সময়মতো হয়েছে।",
+    "location": "Dhaka",
+    "avatar": "https://ui-avatars.com/api/?name=Imran+Kabir&background=A9784F&color=FFFFFF&size=120"
+  },
+  {
+    "id": "t-9",
+    "name": "Ruma Begum",
+    "rating": 5,
+    "quote": "আগে বিভিন্ন লোকাল ব্র্যান্ড ব্যবহার করে স্কিনে সমস্যা হতো। এখান থেকে সানস্ক্রিন নেওয়ার পর মুখে কোনো চিটচিটে ভাব থাকে না, মেকআপের নিচেও ভালো বসে।",
+    "location": "Cumilla",
+    "avatar": "https://ui-avatars.com/api/?name=Ruma+Begum&background=E8D9C4&color=1C1A17&size=120"
+  },
+  {
+    "id": "t-10",
+    "name": "Shakil Ahmed",
+    "rating": 4,
+    "quote": "কুরিয়ার একটু দেরি করেছিল, তবে কাস্টমার কেয়ারে মেসেজ দেওয়ার পর দ্রুত আপডেট দিয়েছে। প্রোডাক্টটা যা আশা করেছিলাম তার চেয়ে ভালো লেগেছে।",
+    "location": "Rangpur",
+    "avatar": "https://ui-avatars.com/api/?name=Shakil+Ahmed&background=7C8A6E&color=FFFFFF&size=120"
+  },
+  {
+    "id": "t-11",
+    "name": "Afsana Mimi",
+    "rating": 5,
+    "quote": "ক্লিনজারটা ব্যবহার করার পর স্কিন টানটান লাগে না, বরং নরম থাকে। আমার অয়েলি স্কিনের জন্য একদম পারফেক্ট মনে হয়েছে।",
+    "location": "Dhaka",
+    "avatar": "https://ui-avatars.com/api/?name=Afsana+Mimi&background=C97B63&color=FFFFFF&size=120"
+  },
+  {
+    "id": "t-12",
+    "name": "Tanvir Alam",
+    "rating": 5,
+    "quote": "প্রথমে ভেবেছিলাম স্কিনকেয়ার শুধু মেয়েদের জন্য, কিন্তু বন্ধুর পরামর্শে সিরাম নিয়েছিলাম। মুখের দাগগুলো আস্তে আস্তে হালকা হচ্ছে, ভালোই ফলাফল পাচ্ছি।",
+    "location": "Chattogram",
+    "avatar": "https://ui-avatars.com/api/?name=Tanvir+Alam&background=D7B49E&color=1C1A17&size=120"
+  },
+  {
+    "id": "t-13",
+    "name": "Jannatul Ferdous",
+    "rating": 5,
+    "quote": "অর্ডার করার আগে অনেক রিসার্চ করেছিলাম, শেষে এখান থেকেই নিলাম। প্রোডাক্ট অথেনটিক মনে হয়েছে, এক্সপায়ারি ডেটও অনেক দূরে ছিল।",
+    "location": "Sylhet",
+    "avatar": "https://ui-avatars.com/api/?name=Jannatul+Ferdous&background=8B9A7A&color=FFFFFF&size=120"
+  },
+  {
+    "id": "t-14",
+    "name": "Habibur Rahman",
+    "rating": 4,
+    "quote": "টোনার আর সিরাম একসাথে কম্বো প্যাকে নিয়েছিলাম, দামে বেশ সাশ্রয়ী হয়েছে। ডেলিভারি চার্জও ফ্রি পেয়েছি, এটা বাড়তি পাওয়া।",
+    "location": "Mymensingh",
+    "avatar": "https://ui-avatars.com/api/?name=Habibur+Rahman&background=A9784F
 ]
