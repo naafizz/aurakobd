@@ -737,10 +737,10 @@
   });
 
   /* ---- Instagram grid (decorative placeholders) ---- */
-  var instaGrid = document.getElementById('instaGrid');
-  var instaHtml = '';
-  for(var i=1;i<=6;i++){ instaHtml += '<a class="insta-item" href="#"><img src="https://picsum.photos/seed/insta'+i+'/400/400" loading="lazy" alt="AURAKO on Instagram"></a>'; }
-  instaGrid.innerHTML = instaHtml;
+var instaGrid = document.getElementById('instaGrid');
+var instaHtml = '';
+for(var i=1;i<=6;i++){ instaHtml += '<a class="insta-item" href="#"><img src="https://placehold.co/400x400/E8D9C4/1C1A17?text=AURAKO" loading="lazy" alt="AURAKO on Instagram" onerror="this.onerror=null;this.src=\'https://placehold.co/400x400/E8D9C4/1C1A17?text=AURAKO\';"></a>'; }
+instaGrid.innerHTML = instaHtml;
 
   /* ---- Blog preview ---- */
   fetch('assets/data/blogs.json').then(function(r){return r.json();}).then(function(posts){
