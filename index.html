@@ -727,8 +727,8 @@
 
   /* ---- Testimonials ---- */
   fetch('assets/data/testimonials.json').then(function(r){return r.json();}).then(function(items){
-    document.getElementById('testimonialTrack').innerHTML = items.map(function(t){
-      return '<div class="card testimonial-card" data-reveal>' +
+   document.getElementById('testimonialTrack').innerHTML = items.map(function(t){
+  return '<div class="card testimonial-card in-view">' +
         '<span class="stars">'+window.Aurako.starString(t.rating)+'</span>' +
         '<p>&ldquo;'+t.quote+'&rdquo;</p>' +
         '<div class="testimonial-author"><img src="'+t.avatar+'" loading="lazy" alt="'+t.name+'"><div><strong>'+t.name+'</strong><br><span class="text-muted" style="font-size:12px;">'+t.location+'</span></div></div>' +
