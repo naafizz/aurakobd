@@ -1,162 +1,34 @@
 [
   {
     "id": "t-1",
-    "name": "Emily R.",
+    "name": "Nusrat Jahan",
     "rating": 5,
-    "quote": "My skin has never felt this hydrated. The glow is unreal after just two weeks.",
-    "location": "Los Angeles, US",
-    "avatar": "https://picsum.photos/seed/avatar1/120/120"
+    "quote": "সিরাম ব্যবহার করে মাত্র ২ সপ্তাহে আমার স্কিনে গ্লো চলে এসেছে। ক্যাশ অন ডেলিভারিতে অর্ডার করেছিলাম, প্রোডাক্ট হাতে পাওয়ার আগে টাকা দিতে হয়নি, তাই একদম নিশ্চিন্তে অর্ডার করেছি।",
+    "location": "Dhaka",
+    "avatar": "https://ui-avatars.com/api/?name=Nusrat+Jahan&background=E8D9C4&color=1C1A17&size=120"
   },
   {
     "id": "t-2",
-    "name": "Sarah K.",
-    "rating": 4,
-    "quote": "I've tried every K-beauty brand out there — AURAKO's serums are on another level.",
-    "location": "New York, US",
-    "avatar": "https://picsum.photos/seed/avatar2/120/120"
+    "name": "Farhana Akter",
+    "rating": 5,
+    "quote": "প্যাকেজিং একদম প্রিমিয়াম লেগেছে, মনে হচ্ছিল বিদেশ থেকে অর্ডার করেছি। ডেলিভারি-ও মাত্র ৩ দিনের মধ্যে পেয়ে গেছি, প্রোডাক্ট কোয়ালিটিও অসাধারণ।",
+    "location": "Chattogram",
+    "avatar": "https://ui-avatars.com/api/?name=Farhana+Akter&background=A9784F&color=FFFFFF&size=120"
   },
   {
     "id": "t-3",
-    "name": "Jasmine T.",
+    "name": "Rakibul Hasan",
     "rating": 4,
-    "quote": "The packaging alone feels luxurious, but the results are what keep me coming back.",
-    "location": "Dubai, UAE",
-    "avatar": "https://picsum.photos/seed/avatar3/120/120"
+    "quote": "আমার স্ত্রীর জন্য অর্ডার করেছিলাম, উনি অনেক খুশি হয়েছেন। প্রোডাক্ট কোয়ালিটি সত্যিই ভালো, দামও যুক্তিসঙ্গত। কাস্টমার সার্ভিসও দ্রুত রেসপন্স করেছে।",
+    "location": "Sylhet",
+    "avatar": "https://ui-avatars.com/api/?name=Rakibul+Hasan&background=7C8A6E&color=FFFFFF&size=120"
   },
   {
     "id": "t-4",
-    "name": "Olivia M.",
-    "rating": 4,
-    "quote": "Finally a brand that takes sensitive skin seriously. Zero irritation, all glow.",
-    "location": "Paris, FR",
-    "avatar": "https://picsum.photos/seed/avatar4/120/120"
-  },
-  {
-    "id": "t-5",
-    "name": "Grace L.",
-    "rating": 4,
-    "quote": "My esthetician actually asked what I was using. That says it all.",
-    "location": "New York, US",
-    "avatar": "https://picsum.photos/seed/avatar5/120/120"
-  },
-  {
-    "id": "t-6",
-    "name": "Ava P.",
+    "name": "Tania Sultana",
     "rating": 5,
-    "quote": "The moisturizer is rich but never greasy. Perfect for my combination skin.",
-    "location": "Paris, FR",
-    "avatar": "https://picsum.photos/seed/avatar6/120/120"
-  },
-  {
-    "id": "t-7",
-    "name": "Mia Chen",
-    "rating": 5,
-    "quote": "I gifted the ritual set to my mom and now we're both obsessed.",
-    "location": "Sydney, AU",
-    "avatar": "https://picsum.photos/seed/avatar7/120/120"
-  },
-  {
-    "id": "t-8",
-    "name": "Isabella W.",
-    "rating": 4,
-    "quote": "Shipping was fast and the customer service team is genuinely lovely.",
-    "location": "London, UK",
-    "avatar": "https://picsum.photos/seed/avatar8/120/120"
-  },
-  {
-    "id": "t-9",
-    "name": "Chloe B.",
-    "rating": 4,
-    "quote": "This is the first brightening serum that actually delivered visible results.",
-    "location": "Los Angeles, US",
-    "avatar": "https://picsum.photos/seed/avatar9/120/120"
-  },
-  {
-    "id": "t-10",
-    "name": "Sophia N.",
-    "rating": 5,
-    "quote": "The barrier cream saved my skin during a brutal winter.",
-    "location": "Singapore",
-    "avatar": "https://picsum.photos/seed/avatar10/120/120"
-  },
-  {
-    "id": "t-11",
-    "name": "Hannah J.",
-    "rating": 5,
-    "quote": "I love that every product tells you exactly how to layer it.",
-    "location": "Singapore",
-    "avatar": "https://picsum.photos/seed/avatar11/120/120"
-  },
-  {
-    "id": "t-12",
-    "name": "Ruby S.",
-    "rating": 4,
-    "quote": "Worth every penny — my pores look smaller after a month of consistent use.",
-    "location": "Paris, FR",
-    "avatar": "https://picsum.photos/seed/avatar12/120/120"
-  },
-  {
-    "id": "t-13",
-    "name": "Nora F.",
-    "rating": 5,
-    "quote": "The lip sleeping balm is a nightly non-negotiable now.",
-    "location": "New York, US",
-    "avatar": "https://picsum.photos/seed/avatar13/120/120"
-  },
-  {
-    "id": "t-14",
-    "name": "Lily A.",
-    "rating": 4,
-    "quote": "Clean ingredients, elegant design, and it actually works. Rare combo.",
-    "location": "New York, US",
-    "avatar": "https://picsum.photos/seed/avatar14/120/120"
-  },
-  {
-    "id": "t-15",
-    "name": "Ella G.",
-    "rating": 5,
-    "quote": "I was skeptical about snail mucin but I'm officially a convert.",
-    "location": "Paris, FR",
-    "avatar": "https://picsum.photos/seed/avatar15/120/120"
-  },
-  {
-    "id": "t-16",
-    "name": "Zoe H.",
-    "rating": 5,
-    "quote": "AURAKO turned my skincare routine into something I look forward to.",
-    "location": "Sydney, AU",
-    "avatar": "https://picsum.photos/seed/avatar16/120/120"
-  },
-  {
-    "id": "t-17",
-    "name": "Amara D.",
-    "rating": 5,
-    "quote": "The sun stick is my new everyday essential — no white cast at all.",
-    "location": "London, UK",
-    "avatar": "https://picsum.photos/seed/avatar17/120/120"
-  },
-  {
-    "id": "t-18",
-    "name": "Priya V.",
-    "rating": 4,
-    "quote": "Customer support helped me build a routine for my skin type in minutes.",
-    "location": "Sydney, AU",
-    "avatar": "https://picsum.photos/seed/avatar18/120/120"
-  },
-  {
-    "id": "t-19",
-    "name": "Yuki S.",
-    "rating": 5,
-    "quote": "This is luxury skincare that doesn't feel like it's just for show.",
-    "location": "New York, US",
-    "avatar": "https://picsum.photos/seed/avatar19/120/120"
-  },
-  {
-    "id": "t-20",
-    "name": "Elena C.",
-    "rating": 5,
-    "quote": "My redness has calmed down significantly since starting the ritual set.",
-    "location": "Toronto, CA",
-    "avatar": "https://picsum.photos/seed/avatar20/120/120"
+    "quote": "আমার সেনসিটিভ স্কিন হওয়া সত্ত্বেও কোনো র‍্যাশ হয়নি, বরং স্কিন আগের চেয়ে অনেক নরম হয়ে গেছে। কাস্টমার সাপোর্টও ছিল অনেক হেল্পফুল ও রেসপন্সিভ।",
+    "location": "Rajshahi",
+    "avatar": "https://ui-avatars.com/api/?name=Tania+Sultana&background=C97B63&color=FFFFFF&size=120"
   }
 ]
