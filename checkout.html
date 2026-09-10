@@ -699,7 +699,7 @@ document.querySelectorAll('input[name="deliveryZone"]').forEach(function(r){
           email: document.getElementById('custEmail').value,
           address: document.getElementById('custAddress').value,
           district: document.getElementById('custDistrict').value,
-          area: document.getElementById('custArea').value,
+          
           note: document.getElementById('custNote').value
         },
         items: cart.map(function(i){ var p = lookup[i.id]; return { id:i.id, name:p?p.name:i.id, qty:i.qty, price:p?p.price:0 }; }),
@@ -722,7 +722,7 @@ document.querySelectorAll('input[name="deliveryZone"]').forEach(function(r){
         customer_email: order.customer.email,
         customer_address: order.customer.address,
         customer_district: order.customer.district,
-        customer_area: order.customer.area,
+
         items_list: order.items.map(function(i){ return i.name + ' x' + i.qty; }).join(', '),
         total: window.Aurako.fmt(order.total)
       });
