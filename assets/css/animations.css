@@ -60,3 +60,31 @@
 .added-flash { background: var(--color-success) !important; animation: addedPop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1); }
 @keyframes addedPop { 0% { transform: scale(1); } 35% { transform: scale(1.12); } 60% { transform: scale(0.94); } 100% { transform: scale(1); } }
 .fly-dot { position: fixed; z-index: 9998; pointer-events: none; transition: all 0.65s cubic-bezier(0.3,0,0.4,1); box-shadow: var(--shadow-md); }
+
+/* ---- Confetti burst (add to cart) ---- */
+.confetti-piece {
+  position: fixed;
+  z-index: 9999;
+  width: 8px;
+  height: 8px;
+  pointer-events: none;
+  top: 0;
+  left: 0;
+  opacity: 1;
+  animation: confettiBurst .9s cubic-bezier(0.2,0.6,0.3,1) forwards;
+}
+.confetti-piece.circle { border-radius: 50%; }
+
+@keyframes confettiBurst {
+  0% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--cx, 60px), var(--cy, 90px)) rotate(var(--cr, 360deg)) scale(0.4);
+    opacity: 0;
+  }
+}
