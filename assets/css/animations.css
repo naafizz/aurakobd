@@ -34,8 +34,10 @@
 
 .fly-dot { position: fixed; z-index: 9998; width: 14px; height: 14px; border-radius: 50%; background: var(--color-primary); pointer-events: none; transition: all .7s cubic-bezier(0.3,0,0.4,1); }
 
-.bump { animation: bump .4s var(--ease-out); }
-@keyframes bump { 0% { transform: scale(1); } 40% { transform: scale(1.35); } 100% { transform: scale(1); } }
+
+
+.bump { animation: bump .5s var(--ease-out); }
+@keyframes bump { 0% { transform: scale(1) rotate(0); } 30% { transform: scale(1.4) rotate(-10deg); } 60% { transform: scale(0.9) rotate(6deg); } 100% { transform: scale(1) rotate(0); } }
 
 .floaty-el { animation: floatSlow 6s ease-in-out infinite; }
 @keyframes floatSlow { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-14px) rotate(2deg); } }
