@@ -431,6 +431,43 @@
     var addBtn = e.target.closest('[data-addcart]');
     if(addBtn){
       window.Aurako.addToCart(addBtn.getAttribute('data-addcart'), 1);
+
+
+
+
+      var cartIcon = document.getElementById('cartBtn');
+      var mediaBox = addBtn.closest('.product-card, .qv-grid');
+      var sourceImg = mediaBox ? mediaBox.querySelector('img') : null;
+      if(cartIcon && sourceImg){
+        var imgRect = sourceImg.getBoundingClientRect();
+        var cartRect = cartIcon.getBoundingClientRect();
+        var flyImg = sourceImg.cloneNode(true);
+        flyImg.className = 'fly-dot';
+        flyImg.style.width = imgRect.width + 'px';
+        flyImg.style.height = imgRect.height + 'px';
+        flyImg.style.left = imgRect.left + 'px';
+        flyImg.style.top = imgRect.top + 'px';
+        flyImg.style.borderRadius = '10px';
+        flyImg.style.objectFit = 'cover';
+        flyImg.style.opacity = '1';
+        document.body.appendChild(flyImg);
+        requestAnimationFrame(function(){
+          flyImg.style.left = (cartRect.left + cartRect.width/2 - 10) + 'px';
+          flyImg.style.top = (cartRect.top + cartRect.height/2 - 10) + 'px';
+          flyImg.style.width = '20px';
+          flyImg.style.height = '20px';
+          flyImg.style.opacity = '0.3';
+          flyImg.style.borderRadius = '50%';
+        });
+        setTimeout(function(){
+          flyImg.remove();
+          cartIcon.classList.remove('bump'); void cartIcon.offsetWidth; cartIcon.classList.add('bump');
+        }, 650);
+      }
+
+
+
+
       var oldText = addBtn.textContent;
       addBtn.classList.add('added-flash');
       addBtn.textContent = '✓ Added';
