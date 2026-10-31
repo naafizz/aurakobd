@@ -213,7 +213,7 @@ var firebaseConfig = {
   messagingSenderId: "545369940036",
   appId: "1:545369940036:web:578f784a768b6bba935c11"
 };
-if(!firebase.apps.length){ firebase.initializeApp(newsletterFirebaseConfig); }
+if(!firebase.apps.length){ firebase.initializeApp(firebaseConfig); }
 </script>
 <script>
 /* ============================================================
@@ -607,7 +607,7 @@ window.Aurako.fmt = function(n){ return '৳' + Number(n).toFixed(0); };
 (function(){
   "use strict";
   var params = new URLSearchParams(location.search);
-  var slug = params.get('slug');
+  var slug = params.get('slug') || window.__PRODUCT_SLUG__;
   var id = params.get('id');
   var currentQty = 1;
 
@@ -617,7 +617,7 @@ window.Aurako.fmt = function(n){ return '৳' + Number(n).toFixed(0); };
             products[0];
     if(!p){ document.getElementById('pdpContent').innerHTML = '<p>Product not found.</p>'; return; }
 
-    document.title = p.name + ' | AURAKO';
+    if(!window.__PRODUCT_SLUG__) document.title = p.name + ' Price in Bangladesh | AURAKO';
     document.getElementById('pdpCrumb').innerHTML = '<a href="index.html">Home</a><span class="sep">/</span><a href="shop.html">Shop</a><span class="sep">/</span><a href="shop.html?cat='+p.category+'">'+p.category+'</a><span class="sep">/</span><span>'+p.name+'</span>';
 
     // Gallery
@@ -701,9 +701,13 @@ window.Aurako.fmt = function(n){ return '৳' + Number(n).toFixed(0); };
     });
 
     // FBT + Related
-    var fbt = products.filter(function(x){ return p.fbtIds.indexOf(x.id) > -1; });
+    var fbt = products.filter(function(x){ return (p.fbtIds||[]).indexOf(x.id) > -1; });
     document.getElementById('fbtGrid').innerHTML = fbt.map(window.Aurako.productCard).join('');
-    var related = products.filter(function(x){ return p.relatedIds.indexOf(x.id) > -1; });
+    if(!fbt.length){ var fbtSec = document.getElementById('fbtGrid').closest('section'); if(fbtSec) fbtSec.style.display = 'none'; }
+    var related = products.filter(function(x){ return (p.relatedIds||[]).indexOf(x.id) > -1; });
+    if(!related.length){
+      related = products.filter(function(x){ return x.id !== p.id && x.category === p.category; }).slice(0, 4);
+    }
     document.getElementById('relatedGrid').innerHTML = related.map(window.Aurako.productCard).join('');
 
     // Sticky buy bar

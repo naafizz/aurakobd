@@ -1,0 +1,12 @@
+{
+  "name": "aurako",
+  "version": "1.0.0",
+  "private": true,
+  "description": "AURAKO storefront - static site with build-time SEO pages",
+  "scripts": {
+    "build": "node build-seo.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
