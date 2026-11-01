@@ -213,7 +213,7 @@ var firebaseConfig = {
   messagingSenderId: "545369940036",
   appId: "1:545369940036:web:578f784a768b6bba935c11"
 };
-if(!firebase.apps.length){ firebase.initializeApp(newsletterFirebaseConfig); }
+if(!firebase.apps.length){ firebase.initializeApp(firebaseConfig); }
 </script>
 <script>
 /* ============================================================
@@ -309,7 +309,7 @@ if(!firebase.apps.length){ firebase.initializeApp(newsletterFirebaseConfig); }
         email: email,
         subscribedAt: new Date().toISOString()
       }).then(function(){
-        showToast('Thanks for subscribing! Check your inbox for 15% off.', 'success');
+        showToast('Thanks for subscribing!', 'success');
         nlForm.reset();
       }).catch(function(){
         showToast('Could not subscribe right now, please try again.', 'error');
@@ -438,16 +438,6 @@ window.Aurako.fmt = function(n){ return '৳' + Number(n).toFixed(0); };
     });
   }
 
-  /* ---------- Deterministic "sold" counter per product ---------- */
-  function soldCount(id){
-    var hash = 0, str = String(id);
-    for(var i=0;i<str.length;i++){ hash = ((hash<<5)-hash) + str.charCodeAt(i); hash |= 0; }
-    return 47 + (Math.abs(hash) % (500-47+1));
-  }
-
-
-
-
   /* ---------- Shared product card renderer ---------- */
   window.Aurako.productCard = function(p){
     var wished = window.Aurako.isWishlisted(p.id) ? ' active' : '';
@@ -474,8 +464,6 @@ window.Aurako.fmt = function(n){ return '৳' + Number(n).toFixed(0); };
       '<div class="product-card-body">' +
         '<div class="product-card-brand">'+p.brand+'</div>' +
         '<h3 class="product-card-name"><a href="product.html?slug='+p.slug+'">'+p.name+'</a></h3>' +
-        '<div class="rating-row"><span class="stars">'+starString(p.rating)+'</span> ('+p.reviewCount+')</div>' +
-        '<div class="text-muted" style="font-size:11px;margin-top:2px;">'+soldCount(p.id)+' sold</div>' +
         '<div class="price-row" style="margin-top:6px;">'+priceHtml+'</div>' +
       '</div>' +
     '</div>';
@@ -555,7 +543,6 @@ window.Aurako.fmt = function(n){ return '৳' + Number(n).toFixed(0); };
       '<div>' +
         '<div class="product-card-brand">'+p.brand+'</div>' +
         '<h3 style="margin:8px 0;">'+p.name+'</h3>' +
-        '<div class="rating-row"><span class="stars">'+window.Aurako.starString(p.rating)+'</span> ('+p.reviewCount+' reviews)</div>' +
         '<div class="price-row" style="margin:var(--space-4) 0;font-size:var(--fs-lg);">' +
           (p.onSale ? '<span class="price-now">'+window.Aurako.fmt(p.price)+'</span><span class="price-old">'+window.Aurako.fmt(p.originalPrice)+'</span>' : '<span class="price-now">'+window.Aurako.fmt(p.price)+'</span>') +
         '</div>' +
@@ -607,7 +594,7 @@ window.Aurako.fmt = function(n){ return '৳' + Number(n).toFixed(0); };
 (function(){
   "use strict";
   var params = new URLSearchParams(location.search);
-  var slug = params.get('slug');
+  var slug = params.get('slug') || window.__PRODUCT_SLUG__;
   var id = params.get('id');
   var currentQty = 1;
 
@@ -617,8 +604,14 @@ window.Aurako.fmt = function(n){ return '৳' + Number(n).toFixed(0); };
             products[0];
     if(!p){ document.getElementById('pdpContent').innerHTML = '<p>Product not found.</p>'; return; }
 
-    document.title = p.name + ' | AURAKO';
-    document.getElementById('pdpCrumb').innerHTML = '<a href="index.html">Home</a><span class="sep">/</span><a href="shop.html">Shop</a><span class="sep">/</span><a href="shop.html?cat='+p.category+'">'+p.category+'</a><span class="sep">/</span><span>'+p.name+'</span>';
+    if(!window.__PRODUCT_SLUG__) document.title = p.name + ' Price in Bangladesh | AURAKO';
+    function drawCrumb(catName){
+      document.getElementById('pdpCrumb').innerHTML = '<a href="index.html">Home</a><span class="sep">/</span><a href="shop.html">Shop</a><span class="sep">/</span><a href="shop.html?cat='+p.category+'">'+catName+'</a><span class="sep">/</span><span>'+p.name+'</span>';
+    }
+    drawCrumb(p.category);
+    fetch('assets/data/categories.json').then(function(r){return r.json();}).then(function(cs){
+      var c = cs.find(function(x){ return x.id === p.category; }); if(c) drawCrumb(c.name);
+    }).catch(function(){});
 
     // Gallery
     document.getElementById('pdpMainImg').src = p.images[0];
@@ -648,18 +641,22 @@ window.Aurako.fmt = function(n){ return '৳' + Number(n).toFixed(0); };
     mainImg.style.transition = 'transform .25s ease-out';
 
     // Info
+    var bKey = function(b){ return String(b||'').toLowerCase().replace(/[^a-z0-9]/g,''); };
+    var sameBrand = products.filter(function(x){ return bKey(x.brand) === bKey(p.brand); }).length;
+    var brandHref = (p.brand && p.brand.indexOf(',') === -1 && sameBrand >= 2)
+      ? '/brand/' + p.brand.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')
+      : 'shop.html?brand=' + encodeURIComponent(p.brand);
     var wished = window.Aurako.isWishlisted(p.id) ? ' active' : '';
     document.getElementById('pdpInfo').innerHTML =
-      '<a href="shop.html?brand='+encodeURIComponent(p.brand)+'" class="brand-link">'+p.brand+'</a>' +
+      '<a href="'+brandHref+'" class="brand-link">'+p.brand+'</a>' +
       '<h1>'+p.name+'</h1>' +
-      '<div class="rating-row"><span class="stars">'+window.Aurako.starString(p.rating)+'</span> '+p.rating+' ('+p.reviewCount+' reviews)</div>' +
       '<div class="pdp-price-row">' +
         (p.onSale ? '<span class="price-now">'+window.Aurako.fmt(p.price)+'</span><span class="price-old">'+window.Aurako.fmt(p.originalPrice)+'</span><span class="badge badge-sale">Save '+p.discountPct+'%</span>' : '<span class="price-now">'+window.Aurako.fmt(p.price)+'</span>') +
       '</div>' +
-      '<p>'+p.shortDescription+'</p>' +
+      (p.shortDescription ? '<p>'+p.shortDescription+'</p>' : '') +
       '<div class="pdp-meta-list">' +
-        '<div><b>Size</b><span>'+p.size+'</span></div>' +
-        '<div><b>Hero Ingredient</b><span>'+p.heroIngredient+'</span></div>' +
+        (p.size ? '<div><b>Size</b><span>'+p.size+'</span></div>' : '') +
+        (p.heroIngredient ? '<div><b>Hero Ingredient</b><span>'+p.heroIngredient+'</span></div>' : '') +
         '<div><b>Availability</b><span>'+(p.stock > 0 ? p.stock+' in stock' : 'Out of stock')+'</span></div>' +
       '</div>' +
       '<div>' + p.skinConcerns.map(function(c){return '<span class="tag-pill">'+c+'</span>';}).join('') + p.skinTypes.map(function(c){return '<span class="tag-pill">'+c+'</span>';}).join('') + '</div>' +
@@ -701,9 +698,13 @@ window.Aurako.fmt = function(n){ return '৳' + Number(n).toFixed(0); };
     });
 
     // FBT + Related
-    var fbt = products.filter(function(x){ return p.fbtIds.indexOf(x.id) > -1; });
+    var fbt = products.filter(function(x){ return (p.fbtIds||[]).indexOf(x.id) > -1; });
     document.getElementById('fbtGrid').innerHTML = fbt.map(window.Aurako.productCard).join('');
-    var related = products.filter(function(x){ return p.relatedIds.indexOf(x.id) > -1; });
+    if(!fbt.length){ var fbtSec = document.getElementById('fbtGrid').closest('section'); if(fbtSec) fbtSec.style.display = 'none'; }
+    var related = products.filter(function(x){ return (p.relatedIds||[]).indexOf(x.id) > -1; });
+    if(!related.length){
+      related = products.filter(function(x){ return x.id !== p.id && x.category === p.category; }).slice(0, 4);
+    }
     document.getElementById('relatedGrid').innerHTML = related.map(window.Aurako.productCard).join('');
 
     // Sticky buy bar
@@ -723,22 +724,13 @@ window.Aurako.fmt = function(n){ return '৳' + Number(n).toFixed(0); };
   });
 
   function renderReviews(p){
-    var mockReviews = [
-      { name:"Hana K.", rating:5, text:"This has become a holy grail step in my routine. Skin feels visibly plumper within days." },
-      { name:"Daniel M.", rating:4, text:"Great texture, absorbs fast. Wish the bottle was a bit bigger for the price." },
-      { name:"Priya S.", rating:5, text:"My redness has calmed down noticeably. Will repurchase for sure." }
-    ];
-    var dist = [70,18,7,3,2];
+    /* No review system yet: never show made-up reviews. Real reviews can be added here later. */
     document.getElementById('panel-reviews').innerHTML =
-      '<div class="review-summary">' +
-        '<div class="review-score"><div class="num">'+p.rating+'</div><span class="stars">'+window.Aurako.starString(p.rating)+'</span><div class="text-muted" style="font-size:12px;">'+p.reviewCount+' reviews</div></div>' +
-        '<div style="flex:1;min-width:220px;">' + dist.map(function(pct,i){
-          return '<div class="flex gap-2" style="align-items:center;margin-bottom:4px;"><span style="width:38px;font-size:12px;">'+(5-i)+' star</span><div style="flex:1;height:6px;background:var(--color-bg-alt);border-radius:4px;overflow:hidden;"><div style="width:'+pct+'%;height:100%;background:var(--color-star);"></div></div></div>';
-        }).join('') + '</div>' +
-      '</div>' +
-      mockReviews.map(function(r){
-        return '<div class="review-item"><div class="review-head"><strong>'+r.name+'</strong><span class="stars">'+window.Aurako.starString(r.rating)+'</span></div><p>'+r.text+'</p></div>';
-      }).join('');
+      '<div class="review-empty" style="padding:var(--space-6) 0;">' +
+        '<p class="prose"><strong>No reviews yet.</strong></p>' +
+        '<p class="prose text-muted">Used this product? Tell us how it worked for you on ' +
+        '<a href="https://wa.me/8801341075034" target="_blank" rel="noopener">WhatsApp</a> or through our <a href="contact.html">contact page</a>.</p>' +
+      '</div>';
   }
 })();
 </script>

@@ -404,7 +404,7 @@
   if(nlForm){
     nlForm.addEventListener('submit', function(e){
       e.preventDefault();
-      showToast('Thanks for subscribing! Check your inbox for 15% off.', 'success');
+      showToast('Thanks for subscribing!', 'success');
       nlForm.reset();
     });
   }
@@ -528,16 +528,6 @@
     });
   }
 
-  /* ---------- Deterministic "sold" counter per product ---------- */
-  function soldCount(id){
-    var hash = 0, str = String(id);
-    for(var i=0;i<str.length;i++){ hash = ((hash<<5)-hash) + str.charCodeAt(i); hash |= 0; }
-    return 47 + (Math.abs(hash) % (500-47+1));
-  }
-
-
-
-
   /* ---------- Shared product card renderer ---------- */
   window.Aurako.productCard = function(p){
     var wished = window.Aurako.isWishlisted(p.id) ? ' active' : '';
@@ -564,8 +554,6 @@
       '<div class="product-card-body">' +
         '<div class="product-card-brand">'+p.brand+'</div>' +
         '<h3 class="product-card-name"><a href="product.html?slug='+p.slug+'">'+p.name+'</a></h3>' +
-        '<div class="rating-row"><span class="stars">'+starString(p.rating)+'</span> ('+p.reviewCount+')</div>' +
-        '<div class="text-muted" style="font-size:11px;margin-top:2px;">'+soldCount(p.id)+' sold</div>' +
         '<div class="price-row" style="margin-top:6px;">'+priceHtml+'</div>' +
       '</div>' +
     '</div>';
@@ -645,7 +633,6 @@
       '<div>' +
         '<div class="product-card-brand">'+p.brand+'</div>' +
         '<h3 style="margin:8px 0;">'+p.name+'</h3>' +
-        '<div class="rating-row"><span class="stars">'+window.Aurako.starString(p.rating)+'</span> ('+p.reviewCount+' reviews)</div>' +
         '<div class="price-row" style="margin:var(--space-4) 0;font-size:var(--fs-lg);">' +
           (p.onSale ? '<span class="price-now">'+window.Aurako.fmt(p.price)+'</span><span class="price-old">'+window.Aurako.fmt(p.originalPrice)+'</span>' : '<span class="price-now">'+window.Aurako.fmt(p.price)+'</span>') +
         '</div>' +
@@ -754,17 +741,39 @@
     fill('newArrivalGrid', products.filter(function(p){return p.isNew;}));
   });
 
-  /* ---- Brand marquee ---- */
-  fetch('assets/data/brands.json').then(function(r){return r.json();}).then(function(brands){
-    var doubled = brands.concat(brands);
-    document.getElementById('brandMarquee').innerHTML = doubled.map(function(b){
-      return '<span class="marquee-item">'+b.name+'<span style="width:6px;height:6px;border-radius:50%;background:var(--color-primary-light);display:inline-block;"></span></span>';
+  /* ---- Brand marquee (built from the brands of the products you really sell) ---- */
+  fetch('assets/data/products.json?v=' + Date.now()).then(function(r){return r.json();}).then(function(products){
+    var groups = {}, order = [];
+    products.forEach(function(p){
+      var b = (p.brand || '').trim();
+      if(!b || b.indexOf(',') > -1) return;                    // skip multi-brand combo packs
+      var k = b.toLowerCase().replace(/[^a-z0-9]/g, '');
+      if(!groups[k]){ groups[k] = { name: b, count: 0 }; order.push(k); }
+      groups[k].count++;
+    });
+    var brands = order.map(function(k){ return groups[k]; });
+    var track = document.getElementById('brandMarquee');
+    var sec = track && track.closest('section');
+    if(!track || brands.length < 2){ if(sec) sec.style.display = 'none'; return; }
+    var base = brands.slice();
+    while(base.length < 10){ base = base.concat(brands); }
+    var doubled = base.concat(base);
+    track.innerHTML = doubled.map(function(b){
+      var dot = '<span style="width:6px;height:6px;border-radius:50%;background:var(--color-primary-light);display:inline-block;"></span>';
+      if(b.count >= 2){
+        var slug = b.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+        return '<a class="marquee-item" href="/brand/'+slug+'" style="text-decoration:none;color:inherit;">'+b.name+dot+'</a>';
+      }
+      return '<span class="marquee-item">'+b.name+dot+'</span>';
     }).join('');
-  });
+  }).catch(function(){});
 
   /* ---- Testimonials ---- */
   fetch('assets/data/testimonials.json').then(function(r){return r.json();}).then(function(items){
-   document.getElementById('testimonialTrack').innerHTML = items.map(function(t){
+   var tTrack = document.getElementById('testimonialTrack');
+   if(!tTrack) return;
+   if(!items || !items.length){ var tSec = tTrack.closest('section'); if(tSec) tSec.style.display = 'none'; return; }  // no real testimonials yet
+   tTrack.innerHTML = items.map(function(t){
   return '<div class="card testimonial-card in-view">' +
         '<span class="stars">'+window.Aurako.starString(t.rating)+'</span>' +
         '<p>&ldquo;'+t.quote+'&rdquo;</p>' +
@@ -776,12 +785,13 @@
   /* ---- Instagram grid (decorative placeholders) ---- */
 var instaGrid = document.getElementById('instaGrid');
 var instaHtml = '';
-for(var i=1;i<=6;i++){ instaHtml += '<a class="insta-item" href="#"><img src="https://placehold.co/400x400/E8D9C4/1C1A17?text=AURAKO" loading="lazy" alt="AURAKO on Instagram" onerror="this.onerror=null;this.src=\'https://placehold.co/400x400/E8D9C4/1C1A17?text=AURAKO\';"></a>'; }
-instaGrid.innerHTML = instaHtml;
+for(var i=1;instaGrid && i<=6;i++){ instaHtml += '<a class="insta-item" href="#"><img src="https://placehold.co/400x400/E8D9C4/1C1A17?text=AURAKO" loading="lazy" alt="AURAKO on Instagram" onerror="this.onerror=null;this.src=\'https://placehold.co/400x400/E8D9C4/1C1A17?text=AURAKO\';"></a>'; }
+if(instaGrid) instaGrid.innerHTML = instaHtml;
 
   /* ---- Blog preview ---- */
   fetch('assets/data/blogs.json').then(function(r){return r.json();}).then(function(posts){
-    document.getElementById('blogGrid').innerHTML = posts.slice(0,3).map(function(p){
+    var blogGridEl = document.getElementById('blogGrid'); if(!blogGridEl) return;
+    blogGridEl.innerHTML = posts.slice(0,3).map(function(p){
       return '<article class="blog-card">' +
         '<a href="blog-post.html?slug='+p.slug+'"><img src="'+p.image+'" loading="lazy" alt="'+p.title+'"></a>' +
         '<div class="blog-meta"><span>'+p.author+'</span><span>&middot;</span><span>'+p.readTime+' min read</span></div>' +

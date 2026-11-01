@@ -107,9 +107,9 @@
       <div class="filter-group">
         <h4>Price Range</h4>
         <div class="price-range-row">
-          <input type="range" id="priceRange" min="0" max="100" value="100">
+          <input type="range" id="priceRange" min="0" max="5000" step="50" value="5000">
         </div>
-        <div class="flex-between text-muted" style="font-size:12px;"><span>$0</span><span id="priceRangeLabel">Up to $100</span></div>
+        <div class="flex-between text-muted" style="font-size:12px;"><span>৳0</span><span id="priceRangeLabel">Up to ৳5000+</span></div>
       </div>
 
       <div class="filter-group">
@@ -316,7 +316,7 @@
   if(nlForm){
     nlForm.addEventListener('submit', function(e){
       e.preventDefault();
-      showToast('Thanks for subscribing! Check your inbox for 15% off.', 'success');
+      showToast('Thanks for subscribing!', 'success');
       nlForm.reset();
     });
   }
@@ -440,16 +440,6 @@
     });
   }
 
-  /* ---------- Deterministic "sold" counter per product ---------- */
-  function soldCount(id){
-    var hash = 0, str = String(id);
-    for(var i=0;i<str.length;i++){ hash = ((hash<<5)-hash) + str.charCodeAt(i); hash |= 0; }
-    return 47 + (Math.abs(hash) % (500-47+1));
-  }
-
-
-
-
   /* ---------- Shared product card renderer ---------- */
   window.Aurako.productCard = function(p){
     var wished = window.Aurako.isWishlisted(p.id) ? ' active' : '';
@@ -476,8 +466,6 @@
       '<div class="product-card-body">' +
         '<div class="product-card-brand">'+p.brand+'</div>' +
         '<h3 class="product-card-name"><a href="product.html?slug='+p.slug+'">'+p.name+'</a></h3>' +
-        '<div class="rating-row"><span class="stars">'+starString(p.rating)+'</span> ('+p.reviewCount+')</div>' +
-        '<div class="text-muted" style="font-size:11px;margin-top:2px;">'+soldCount(p.id)+' sold</div>' +
         '<div class="price-row" style="margin-top:6px;">'+priceHtml+'</div>' +
       '</div>' +
     '</div>';
@@ -557,7 +545,6 @@
       '<div>' +
         '<div class="product-card-brand">'+p.brand+'</div>' +
         '<h3 style="margin:8px 0;">'+p.name+'</h3>' +
-        '<div class="rating-row"><span class="stars">'+window.Aurako.starString(p.rating)+'</span> ('+p.reviewCount+' reviews)</div>' +
         '<div class="price-row" style="margin:var(--space-4) 0;font-size:var(--fs-lg);">' +
           (p.onSale ? '<span class="price-now">'+window.Aurako.fmt(p.price)+'</span><span class="price-old">'+window.Aurako.fmt(p.originalPrice)+'</span>' : '<span class="price-now">'+window.Aurako.fmt(p.price)+'</span>') +
         '</div>' +
@@ -609,7 +596,7 @@
 (function(){
   "use strict";
   var PAGE_SIZE = 12;
-  var state = { page: 1, sort: 'featured', q: '', cat: [], brand: [], concern: [], type: [], maxPrice: 100, quickFilter: null };
+  var state = { page: 1, sort: 'featured', q: '', cat: [], brand: [], concern: [], type: [], maxPrice: 5000, quickFilter: null };
   var allProducts = [], categories = [], brands = [];
 
   var params = new URLSearchParams(location.search);
@@ -643,8 +630,17 @@
     document.getElementById('categoryFilters').innerHTML = categories.map(function(c){
       return checkboxRow('cat', c.id, c.name, state.cat.indexOf(c.id) > -1);
     }).join('');
-    document.getElementById('brandFilters').innerHTML = brands.map(function(b){
-      return checkboxRow('brand', b.name, b.name, false);
+    /* brand list comes from the products you really sell (not the demo brands.json) */
+    var seenB = {}, realBrands = [];
+    allProducts.forEach(function(p){
+      var b = (p.brand || '').trim();
+      if(!b || b.indexOf(',') > -1) return;
+      var k = b.toLowerCase().replace(/[^a-z0-9]/g, '');
+      if(!seenB[k]){ seenB[k] = true; realBrands.push(b); }
+    });
+    realBrands.sort();
+    document.getElementById('brandFilters').innerHTML = realBrands.map(function(b){
+      return checkboxRow('brand', b, b, false);
     }).join('');
     var concerns = ["Hydration","Brightening","Anti-Aging","Acne & Blemish","Redness & Sensitivity","Pores & Texture","Dullness","Barrier Repair"];
     document.getElementById('concernFilters').innerHTML = concerns.map(function(c){ return checkboxRow('concern', c, c, false); }).join('');
@@ -665,7 +661,7 @@
     var priceRange = document.getElementById('priceRange');
     priceRange.addEventListener('input', function(){
       state.maxPrice = +priceRange.value;
-      document.getElementById('priceRangeLabel').textContent = state.maxPrice >= 100 ? 'Up to $100+' : ('Up to $'+state.maxPrice);
+      document.getElementById('priceRangeLabel').textContent = state.maxPrice >= 5000 ? 'Up to ৳5000+' : ('Up to ৳'+state.maxPrice);
       state.page = 1; render();
     });
   }
@@ -680,10 +676,10 @@
   document.getElementById('clearFilters').addEventListener('click', clearAll);
   document.getElementById('emptyClearBtn').addEventListener('click', clearAll);
   function clearAll(){
-    state = { page:1, sort:'featured', q:'', cat:[], brand:[], concern:[], type:[], maxPrice:100, quickFilter:null };
+    state = { page:1, sort:'featured', q:'', cat:[], brand:[], concern:[], type:[], maxPrice:5000, quickFilter:null };
     document.querySelectorAll('.filters-panel input[type=checkbox]').forEach(function(cb){ cb.checked = false; });
-    document.getElementById('priceRange').value = 100;
-    document.getElementById('priceRangeLabel').textContent = 'Up to $100+';
+    document.getElementById('priceRange').value = 5000;
+    document.getElementById('priceRangeLabel').textContent = 'Up to ৳5000+';
     document.getElementById('shopSearchInput').value = '';
     document.getElementById('shopTitle').textContent = 'All Products';
     render();
@@ -698,7 +694,7 @@
       if(state.brand.length && state.brand.indexOf(p.brand) === -1) return false;
       if(state.concern.length && !state.concern.some(function(c){ return p.skinConcerns.indexOf(c) > -1; })) return false;
       if(state.type.length && !state.type.some(function(t){ return p.skinTypes.indexOf(t) > -1; })) return false;
-      if(state.maxPrice < 100 && p.price > state.maxPrice) return false;
+      if(state.maxPrice < 5000 && p.price > state.maxPrice) return false;
       if(state.quickFilter === 'bestseller' && !p.isBestSeller) return false;
       if(state.quickFilter === 'new' && !p.isNew) return false;
       if(state.quickFilter === 'sale' && !p.onSale) return false;
