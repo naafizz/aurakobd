@@ -683,9 +683,13 @@ for (const c of categories) {
   const intro = c.desc
     ? c.name + ": " + c.desc.replace(/\.$/, "") + ". Shop " + c.name.toLowerCase() + " online in Bangladesh at AURAKO with cash on delivery available nationwide."
     : "Shop " + c.name.toLowerCase() + " online in Bangladesh at AURAKO.";
-  const others = categories.filter((x) => x.id !== c.id && products.some((p) => p.category === x.id));
-  const extra = others.length ? '<section class="section-sm"><h2>More categories</h2><p class="prose">' +
-    others.map((x) => '<a href="/category/' + x.id + '">' + esc(x.name) + "</a>").join(" · ") + "</p></section>" : "";
+  /* same picture tiles as the homepage ("Shop by Category"), without the current category */
+  const tiles = categories.filter((x) => x.id !== c.id).map((x) =>
+    '<a class="cat-tile" href="/category/' + esc(x.id) + '"><img src="' + esc(x.image) + '" loading="lazy" alt="' + esc(x.name) + '">' +
+    '<div class="cat-tile-label"><small>Shop</small><br><span>' + esc(x.name) + "</span></div></a>").join("");
+  const extra = tiles ? '<section class="section" style="padding-bottom:0;"><div class="section-head"><div class="heading-block">' +
+    '<span class="eyebrow">Shop by Category</span><h2>Find your next ritual step</h2></div>' +
+    '<a href="shop.html" class="btn btn-outline">View All Products</a></div><div class="grid cat-grid">' + tiles + "</div></section>" : "";
   const empty = list.length === 0;
   write(path.join(OUT, "category", c.id + ".html"), listingPage({
     path: "/category/" + c.id, title: c.name + " Price in Bangladesh | " + BRAND,
