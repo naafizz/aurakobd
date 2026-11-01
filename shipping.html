@@ -91,36 +91,32 @@
   <div class="container">
     <div class="breadcrumb"><a href="index.html">Home</a><span class="sep">/</span><span>Shipping Policy</span></div>
     <h1>Shipping Policy</h1>
-    <p class="text-muted">Last updated: January 2026</p>
+    <p class="text-muted">Last updated: November 2026</p>
   </div>
 </section>
 
 <section class="section container prose">
-  <h2>1. Processing Time</h2>
-  <p>Orders are processed within 1–2 business days of being placed. You'll receive your Order ID immediately at checkout for tracking.</p>
+  <h2>1. Where we deliver</h2>
+  <p>We deliver across Bangladesh. All orders are paid by Cash on Delivery.</p>
 
-  <h2>2. Shipping Rates &amp; Delivery Estimates</h2>
+  <h2>2. Delivery charge</h2>
   <table style="width:100%;border-collapse:collapse;margin:var(--space-4) 0;">
-    <thead><tr style="text-align:left;border-bottom:2px solid var(--color-border);"><th style="padding:10px 0;">Region</th><th>Estimated Delivery</th><th>Cost</th></tr></thead>
+    <thead><tr style="text-align:left;border-bottom:2px solid var(--color-border);"><th style="padding:10px 0;">Delivery area</th><th>Estimated delivery</th><th>Charge</th></tr></thead>
     <tbody>
-      <tr style="border-bottom:1px solid var(--color-border);"><td style="padding:10px 0;">Domestic</td><td>3–5 business days</td><td>$4.99 (Free over $60)</td></tr>
-      <tr style="border-bottom:1px solid var(--color-border);"><td style="padding:10px 0;">North America</td><td>5–8 business days</td><td>$9.99</td></tr>
-      <tr style="border-bottom:1px solid var(--color-border);"><td style="padding:10px 0;">Europe</td><td>7–10 business days</td><td>$12.99</td></tr>
-      <tr><td style="padding:10px 0;">Rest of World</td><td>10–14 business days</td><td>$16.99</td></tr>
+      <tr style="border-bottom:1px solid var(--color-border);"><td style="padding:10px 0;">Inside Dhaka</td><td>1&ndash;3 business days</td><td>&#2547;60</td></tr>
+      <tr><td style="padding:10px 0;">Outside Dhaka</td><td>3&ndash;5 business days</td><td>&#2547;120</td></tr>
     </tbody>
   </table>
+  <p><strong>Free delivery</strong> on any order that includes a combo pack. The exact charge is shown at checkout before you place your order.</p>
 
-  <h2>3. Cash on Delivery</h2>
-  <p>Cash on Delivery is available for domestic orders. A small handling fee may apply in some regions, shown at checkout before you place your order.</p>
+  <h2>3. Order confirmation</h2>
+  <p>You get an Order ID as soon as you place your order. We may call or message you to confirm the address before dispatch.</p>
 
-  <h2>4. Order Tracking</h2>
-  <p>Once your order ships, use your Order ID on our <a href="track-order.html">Track Order</a> page to view live delivery status.</p>
+  <h2>4. Order tracking</h2>
+  <p>Use your Order ID on our <a href="track-order.html">Track Order</a> page to see the status of your order.</p>
 
-  <h2>5. Customs &amp; Duties</h2>
-  <p>International orders may be subject to customs fees or import duties, which are the responsibility of the recipient and not included in our shipping charges.</p>
-
-  <h2>6. Delayed or Lost Packages</h2>
-  <p>If your package hasn't arrived within the estimated window, contact hello@aurako.com with your Order ID and we'll investigate with the carrier right away.</p>
+  <h2>5. Delayed or missing parcels</h2>
+  <p>If your parcel has not arrived within the estimated time, message us on <a href="https://wa.me/8801341075034" target="_blank" rel="noopener">WhatsApp</a> or email aurakobd@gmail.com with your Order ID and we will check with the courier.</p>
 </section>
 
 </main>
@@ -270,7 +266,7 @@
   if(nlForm){
     nlForm.addEventListener('submit', function(e){
       e.preventDefault();
-      showToast('Thanks for subscribing! Check your inbox for 15% off.', 'success');
+      showToast('Thanks for subscribing!', 'success');
       nlForm.reset();
     });
   }
@@ -394,16 +390,6 @@
     });
   }
 
-  /* ---------- Deterministic "sold" counter per product ---------- */
-  function soldCount(id){
-    var hash = 0, str = String(id);
-    for(var i=0;i<str.length;i++){ hash = ((hash<<5)-hash) + str.charCodeAt(i); hash |= 0; }
-    return 47 + (Math.abs(hash) % (500-47+1));
-  }
-
-
-
-
   /* ---------- Shared product card renderer ---------- */
   window.Aurako.productCard = function(p){
     var wished = window.Aurako.isWishlisted(p.id) ? ' active' : '';
@@ -430,8 +416,6 @@
       '<div class="product-card-body">' +
         '<div class="product-card-brand">'+p.brand+'</div>' +
         '<h3 class="product-card-name"><a href="product.html?slug='+p.slug+'">'+p.name+'</a></h3>' +
-        '<div class="rating-row"><span class="stars">'+starString(p.rating)+'</span> ('+p.reviewCount+')</div>' +
-        '<div class="text-muted" style="font-size:11px;margin-top:2px;">'+soldCount(p.id)+' sold</div>' +
         '<div class="price-row" style="margin-top:6px;">'+priceHtml+'</div>' +
       '</div>' +
     '</div>';
@@ -511,7 +495,6 @@
       '<div>' +
         '<div class="product-card-brand">'+p.brand+'</div>' +
         '<h3 style="margin:8px 0;">'+p.name+'</h3>' +
-        '<div class="rating-row"><span class="stars">'+window.Aurako.starString(p.rating)+'</span> ('+p.reviewCount+' reviews)</div>' +
         '<div class="price-row" style="margin:var(--space-4) 0;font-size:var(--fs-lg);">' +
           (p.onSale ? '<span class="price-now">'+window.Aurako.fmt(p.price)+'</span><span class="price-old">'+window.Aurako.fmt(p.originalPrice)+'</span>' : '<span class="price-now">'+window.Aurako.fmt(p.price)+'</span>') +
         '</div>' +

@@ -91,37 +91,32 @@
   <div class="container">
     <div class="breadcrumb"><a href="index.html">Home</a><span class="sep">/</span><span>Refund Policy</span></div>
     <h1>Refund &amp; Return Policy</h1>
-    <p class="text-muted">Last updated: January 2026</p>
+    <p class="text-muted">Last updated: November 2026</p>
   </div>
 </section>
 
 <section class="section container prose">
-  <h2>1. Return Window</h2>
-  <p>You may return unopened, unused products within 30 days of delivery for a full refund. Opened products can be returned within 14 days if you experience an adverse reaction, accompanied by photos where applicable.</p>
+  <h2>1. Damaged or wrong items</h2>
+  <p>If your order arrives damaged or you receive a different item, contact us within 48 hours of delivery with your Order ID and clear photos. We will send a replacement or refund the item at no extra cost to you.</p>
 
-  <h2>2. How to Start a Return</h2>
+  <h2>2. Unopened products</h2>
+  <p>You may request a return of unopened, unused products within 3 days of delivery. The product must be sealed and in its original packaging.</p>
+
+  <h2>3. Opened or used products</h2>
+  <p>For hygiene and safety reasons we cannot accept returns of opened or used skincare, except when the item arrived damaged or incorrect (see section 1).</p>
+
+  <h2>4. How to start a return</h2>
   <ol>
-    <li>Contact us at hello@aurako.com with your Order ID and reason for return.</li>
-    <li>We'll send you a return authorization and shipping instructions.</li>
-    <li>Pack the item securely with the original packaging where possible.</li>
-    <li>Once received and inspected, we'll process your refund within 5–7 business days.</li>
+    <li>Message us on <a href="https://wa.me/8801341075034" target="_blank" rel="noopener">WhatsApp</a> or email aurakobd@gmail.com with your Order ID and the reason.</li>
+    <li>We will review your request and tell you the next steps.</li>
+    <li>Once the returned item is checked, we arrange your refund or replacement.</li>
   </ol>
 
-  <h2>3. Refund Method</h2>
-  <p>Refunds for Cash on Delivery orders are issued via bank transfer or store credit, at your preference. Refunds typically appear within 5–10 business days depending on your bank.</p>
-
-  <h2>4. Non-Returnable Items</h2>
-  <ul>
-    <li>Gift cards</li>
-    <li>Final sale / clearance items marked as non-returnable</li>
-    <li>Products damaged due to misuse</li>
-  </ul>
-
-  <h2>5. Damaged or Incorrect Items</h2>
-  <p>If your order arrives damaged or incorrect, contact us within 48 hours of delivery with photos and we'll send a replacement or full refund at no extra cost.</p>
+  <h2>5. Refund method</h2>
+  <p>Because orders are Cash on Delivery, we agree the refund method with you when your return is approved.</p>
 
   <h2>6. Exchanges</h2>
-  <p>We currently do not offer direct exchanges — please return the original item for a refund and place a new order for the desired product.</p>
+  <p>We do not offer direct exchanges. Please place a new order for the product you want.</p>
 </section>
 
 </main>
@@ -271,7 +266,7 @@
   if(nlForm){
     nlForm.addEventListener('submit', function(e){
       e.preventDefault();
-      showToast('Thanks for subscribing! Check your inbox for 15% off.', 'success');
+      showToast('Thanks for subscribing!', 'success');
       nlForm.reset();
     });
   }
@@ -395,16 +390,6 @@
     });
   }
 
-  /* ---------- Deterministic "sold" counter per product ---------- */
-  function soldCount(id){
-    var hash = 0, str = String(id);
-    for(var i=0;i<str.length;i++){ hash = ((hash<<5)-hash) + str.charCodeAt(i); hash |= 0; }
-    return 47 + (Math.abs(hash) % (500-47+1));
-  }
-
-
-
-
   /* ---------- Shared product card renderer ---------- */
   window.Aurako.productCard = function(p){
     var wished = window.Aurako.isWishlisted(p.id) ? ' active' : '';
@@ -431,8 +416,6 @@
       '<div class="product-card-body">' +
         '<div class="product-card-brand">'+p.brand+'</div>' +
         '<h3 class="product-card-name"><a href="product.html?slug='+p.slug+'">'+p.name+'</a></h3>' +
-        '<div class="rating-row"><span class="stars">'+starString(p.rating)+'</span> ('+p.reviewCount+')</div>' +
-        '<div class="text-muted" style="font-size:11px;margin-top:2px;">'+soldCount(p.id)+' sold</div>' +
         '<div class="price-row" style="margin-top:6px;">'+priceHtml+'</div>' +
       '</div>' +
     '</div>';
@@ -512,7 +495,6 @@
       '<div>' +
         '<div class="product-card-brand">'+p.brand+'</div>' +
         '<h3 style="margin:8px 0;">'+p.name+'</h3>' +
-        '<div class="rating-row"><span class="stars">'+window.Aurako.starString(p.rating)+'</span> ('+p.reviewCount+' reviews)</div>' +
         '<div class="price-row" style="margin:var(--space-4) 0;font-size:var(--fs-lg);">' +
           (p.onSale ? '<span class="price-now">'+window.Aurako.fmt(p.price)+'</span><span class="price-old">'+window.Aurako.fmt(p.originalPrice)+'</span>' : '<span class="price-now">'+window.Aurako.fmt(p.price)+'</span>') +
         '</div>' +
