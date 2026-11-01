@@ -107,12 +107,12 @@
           <input type="text" class="input" id="couponInput" placeholder="Coupon code">
           <button class="btn btn-ghost" id="applyCoupon">Apply</button>
         </div>
-        <div class="summary-row"><span>Subtotal</span><span id="sumSubtotal">$0.00</span></div>
-        <div class="summary-row"><span>Discount</span><span id="sumDiscount">-$0.00</span></div>
-        <div class="summary-row"><span>Estimated Shipping</span><span id="sumShipping">$0.00</span></div>
-        <div class="summary-row total"><span>Total</span><span id="sumTotal">$0.00</span></div>
+        <div class="summary-row"><span>Subtotal</span><span id="sumSubtotal">৳0</span></div>
+        <div class="summary-row"><span>Discount</span><span id="sumDiscount">-৳0</span></div>
+        <div class="summary-row"><span>Delivery charge</span><span id="sumShipping">৳0</span></div>
+        <div class="summary-row total"><span>Total</span><span id="sumTotal">৳0</span></div>
         <a href="checkout.html" class="btn btn-primary btn-block ripple-surface" style="margin-top:var(--space-4);">Proceed to Checkout</a>
-        <p class="text-muted" style="font-size:12px;margin-top:12px;text-align:center;">Free shipping over $60 · Cash on Delivery available</p>
+        <p class="text-muted" style="font-size:12px;margin-top:12px;text-align:center;">Delivery ৳60 inside Dhaka, ৳120 outside · Free delivery on combo packs · Cash on Delivery</p>
       </div>
     </div>
 
@@ -272,7 +272,7 @@
   if(nlForm){
     nlForm.addEventListener('submit', function(e){
       e.preventDefault();
-      showToast('Thanks for subscribing! Check your inbox for 15% off.', 'success');
+      showToast('Thanks for subscribing!', 'success');
       nlForm.reset();
     });
   }
@@ -396,16 +396,6 @@
     });
   }
 
-  /* ---------- Deterministic "sold" counter per product ---------- */
-  function soldCount(id){
-    var hash = 0, str = String(id);
-    for(var i=0;i<str.length;i++){ hash = ((hash<<5)-hash) + str.charCodeAt(i); hash |= 0; }
-    return 47 + (Math.abs(hash) % (500-47+1));
-  }
-
-
-
-
   /* ---------- Shared product card renderer ---------- */
   window.Aurako.productCard = function(p){
     var wished = window.Aurako.isWishlisted(p.id) ? ' active' : '';
@@ -432,8 +422,6 @@
       '<div class="product-card-body">' +
         '<div class="product-card-brand">'+p.brand+'</div>' +
         '<h3 class="product-card-name"><a href="product.html?slug='+p.slug+'">'+p.name+'</a></h3>' +
-        '<div class="rating-row"><span class="stars">'+starString(p.rating)+'</span> ('+p.reviewCount+')</div>' +
-        '<div class="text-muted" style="font-size:11px;margin-top:2px;">'+soldCount(p.id)+' sold</div>' +
         '<div class="price-row" style="margin-top:6px;">'+priceHtml+'</div>' +
       '</div>' +
     '</div>';
@@ -513,7 +501,6 @@
       '<div>' +
         '<div class="product-card-brand">'+p.brand+'</div>' +
         '<h3 style="margin:8px 0;">'+p.name+'</h3>' +
-        '<div class="rating-row"><span class="stars">'+window.Aurako.starString(p.rating)+'</span> ('+p.reviewCount+' reviews)</div>' +
         '<div class="price-row" style="margin:var(--space-4) 0;font-size:var(--fs-lg);">' +
           (p.onSale ? '<span class="price-now">'+window.Aurako.fmt(p.price)+'</span><span class="price-old">'+window.Aurako.fmt(p.originalPrice)+'</span>' : '<span class="price-now">'+window.Aurako.fmt(p.price)+'</span>') +
         '</div>' +
@@ -627,11 +614,11 @@
 
       var discount = appliedCoupon ? subtotal * appliedCoupon : 0;
       var afterDiscount = subtotal - discount;
-      var shipping = afterDiscount >= 60 || afterDiscount === 0 ? 0 : 4.99;
+      var shipping = 0; // delivery charge is chosen at checkout (Inside Dhaka / Outside Dhaka; free for combo packs)
       var total = afterDiscount + shipping;
       document.getElementById('sumSubtotal').textContent = window.Aurako.fmt(subtotal);
       document.getElementById('sumDiscount').textContent = '-' + window.Aurako.fmt(discount);
-      document.getElementById('sumShipping').textContent = shipping === 0 ? 'Free' : window.Aurako.fmt(shipping);
+      document.getElementById('sumShipping').textContent = 'At checkout';
       document.getElementById('sumTotal').textContent = window.Aurako.fmt(total);
 
       localStorage.setItem('aurako_checkout_summary', JSON.stringify({ subtotal: subtotal, discount: discount, shipping: shipping, total: total, coupon: appliedCoupon }));
