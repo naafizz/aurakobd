@@ -4,35 +4,83 @@
   "redirects": [
     {
       "source": "/(.*)",
-      "has": [{ "type": "host", "value": "aurako.shop" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "aurako.shop"
+        }
+      ],
       "destination": "https://www.aurako.shop/$1",
       "permanent": true
     },
     {
       "source": "/product.html",
-      "has": [{ "type": "query", "key": "slug", "value": "(?<slug>.+)" }],
+      "has": [
+        {
+          "type": "query",
+          "key": "slug",
+          "value": "(?<slug>.+)"
+        }
+      ],
       "destination": "/product/:slug",
       "permanent": true
     }
   ],
   "rewrites": [
-    { "source": "/product/:slug", "destination": "/product/:slug.html" },
-    { "source": "/category/:slug", "destination": "/category/:slug.html" },
-    { "source": "/brand/:slug", "destination": "/brand/:slug.html" }
+    {
+      "source": "/product/:slug",
+      "destination": "/product/:slug.html"
+    },
+    {
+      "source": "/category/:slug",
+      "destination": "/category/:slug.html"
+    },
+    {
+      "source": "/brand/:slug",
+      "destination": "/brand/:slug.html"
+    },
+    {
+      "source": "/guides",
+      "destination": "/guides/index.html"
+    },
+    {
+      "source": "/guides/:slug",
+      "destination": "/guides/:slug.html"
+    },
+    {
+      "source": "/bn/guides",
+      "destination": "/bn/guides/index.html"
+    },
+    {
+      "source": "/bn/guides/:slug",
+      "destination": "/bn/guides/:slug.html"
+    }
   ],
   "headers": [
     {
       "source": "/assets/data/(.*)",
       "headers": [
-        { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" },
-        { "key": "Pragma", "value": "no-cache" },
-        { "key": "Expires", "value": "0" }
+        {
+          "key": "Cache-Control",
+          "value": "no-cache, no-store, must-revalidate"
+        },
+        {
+          "key": "Pragma",
+          "value": "no-cache"
+        },
+        {
+          "key": "Expires",
+          "value": "0"
+        }
       ]
     },
     {
       "source": "/images/(.*)",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=86400, stale-while-revalidate=604800" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400, stale-while-revalidate=604800"
+        }
       ]
     }
   ]

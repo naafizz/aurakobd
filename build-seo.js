@@ -78,7 +78,8 @@ const PAGES = {
 const SKIP_COPY = new Set([
   ".git", ".github", ".vercel", "node_modules", "dist", "build-seo.js", "package.json",
   "package-lock.json", "generate-data.js", "README.md", "FIREBASE-SETUP.md", "image",
-  "products.json" // stale root copy; the site reads assets/data/products.json
+  "products.json", // stale root copy; the site reads assets/data/products.json
+  "content"        // guide texts: turned into pages, not published as raw files
 ]);
 
 /* ---------------- helpers ---------------- */
@@ -420,6 +421,7 @@ const brandDisplay = (p) => { const g = brandOf(p); return g ? g.name : BRAND; }
 function rewriteLinks(html) {
   html = html.split("product.html?slug=").join("/product/");
   html = html.split("shop.html?cat=").join("/category/");
+  html = html.split('<a href="shipping.html">Shipping Policy</a>').join('<a href="shipping.html">Shipping Policy</a>\n      <a href="/guides">Authenticity Guides</a>');
   return html.split('href="index.html"').join('href="/"');
 }
 const productTpl = rewriteLinks(read(path.join(ROOT, "product.html")));
@@ -429,7 +431,7 @@ function headBlock(o) {
     '<link rel="canonical" href="' + esc(o.canonical) + '">',
     '<meta name="robots" content="' + (o.noindex ? "noindex, follow" : "index, follow, max-image-preview:large") + '">',
     '<meta property="og:site_name" content="' + BRAND + '">',
-    '<meta property="og:locale" content="en_US">',
+    '<meta property="og:locale" content="' + (o.locale || "en_US") + '">',
     '<meta property="og:type" content="' + (o.ogType || "website") + '">',
     '<meta property="og:title" content="' + esc(o.title) + '">',
     '<meta property="og:description" content="' + esc(o.desc) + '">',
@@ -440,6 +442,8 @@ function headBlock(o) {
     '<meta name="twitter:description" content="' + esc(o.desc) + '">',
     '<meta name="twitter:image" content="' + esc(abs(o.image || DEFAULT_OG)) + '">'
   ];
+  (o.alternates || []).forEach((a) => lines.push('<link rel="alternate" hreflang="' + a[0] + '" href="' + esc(a[1]) + '">'));
+  if (o.headExtra) lines.push(o.headExtra);
   if (o.ogSized) { lines.push('<meta property="og:image:width" content="1200">'); lines.push('<meta property="og:image:height" content="630">'); }
   if (o.preload) lines.push('<link rel="preload" as="image" href="' + esc(o.preload) + '" fetchpriority="high">');
   if (o.price != null) {
@@ -461,6 +465,7 @@ function patchHead(html, o) {
     const m = html.match(/<meta\s+name="description"\s+content="([^"]*)"/i);
     o.desc = m ? m[1] : "";
   }
+  if (o.lang) html = html.replace(/<html lang="[^"]*"/i, '<html lang="' + o.lang + '"');
   /* the icon tag can contain ">" inside a data: URI, so match the whole line */
   html = html.replace(/<link rel="icon"[^\n]*\n/i, '<link rel="icon" href="/images/transparentlogo.png" type="image/png">\n');
   /* <base> must come BEFORE every relative stylesheet/script URL */
@@ -556,6 +561,7 @@ function productPage(p) {
     '<section class="section-sm" id="pdpAbout"><h2>About ' + esc(p.name) + "</h2>" + aboutParas +
     '<p class="prose text-muted">' + (cat ? 'Category: <a href="/category/' + cat.id + '">' + esc(cat.name) + "</a>. " : "") +
     (bp ? 'More from <a href="/brand/' + bp.slug + '">' + esc(bp.name) + "</a>. " : "") +
+    (guideByStore[p.slug] ? 'Check authenticity: <a href="/guides/' + guideByStore[p.slug] + '">real vs fake guide</a> (<a href="/bn/guides/' + guideByStore[p.slug] + '" hreflang="bn">বাংলা</a>). ' : "") +
     'See our <a href="shipping.html">delivery information</a> and <a href="refund.html">return policy</a>.</p></section>';
   html = replaceOnce(html, '<div class="pdp-tab-panel" id="panel-reviews"></div>', '<div class="pdp-tab-panel" id="panel-reviews"></div>\n' + about, "about block");
 
@@ -615,6 +621,187 @@ function listingPage(o) {
   return html;
 }
 
+/* ---------------- guides: "authentic vs fake" pages in English and Bangla ---------------- */
+let GUIDES = null;
+try { GUIDES = JSON.parse(read(path.join(ROOT, "content/guides.json"))); } catch (e) { /* no guides yet */ }
+const guideByStore = {};   // store product slug -> guide slug (used for the link on product pages)
+/* Fill this in ONLY when you can prove it (supplier invoice / distributor letter), e.g.
+   { en: "We buy from X, an authorized distributor. Invoice available on request.", bn: "..." } */
+const SOURCING_NOTE = { en: "", bn: "" };
+
+const UI = {
+  en: {
+    lang: "en", locale: "en_US", home: "Home", guides: "Guides", switchLabel: "বাংলায় পড়ুন", reviewed: "Last reviewed", reviewedDate: "November 2026",
+    by: "By the AURAKO editorial team", shortAnswer: "Short answer", quick: "Quick facts", brand: "Brand", product: "Product", size: "Size", type: "Type",
+    key: "Key ingredients / claims", fast: "Fast verification checklist",
+    fastItems: [
+      "Buy only from sellers the brand lists as authorized for your country.",
+      "Ask the seller for the importer's invoice.",
+      "Check the batch/manufacturing number and expiry date on the pack and the carton.",
+      "Compare the name, size and ingredient list with the brand's official page.",
+      "Be careful with prices far below the official price."],
+    fullChecklist: "Read the full 10-step checklist", faq: "Frequently asked questions", sources: "Sources", related: "Related guides",
+    store: "See this product in the AURAKO store", brandGuide: "Brand verification guide",
+    disclosure: "AURAKO is an independent online skincare store. This guide is for general information, based on the sources listed above and last reviewed in November 2026. Brand and product names are trademarks of their owners; AURAKO is not affiliated with these brands and does not claim to be their authorized distributor. Verification steps can change, so always check the brand's official website.",
+    hubTitle: "Authenticity Guides for Korean Skincare in Bangladesh | AURAKO",
+    hubH1: "Authenticity guides for Korean skincare",
+    hubDesc: "Practical, sourced guides to checking whether Korean skincare is genuine: a 10-step checklist, brand verification guides and product-by-product real vs fake guides. English and Bangla.",
+    hubIntro: "Counterfeit skincare is a real risk. These guides explain, step by step and with sources, how to check a Korean skincare product before you buy or use it. Every page is available in English and Bangla.",
+    start: "Start here", brandsH: "Brand verification guides", productsH: "Product guides: real vs fake"
+  },
+  bn: {
+    lang: "bn", locale: "bn_BD", home: "হোম", guides: "গাইড", switchLabel: "Read in English", reviewed: "সর্বশেষ পর্যালোচনা", reviewedDate: "নভেম্বর ২০২৬",
+    by: "AURAKO সম্পাদকীয় দল", shortAnswer: "সংক্ষিপ্ত উত্তর", quick: "দ্রুত তথ্য", brand: "ব্র্যান্ড", product: "পণ্য", size: "সাইজ", type: "ধরন",
+    key: "মূল উপাদান / দাবি", fast: "দ্রুত যাচাইয়ের চেকলিস্ট",
+    fastItems: [
+      "শুধু সেই বিক্রেতার কাছ থেকে কিনুন, যাকে ব্র্যান্ড আপনার দেশের জন্য অনুমোদিত বলেছে।",
+      "বিক্রেতার কাছে আমদানিকারকের ইনভয়েস চান।",
+      "প্যাক ও কার্টনে ব্যাচ/ম্যানুফ্যাকচারিং নম্বর ও মেয়াদোত্তীর্ণের তারিখ দেখুন।",
+      "নাম, সাইজ ও ইনগ্রেডিয়েন্ট লিস্ট ব্র্যান্ডের অফিশিয়াল পেজের সাথে মেলান।",
+      "অফিশিয়াল দামের চেয়ে অনেক কম দাম নিয়ে সতর্ক থাকুন।"],
+    fullChecklist: "১০ ধাপের পূর্ণ চেকলিস্ট পড়ুন", faq: "সচরাচর জিজ্ঞাসা", sources: "সূত্র", related: "সম্পর্কিত গাইড",
+    store: "AURAKO স্টোরে এই পণ্যটি দেখুন", brandGuide: "ব্র্যান্ড যাচাই গাইড",
+    disclosure: "AURAKO একটি স্বাধীন অনলাইন স্কিনকেয়ার স্টোর। এই গাইড সাধারণ তথ্যের জন্য, উপরে উল্লিখিত সূত্রের উপর ভিত্তি করে এবং সর্বশেষ নভেম্বর ২০২৬-এ পর্যালোচনা করা। ব্র্যান্ড ও পণ্যের নাম তাদের মালিকদের ট্রেডমার্ক; AURAKO এই ব্র্যান্ডগুলোর সাথে যুক্ত নয় এবং তাদের অনুমোদিত পরিবেশক বলে দাবি করে না। যাচাইয়ের ধাপ বদলাতে পারে, তাই সবসময় ব্র্যান্ডের অফিশিয়াল ওয়েবসাইট দেখুন।",
+    hubTitle: "বাংলাদেশে কোরিয়ান স্কিনকেয়ারের আসল-নকল যাচাই গাইড | AURAKO",
+    hubH1: "কোরিয়ান স্কিনকেয়ারের আসল-নকল যাচাই গাইড",
+    hubDesc: "কোরিয়ান স্কিনকেয়ার আসল কি না যাচাইয়ের সূত্রসহ বাস্তব গাইড: ১০ ধাপের চেকলিস্ট, ব্র্যান্ড যাচাই গাইড এবং পণ্যভিত্তিক আসল-নকল গাইড। বাংলা ও ইংরেজিতে।",
+    hubIntro: "নকল স্কিনকেয়ার একটি বাস্তব ঝুঁকি। কেনার বা ব্যবহারের আগে একটি কোরিয়ান স্কিনকেয়ার পণ্য কীভাবে যাচাই করবেন, এই গাইডগুলোতে ধাপে ধাপে ও সূত্রসহ তা ব্যাখ্যা করা হয়েছে। প্রতিটি পেজ বাংলা ও ইংরেজি দুই ভাষায় আছে।",
+    start: "এখান থেকে শুরু করুন", brandsH: "ব্র্যান্ড যাচাই গাইড", productsH: "পণ্য গাইড: আসল না নকল"
+  }
+};
+const gUrl = (lang, slug) => SITE + (lang === "bn" ? "/bn" : "") + "/guides" + (slug ? "/" + slug : "");
+const gPath = (lang, slug) => gUrl(lang, slug).replace(SITE, "");
+
+/* make known official addresses clickable inside the text */
+function linkify(escaped) {
+  return escaped
+    .replace(/(official\.cosrx\.com\/record|cosrx\.com\/pages\/stores|beautyofjoseon\.com\/pages\/authorized-online-retailers|axis-y\.com\/products\/dark-spot-correcting-glow-serum)/g,
+      function (m) { return '<a href="https://' + m + '" target="_blank" rel="noopener">' + m + "</a>"; })
+    .replace(/global@cosrx\.co\.kr/g, '<a href="mailto:global@cosrx.co.kr">global@cosrx.co.kr</a>');
+}
+const gLi = (a) => a.map((t) => "<li>" + linkify(esc(t)) + "</li>").join("");
+function gSections(secs) {
+  return secs.map((s) => "<h2>" + esc(s.h) + "</h2>" +
+    (s.p || []).map((t) => "<p>" + linkify(esc(t)) + "</p>").join("") +
+    (s.ul ? "<ul>" + gLi(s.ul) + "</ul>" : "") + (s.ol ? "<ol>" + gLi(s.ol) + "</ol>" : "")).join("");
+}
+
+/* store photo, or your own photo in images/guides/<slug>.(webp|jpg|jpeg|png) */
+function guideImage(g) {
+  if (g.storeSlug) { const sp = products.find((p) => p.slug === g.storeSlug); if (sp && sp.thumb) return sp.thumb; }
+  const bases = [g.slug, String(g.slug).replace(/-real-vs-fake$/, "")];
+  for (const b of bases) for (const ext of ["webp", "jpg", "jpeg", "png"]) {
+    if (fs.existsSync(path.join(ROOT, "images", "guides", b + "." + ext))) return "images/guides/" + b + "." + ext;
+  }
+  return null;
+}
+
+function guideLd(kind, g, lang, T, url, image, crumbs) {
+  const c = g[lang];
+  const article = {
+    "@context": "https://schema.org", "@type": "Article", headline: c.h1, description: c.desc, inLanguage: lang, url,
+    mainEntityOfPage: url, datePublished: GUIDES.updated, dateModified: GUIDES.updated,
+    author: { "@type": "Organization", name: BRAND, url: SITE + "/" }, publisher: { "@type": "Organization", name: BRAND, url: SITE + "/", logo: { "@type": "ImageObject", url: abs("/images/transparentlogo.png") } }
+  };
+  if (image) article.image = [abs(image.startsWith("/og/") ? image : "/" + image.replace(/^\//, ""))];
+  if (kind === "product") article.about = { "@type": "Product", name: g.name, brand: { "@type": "Brand", name: g.brand } };
+  if (kind === "brand") article.about = { "@type": "Brand", name: g.brand };
+  const out = [article];
+  if (c.faq && c.faq.length) out.push({ "@context": "https://schema.org", "@type": "FAQPage", inLanguage: lang, mainEntity: c.faq.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })) });
+  out.push({ "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: crumbs.map((cr, i) => ({ "@type": "ListItem", position: i + 1, name: cr[0], item: cr[1] })) });
+  return out;
+}
+
+function shellPage(o) {
+  /* o: {path, title, desc, main, lang, locale, ld, image, ogSized, alternates} */
+  let html = productTpl;
+  html = patchHead(html, { title: o.title, desc: o.desc, canonical: SITE + o.path, image: o.image, ogSized: o.ogSized, ld: o.ld, lang: o.lang, locale: o.locale, alternates: o.alternates, headExtra: o.headExtra });
+  html = fixAnchors(html, o.path);
+  html = replaceOnce(html, /<main id="main">[\s\S]*<\/main>/, o.main.replace(/\$/g, "$$$$"), "guide main block");
+  const i = html.lastIndexOf("<script>");
+  if (i > -1 && html.slice(i).indexOf("pdpInfo") > -1) html = html.slice(0, i) + html.slice(html.indexOf("</script>", i) + 9);
+  else warn("product script not removed from guide page " + o.path);
+  return html;
+}
+
+const BN_HEAD = '<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">' +
+  '<style>html[lang="bn"] body,html[lang="bn"] h1,html[lang="bn"] h2,html[lang="bn"] h3,html[lang="bn"] .btn{font-family:"Hind Siliguri","Noto Sans Bengali",sans-serif}html[lang="bn"] h1{font-size:clamp(26px,4vw,38px);line-height:1.4}</style>';
+
+function guidePage(kind, g, lang, ogPath) {
+  const T = UI[lang], c = g[lang], other = lang === "en" ? "bn" : "en";
+  const url = gUrl(lang, g.slug), p = gPath(lang, g.slug);
+  const img = guideImage(g);
+  const crumbs = [[T.home, SITE + "/"], [T.guides, gUrl(lang)], [c.h1, url]];
+  const crumbHtml = '<a href="/">' + esc(T.home) + '</a><span class="sep">/</span><a href="' + gPath(lang) + '">' + esc(T.guides) + '</a><span class="sep">/</span><span>' + esc(c.h1) + "</span>";
+  const pillar = GUIDES.pillar;
+  const brandG = kind === "product" && g.brandGuide ? GUIDES.brands.find((b) => b.slug === g.brandGuide) : null;
+
+  let facts = "";
+  if (kind === "product") {
+    const rows = [[T.brand, g.brand], [T.product, g.name], [T.size, g.size], [T.type, g.type[lang]], [T.key, g.key[lang]]];
+    facts = "<h2>" + esc(T.quick) + '</h2><table style="width:100%;border-collapse:collapse;margin-bottom:var(--space-4);"><tbody>' +
+      rows.map((r) => '<tr style="border-bottom:1px solid var(--color-border);"><th style="text-align:left;padding:10px 12px 10px 0;width:34%;vertical-align:top;">' + esc(r[0]) + '</th><td style="padding:10px 0;">' + esc(r[1]) + "</td></tr>").join("") + "</tbody></table>";
+  }
+  const figure = img ? '<figure style="margin:var(--space-4) 0;"><img src="' + esc(img) + '" alt="' + esc(g.name || g.brand || c.h1) + '" style="max-width:320px;width:100%;height:auto;border-radius:12px;" loading="lazy"></figure>' : "";
+  const fast = kind === "pillar" ? "" :
+    "<h2>" + esc(T.fast) + "</h2><ul>" + T.fastItems.map((t) => "<li>" + esc(t) + "</li>").join("") + '</ul><p><a href="' + gPath(lang, pillar.slug) + '">' + esc(T.fullChecklist) + " &rarr;</a></p>";
+  const faq = c.faq && c.faq.length ? "<h2>" + esc(T.faq) + "</h2>" + c.faq.map((f) => "<h3>" + esc(f.q) + "</h3><p>" + linkify(esc(f.a)) + "</p>").join("") : "";
+  const store = g.storeSlug && products.some((x) => x.slug === g.storeSlug)
+    ? '<p style="margin:var(--space-5) 0;"><a class="btn btn-primary" href="/product/' + esc(g.storeSlug) + '">' + esc(T.store) + "</a></p>" : "";
+  const related = [];
+  if (kind !== "pillar") related.push([GUIDES.pillar[lang].h1, gPath(lang, pillar.slug)]);
+  if (brandG) related.push([brandG[lang].h1, gPath(lang, brandG.slug)]);
+  if (kind === "brand") GUIDES.products.filter((x) => x.brandGuide === g.slug).forEach((x) => related.push([x[lang].h1, gPath(lang, x.slug)]));
+  if (kind === "product") GUIDES.products.filter((x) => x.brand === g.brand && x.slug !== g.slug).forEach((x) => related.push([x[lang].h1, gPath(lang, x.slug)]));
+  related.push([T.hubH1, gPath(lang)]);
+  const relatedHtml = "<h2>" + esc(T.related) + "</h2><ul>" + related.map((r) => '<li><a href="' + esc(r[1]) + '">' + esc(r[0]) + "</a></li>").join("") + "</ul>";
+  const srcKeys = c.sources || [];
+  const sourcesHtml = srcKeys.length ? "<h2>" + esc(T.sources) + "</h2><ul>" + srcKeys.map((k) => '<li><a href="' + esc(GUIDES.sources[k][1]) + '" target="_blank" rel="noopener nofollow">' + esc(GUIDES.sources[k][0]) + "</a></li>").join("") + "</ul>" : "";
+  const note = SOURCING_NOTE[lang] ? "<p>" + esc(SOURCING_NOTE[lang]) + "</p>" : "";
+
+  const main = '<main id="main"><div class="container" style="padding-top:var(--space-6);"><div class="breadcrumb">' + crumbHtml + "</div></div>" +
+    '<article class="container section-sm prose" style="max-width:820px;">' +
+    '<div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:var(--space-3);">' +
+    '<p class="text-muted" style="margin:0;font-size:14px;">' + esc(T.reviewed) + ": " + esc(T.reviewedDate) + " &middot; " + esc(T.by) + "</p>" +
+    '<a class="btn btn-outline" style="padding:6px 14px;font-size:14px;" href="' + gPath(other, g.slug) + '" hreflang="' + other + '" lang="' + other + '">' + esc(T.switchLabel) + "</a></div>" +
+    '<h1 style="font-size:clamp(28px,4vw,42px);line-height:1.3;">' + esc(c.h1) + "</h1>" +
+    '<div class="card" style="padding:var(--space-5);margin:var(--space-4) 0;border-left:4px solid var(--color-primary);"><p style="margin:0;"><strong>' + esc(T.shortAnswer) + ":</strong> " + linkify(esc(c.answer)) + "</p></div>" +
+    figure + facts + gSections(c.sections) + fast + faq + store + relatedHtml + sourcesHtml +
+    '<p class="text-muted" style="font-size:13px;margin-top:var(--space-6);">' + esc(T.disclosure) + "</p>" + note + "</article></main>";
+
+  const alternates = [["en", gUrl("en", g.slug)], ["bn", gUrl("bn", g.slug)], ["x-default", gUrl("en", g.slug)]];
+  return shellPage({
+    path: p, title: c.title, desc: c.desc, main, lang, locale: T.locale, alternates,
+    ld: guideLd(kind, g, lang, T, url, ogPath || img, crumbs), image: ogPath || img || undefined, ogSized: !!ogPath,
+    headExtra: lang === "bn" ? BN_HEAD : ""
+  });
+}
+
+function guidesHubPage(lang) {
+  const T = UI[lang], url = gUrl(lang), pillar = GUIDES.pillar;
+  const card = (title, desc, href) => '<li style="margin:0 0 var(--space-3);"><a href="' + esc(href) + '"><strong>' + esc(title) + "</strong></a><br><span class=\"text-muted\">" + esc(desc) + "</span></li>";
+  const byBrand = {};
+  GUIDES.products.forEach((x) => { (byBrand[x.brand] = byBrand[x.brand] || []).push(x); });
+  const main = '<main id="main"><div class="container" style="padding-top:var(--space-6);"><div class="breadcrumb"><a href="/">' + esc(T.home) + '</a><span class="sep">/</span><span>' + esc(T.guides) + "</span></div></div>" +
+    '<article class="container section-sm prose" style="max-width:820px;">' +
+    '<div style="text-align:right;margin-bottom:var(--space-3);"><a class="btn btn-outline" style="padding:6px 14px;font-size:14px;" href="' + gPath(lang === "en" ? "bn" : "en") + '" hreflang="' + (lang === "en" ? "bn" : "en") + '">' + esc(T.switchLabel) + "</a></div>" +
+    '<h1 style="font-size:clamp(28px,4vw,42px);line-height:1.3;">' + esc(T.hubH1) + "</h1><p>" + esc(T.hubIntro) + "</p>" +
+    "<h2>" + esc(T.start) + '</h2><ul style="list-style:none;padding:0;">' + card(pillar[lang].h1, pillar[lang].desc, gPath(lang, pillar.slug)) + "</ul>" +
+    "<h2>" + esc(T.brandsH) + '</h2><ul style="list-style:none;padding:0;">' + GUIDES.brands.map((b) => card(b[lang].h1, b[lang].desc, gPath(lang, b.slug))).join("") + "</ul>" +
+    "<h2>" + esc(T.productsH) + "</h2>" + Object.keys(byBrand).map((br) => "<h3>" + esc(br) + '</h3><ul style="list-style:none;padding:0;">' + byBrand[br].map((x) => card(x[lang].h1, x[lang].desc, gPath(lang, x.slug))).join("") + "</ul>").join("") +
+    '<p class="text-muted" style="font-size:13px;margin-top:var(--space-6);">' + esc(T.disclosure) + "</p></article></main>";
+  const list = [pillar].concat(GUIDES.brands, GUIDES.products);
+  const ld = [
+    { "@context": "https://schema.org", "@type": "CollectionPage", name: T.hubH1, description: T.hubDesc, url, inLanguage: lang,
+      mainEntity: { "@type": "ItemList", itemListElement: list.map((x, i) => ({ "@type": "ListItem", position: i + 1, url: gUrl(lang, x.slug), name: x[lang].h1 })) } },
+    { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [[T.home, SITE + "/"], [T.guides, url]].map((cr, i) => ({ "@type": "ListItem", position: i + 1, name: cr[0], item: cr[1] })) }
+  ];
+  return shellPage({
+    path: gPath(lang), title: T.hubTitle, desc: T.hubDesc, main, lang, locale: T.locale, ld,
+    alternates: [["en", gUrl("en")], ["bn", gUrl("bn")], ["x-default", gUrl("en")]], headExtra: lang === "bn" ? BN_HEAD : ""
+  });
+}
+
 /* ---------------- build ---------------- */
 const ogPaths = {};   // product slug -> /og/<slug>.jpg
 let defaultOg = null;
@@ -630,7 +817,7 @@ defaultOg = await makeOg(DEFAULT_OG, "og/default.jpg", OUT);
 const imgMap = await optimizeImages(OUT);   // WebP copies; pages are pointed to them at the very end
 
 const sitemapUrls = [];
-const addUrl = (loc, pr) => sitemapUrls.push({ loc, pr });
+const addUrl = (loc, pr, alts) => sitemapUrls.push({ loc, pr, alts });
 
 /* 1. existing pages: link rewrites + SEO head */
 const topBrands = brandPages.sort((a, b) => b.products.length - a.products.length).slice(0, 4).map((g) => g.name);
@@ -666,6 +853,9 @@ for (const f of fs.readdirSync(OUT).filter((x) => x.endsWith(".html"))) {
   }
   write(path.join(OUT, f), html);
 }
+
+/* link store product pages to their guides */
+if (GUIDES) GUIDES.products.forEach((g) => { if (g.storeSlug) guideByStore[g.storeSlug] = g.slug; });
 
 /* 2. products */
 const seen = new Set();
@@ -708,16 +898,50 @@ for (const g of brandPages) {
   addUrl(SITE + "/brand/" + g.slug, "0.7");
 }
 
+/* 4b. guides (English + Bangla) */
+let nGuides = 0;
+if (GUIDES) {
+  const sections = [["pillar", GUIDES.pillar]].concat(GUIDES.brands.map((b) => ["brand", b]), GUIDES.products.map((x) => ["product", x]));
+  for (const [kind, g] of sections) {
+    const gi = guideImage(g);
+    const og = gi ? await makeOg(gi, "og/guide-" + g.slug + ".jpg", OUT) : null;
+    for (const lang of ["en", "bn"]) {
+      write(path.join(OUT, gPath(lang, g.slug) + ".html"), guidePage(kind, g, lang, og));
+      addUrl(gUrl(lang, g.slug), kind === "pillar" ? "0.9" : "0.7", [["en", gUrl("en", g.slug)], ["bn", gUrl("bn", g.slug)], ["x-default", gUrl("en", g.slug)]]);
+      nGuides++;
+    }
+    if (kind === "product" && g.storeSlug && !products.some((x) => x.slug === g.storeSlug)) CHECKS.push("guide \"" + g.slug + "\" points to store product \"" + g.storeSlug + "\" which does not exist");
+  }
+  for (const lang of ["en", "bn"]) {
+    write(path.join(OUT, gPath(lang) + "/index.html"), guidesHubPage(lang));
+    addUrl(gUrl(lang), "0.8", [["en", gUrl("en")], ["bn", gUrl("bn")], ["x-default", gUrl("en")]]);
+  }
+}
+
 /* 5. sitemap.xml + robots.txt */
 write(path.join(OUT, "sitemap.xml"),
-  '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
-  sitemapUrls.map((u) => "  <url><loc>" + esc(u.loc) + "</loc><priority>" + u.pr + "</priority></url>").join("\n") +
+  '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n' +
+  sitemapUrls.map((u) => "  <url><loc>" + esc(u.loc) + "</loc>" + (u.alts || []).map((a) => '<xhtml:link rel="alternate" hreflang="' + a[0] + '" href="' + esc(a[1]) + '"/>').join("") + "<priority>" + u.pr + "</priority></url>").join("\n") +
   "\n</urlset>\n");
-write(path.join(OUT, "robots.txt"), "User-agent: *\nAllow: /\n\nSitemap: " + SITE + "/sitemap.xml\n");
+const AI_BOTS = ["GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "Claude-User", "Claude-SearchBot", "PerplexityBot", "Google-Extended"];
+write(path.join(OUT, "robots.txt"), "User-agent: *\nAllow: /\n\n# AI assistants and AI search crawlers are welcome (remove a block to opt out)\n" +
+  AI_BOTS.map((b) => "User-agent: " + b + "\nAllow: /\n").join("\n") + "\nSitemap: " + SITE + "/sitemap.xml\n");
+if (GUIDES) {
+  write(path.join(OUT, "llms.txt"),
+    "# AURAKO\n\n> AURAKO is an online skincare store in Bangladesh (Dhaka). This site publishes sourced guides on how to check whether Korean skincare products are genuine, in English and Bangla.\n\n" +
+    "## Authenticity guides\n" +
+    "- [" + GUIDES.pillar.en.h1 + "](" + gUrl("en", GUIDES.pillar.slug) + "): " + GUIDES.pillar.en.desc + "\n" +
+    GUIDES.brands.map((b) => "- [" + b.en.h1 + "](" + gUrl("en", b.slug) + "): " + b.en.desc + "\n").join("") +
+    "\n## Product guides (real vs fake)\n" +
+    GUIDES.products.map((x) => "- [" + x.en.h1 + "](" + gUrl("en", x.slug) + ")\n").join("") +
+    "\n## Bangla (বাংলা)\n- [" + GUIDES.pillar.bn.h1 + "](" + gUrl("bn", GUIDES.pillar.slug) + ")\n- [Guides index](" + gUrl("bn") + ")\n" +
+    "\n## Store\n- [Shop](" + SITE + "/shop.html)\n- [Contact](" + SITE + "/contact.html)\n");
+}
 
 console.log("  products:   " + seen.size);
 console.log("  categories: " + nCat + " (with products)");
 console.log("  brands:     " + brandPages.length + " -> " + brandPages.map((g) => g.slug).join(", "));
+if (GUIDES) console.log("  guides:     " + nGuides + " pages (+ 2 index pages), English and Bangla");
 console.log("  sitemap:    " + sitemapUrls.length + " urls");
 const rewritten = rewriteImageRefs(OUT, imgMap);
 if (rewritten) console.log("  webp:       pointed " + rewritten + " files to WebP images");
